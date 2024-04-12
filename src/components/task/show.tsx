@@ -1,6 +1,7 @@
-import { useDrag, useDrop } from "react-dnd";
+import { ConnectDragSource, useDrag, useDrop } from "react-dnd";
 import { Task } from "../../lib/models/task";
 import { DraggableItemTypes, UUID } from "../../types";
+import { Bars4Icon } from "@heroicons/react/16/solid";
 
 export function TaskShow({
   task,
@@ -11,26 +12,39 @@ export function TaskShow({
   task: Task;
   reparent: (taskId: UUID, newParentId: UUID) => void;
 }) {
+  const [{ isDragging }, refDrag, refPreview] = useDrag(() => ({
+    type: DraggableItemTypes.TASK,
+    end: (_item, monitor) => {
+      if (monitor.didDrop()) {
+        reparent(task.id, (monitor.getDropResult() as { id: UUID }).id);
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
   return (
-    <div>
-      <RenderIndividualTask
-        task={task}
-        reparent={reparent}
-        indentLevel={indentLevel}
-      />
-      {task.children.length > 0 ? (
-        <ul className="pl-2">
-          {task.children.map((child) => (
-            <li key={child.id}>
-              <TaskShow
-                task={child}
-                reparent={reparent}
-                indentLevel={indentLevel + 1}
-              />
-            </li>
-          ))}
-        </ul>
-      ) : null}
+    <div ref={refPreview} className={isDragging ? "bg-red-300 opacity-35" : ""}>
+      <div>
+        <RenderIndividualTask
+          dragHandle={refDrag}
+          task={task}
+          indentLevel={indentLevel}
+        />
+        {task.children.length > 0 ? (
+          <ul className="pl-2">
+            {task.children.map((child) => (
+              <li key={child.id}>
+                <TaskShow
+                  task={child}
+                  reparent={reparent}
+                  indentLevel={indentLevel + 1}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -49,11 +63,11 @@ const backgroundByIndentLevel = [
 function RenderIndividualTask({
   indentLevel,
   task,
-  reparent,
+  dragHandle,
 }: {
   indentLevel: number;
   task: Task;
-  reparent: (taskId: UUID, newParentId: UUID) => void;
+  dragHandle: ConnectDragSource;
 }) {
   const [{ isOver }, refDrop] = useDrop(
     () => ({
@@ -67,37 +81,29 @@ function RenderIndividualTask({
         canDrop: !!monitor.canDrop(),
       }),
     }),
-    [task, reparent]
+    [task]
   );
-  const [{ isDragging }, refDrag] = useDrag(() => ({
-    type: DraggableItemTypes.TASK,
-    end: (_item, monitor) => {
-      if (monitor.didDrop()) {
-        reparent(task.id, (monitor.getDropResult() as { id: UUID }).id);
-      }
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
   return (
     <div
-      ref={refDrag}
+      ref={refDrop}
       className={
-        isDragging
-          ? "bg-red-300 opacity-35"
+        isOver
+          ? "bg-indigo-300"
           : backgroundByIndentLevel[
               indentLevel % backgroundByIndentLevel.length
             ]
       }
     >
-      <div ref={refDrop} className={isOver ? "bg-indigo-300" : ""}>
-        <div className="p-1">
+      <div className="p-1 flex justify-between items-center">
+        <div>
           <h1 className="text-md">{task.name}</h1>
           <div className="flex space-x-2 items-center text-sm">
             <div>{task.createdAt}</div>
             <div>{task.tags.join(", ")}</div>
           </div>
+        </div>
+        <div ref={dragHandle}>
+          <Bars4Icon className="h-4 w-4 text-gray-500" />
         </div>
       </div>
     </div>
