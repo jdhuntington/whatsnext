@@ -15,3 +15,7 @@ export interface SerializedTask {
 export interface TaskSet {
   tasks: { [id: string]: SerializedTask };
 }
+
+export const DraggableItemTypes = {
+  TASK: "TASK",
+};

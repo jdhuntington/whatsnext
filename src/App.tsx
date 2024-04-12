@@ -1,11 +1,13 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { TaskSet } from "./types";
+import { TaskSet, UUID } from "./types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Task } from "./lib/models/task";
 import { PrimaryButton } from "./components/ui/button";
 import { TaskShow } from "./components/task/show";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
@@ -26,17 +28,27 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       d.tasks[task.id] = task.serialize();
     });
   }, [changeDoc]);
+  const reparent = useCallback(
+    (sourceId: UUID, newParent: UUID) => {
+      changeDoc((d) => {
+        d.tasks[sourceId].parentId = newParent;
+      });
+    },
+    [changeDoc]
+  );
 
   return (
-    <div className="space-y-1">
-      <div>
-        <h1>
-          Doc changed count: <code>{docChangedCount}</code>
-        </h1>
+    <DndProvider backend={HTML5Backend}>
+      <div className="space-y-1 p-2">
+        <div>
+          <h1>
+            Doc changed count: <code>{docChangedCount}</code>
+          </h1>
+        </div>
+        <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
+        <TaskShow task={rootTask} reparent={reparent} />
       </div>
-      <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
-      <TaskShow task={rootTask} />
-    </div>
+    </DndProvider>
   );
 }
 
