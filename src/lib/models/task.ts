@@ -38,7 +38,6 @@ export class Task {
       task.parentId = serialized.parentId as UUID;
       task.createdAt = serialized.createdAt;
       task.order = serialized.order;
-      console.log("Task", task);
       taskMap.set(task.id, task);
     }
     for (const task of taskMap.values()) {

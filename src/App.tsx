@@ -37,6 +37,27 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     [changeDoc]
   );
 
+  const onKeyDown = useCallback((e: KeyboardEvent) => {
+    const target = e.target as HTMLElement;
+    if (
+      target.tagName === "INPUT" ||
+      target.tagName === "TEXTAREA" ||
+      target.tagName === "SELECT"
+    ) {
+      return;
+    }
+    console.log(e.key);
+  }, []);
+
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [onKeyDown]);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="space-y-1 p-2">
@@ -45,8 +66,21 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
             Doc changed count: <code>{docChangedCount}</code>
           </h1>
         </div>
+        <div>
+          <label>
+            Search:
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => {
+                e.stopPropagation();
+                setSearch(e.target.value);
+              }}
+            />
+          </label>
+        </div>
         <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
-        <TaskShow task={rootTask} reparent={reparent} />
+        <TaskShow task={rootTask} reparent={reparent} indentLevel={0} />
       </div>
     </DndProvider>
   );
