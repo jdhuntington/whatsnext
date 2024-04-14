@@ -11,7 +11,7 @@ export class Task {
   public children: Task[] = [];
   public order: number = 0;
 
-  serialize(): SerializedTask {
+  public serialize(): SerializedTask {
     return {
       id: this.id,
       name: this.name,
@@ -20,6 +20,25 @@ export class Task {
       createdAt: this.createdAt,
       order: this.order,
     };
+  }
+
+  public get totalNodes(): number {
+    return this.children.reduce((acc, child) => acc + child.totalNodes, 1);
+  }
+
+  public getNthNode(selectedIndex: number): Task {
+    if (selectedIndex === 0) {
+      return this;
+    }
+    let index = 1;
+    for (const child of this.children) {
+      const childTotalNodes = child.totalNodes;
+      if (index + childTotalNodes > selectedIndex) {
+        return child.getNthNode(selectedIndex - index);
+      }
+      index += childTotalNodes;
+    }
+    throw new Error(`Index ${selectedIndex} out of bounds`);
   }
 
   static deserializeTasks(

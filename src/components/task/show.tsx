@@ -6,11 +6,15 @@ import { Bars4Icon } from "@heroicons/react/16/solid";
 export function TaskShow({
   task,
   reparent,
-  indentLevel = 0,
+  selectedTaskIds,
+  indentLevel,
+  cursorOffset,
 }: {
   indentLevel: number;
   task: Task;
+  selectedTaskIds: UUID[];
   reparent: (taskId: UUID, newParentId: UUID) => void;
+  cursorOffset: number;
 }) {
   const [{ isDragging }, refDrag, refPreview] = useDrag(() => ({
     type: DraggableItemTypes.TASK,
@@ -23,6 +27,7 @@ export function TaskShow({
       isDragging: !!monitor.isDragging(),
     }),
   }));
+  const hasCursor = cursorOffset === 0;
   return (
     <div ref={refPreview} className={isDragging ? "bg-red-300 opacity-35" : ""}>
       <div>
@@ -30,15 +35,19 @@ export function TaskShow({
           dragHandle={refDrag}
           task={task}
           indentLevel={indentLevel}
+          isSelected={selectedTaskIds.includes(task.id)}
+          hasCursor={hasCursor}
         />
         {task.children.length > 0 ? (
           <ul className="pl-2">
             {task.children.map((child) => (
               <li key={child.id}>
                 <TaskShow
+                  cursorOffset={cursorOffset - 1}
                   task={child}
                   reparent={reparent}
                   indentLevel={indentLevel + 1}
+                  selectedTaskIds={selectedTaskIds}
                 />
               </li>
             ))}
@@ -64,10 +73,14 @@ function RenderIndividualTask({
   indentLevel,
   task,
   dragHandle,
+  isSelected,
+  hasCursor,
 }: {
   indentLevel: number;
   task: Task;
   dragHandle: ConnectDragSource;
+  isSelected: boolean;
+  hasCursor: boolean;
 }) {
   const [{ isOver }, refDrop] = useDrop(
     () => ({
@@ -86,15 +99,16 @@ function RenderIndividualTask({
   return (
     <div
       ref={refDrop}
-      className={
+      className={`${
         isOver
           ? "bg-indigo-300"
           : backgroundByIndentLevel[
               indentLevel % backgroundByIndentLevel.length
             ]
-      }
+      } ${isSelected ? "font-bold" : ""}`}
     >
       <div className="p-1 flex justify-between items-center">
+        <div>{hasCursor ? "X" : "Y"}</div>
         <div>
           <h1 className="text-md">{task.name}</h1>
           <div className="flex space-x-2 items-center text-sm">

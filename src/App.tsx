@@ -5,9 +5,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Task } from "./lib/models/task";
 import { PrimaryButton } from "./components/ui/button";
-import { TaskShow } from "./components/task/show";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TaskList } from "./components/task/list";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
@@ -37,26 +37,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     [changeDoc]
   );
 
-  const onKeyDown = useCallback((e: KeyboardEvent) => {
-    const target = e.target as HTMLElement;
-    if (
-      target.tagName === "INPUT" ||
-      target.tagName === "TEXTAREA" ||
-      target.tagName === "SELECT"
-    ) {
-      return;
-    }
-    console.log(e.key);
-  }, []);
-
   const [search, setSearch] = useState("");
-
-  useEffect(() => {
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-    };
-  }, [onKeyDown]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -80,7 +61,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           </label>
         </div>
         <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
-        <TaskShow task={rootTask} reparent={reparent} indentLevel={0} />
+        <TaskList task={rootTask} reparent={reparent} />
       </div>
     </DndProvider>
   );
