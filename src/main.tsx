@@ -13,7 +13,7 @@ import { universalRootTask } from "./lib/models/task.ts";
 const repo = new Repo({
   network: [
     new BroadcastChannelNetworkAdapter(),
-    new BrowserWebSocketClientAdapter("wss://sync.automerge.org"),
+    new BrowserWebSocketClientAdapter("ws://localhost:6010"),
   ],
   storage: new IndexedDBStorageAdapter(),
 });
