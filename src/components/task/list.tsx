@@ -11,7 +11,7 @@ export function TaskList({
   reparent: (taskId: UUID, newParentId: UUID) => void;
 }) {
   const [selectedTaskIds, setSelectedTaskIds] = useState<UUID[]>([]);
-  const maxSelectedIndex = task.totalNodes;
+  const maxSelectedIndex = task.totalNodes - 1;
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedTaskId = useMemo(
     () => task.getNthNode(selectedIndex).id,
@@ -42,7 +42,7 @@ export function TaskList({
         });
       }
     },
-    [maxSelectedIndex, task, selectedIndex]
+    [maxSelectedIndex, task, selectedTaskId]
   );
 
   useEffect(() => {
@@ -54,6 +54,13 @@ export function TaskList({
 
   return (
     <div>
+      <pre>
+        {JSON.stringify(
+          { selectedTaskIds, selectedIndex, selectedTaskId, maxSelectedIndex },
+          null,
+          2
+        )}
+      </pre>
       <TaskShow
         cursorOffset={selectedIndex}
         task={task}
