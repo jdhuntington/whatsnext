@@ -1,5 +1,5 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { useDocument, useRepo } from "@automerge/automerge-repo-react-hooks";
 import { TaskSet, UUID } from "./types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
@@ -11,6 +11,7 @@ import { TaskList } from "./components/task/list";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
+  const repo = useRepo();
   const [docChangedCount, setDocChangedCount] = useState(0);
   useEffect(() => {
     setDocChangedCount((c) => c + 1);
@@ -37,15 +38,26 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     [changeDoc]
   );
 
+  const onChange = useCallback(
+    (taskId: UUID, values: Partial<Task>) => {
+      changeDoc((d) => {
+        const task = d.tasks[taskId];
+        Object.assign(task, values);
+      });
+    },
+    [changeDoc]
+  );
+
   const [search, setSearch] = useState("");
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="space-y-1 p-2">
-        <div>
+        <div className="flex space-x-1">
           <h1>
             Doc changed count: <code>{docChangedCount}</code>
           </h1>
+          <pre>{JSON.stringify(repo.peers, null, 2)}</pre>
         </div>
         <div>
           <label>
@@ -61,7 +73,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           </label>
         </div>
         <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
-        <TaskList task={rootTask} reparent={reparent} />
+        <TaskList onChange={onChange} task={rootTask} reparent={reparent} />
       </div>
     </DndProvider>
   );

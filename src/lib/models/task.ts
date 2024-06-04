@@ -41,6 +41,18 @@ export class Task {
     throw new Error(`Index ${selectedIndex} out of bounds`);
   }
 
+  public clone(): Task {
+    const task = new Task();
+    task.id = this.id;
+    task.name = this.name;
+    task.tags = this.tags;
+    task.parentId = this.parentId;
+    task.createdAt = this.createdAt;
+    task.order = this.order;
+    task.children = this.children;
+    return task;
+  }
+
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined
   ): Task {

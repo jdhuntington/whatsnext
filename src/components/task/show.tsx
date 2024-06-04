@@ -2,52 +2,51 @@ import { ConnectDragSource, useDrag, useDrop } from "react-dnd";
 import { Task } from "../../lib/models/task";
 import { DraggableItemTypes, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
+import { useCallback } from "react";
 
 export function TaskShow({
   task,
   reparent,
-  selectedTaskIds,
   indentLevel,
-  cursorOffset,
+  onChange,
 }: {
   indentLevel: number;
   task: Task;
-  selectedTaskIds: UUID[];
   reparent: (taskId: UUID, newParentId: UUID) => void;
-  cursorOffset: number;
+  onChange: (taskId: UUID, values: Partial<Task>) => void;
 }) {
   const [{ isDragging }, refDrag, refPreview] = useDrag(() => ({
     type: DraggableItemTypes.TASK,
     end: (_item, monitor) => {
       if (monitor.didDrop()) {
-        reparent(task.id, (monitor.getDropResult() as { id: UUID }).id);
+        const newParentId = (monitor.getDropResult() as { id: UUID }).id;
+        if (newParentId === task.id) return;
+        reparent(task.id, newParentId);
       }
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  const hasCursor = cursorOffset === 0;
   return (
     <div ref={refPreview} className={isDragging ? "bg-red-300 opacity-35" : ""}>
       <div>
         <RenderIndividualTask
+          onChange={onChange}
           dragHandle={refDrag}
           task={task}
           indentLevel={indentLevel}
-          isSelected={selectedTaskIds.includes(task.id)}
-          hasCursor={hasCursor}
+          isSelected={false}
         />
         {task.children.length > 0 ? (
           <ul className="pl-2">
             {task.children.map((child) => (
               <li key={child.id}>
                 <TaskShow
-                  cursorOffset={cursorOffset - 1}
+                  onChange={onChange}
                   task={child}
                   reparent={reparent}
                   indentLevel={indentLevel + 1}
-                  selectedTaskIds={selectedTaskIds}
                 />
               </li>
             ))}
@@ -74,15 +73,15 @@ function RenderIndividualTask({
   task,
   dragHandle,
   isSelected,
-  hasCursor,
+  onChange,
 }: {
   indentLevel: number;
   task: Task;
   dragHandle: ConnectDragSource;
   isSelected: boolean;
-  hasCursor: boolean;
+  onChange: (taskId: UUID, values: Partial<Task>) => void;
 }) {
-  const [{ isOver }, refDrop] = useDrop(
+  const [{ isOver: isOverReorder }, refDropReorder] = useDrop(
     () => ({
       accept: DraggableItemTypes.TASK,
       canDrop: () => true,
@@ -96,30 +95,64 @@ function RenderIndividualTask({
     }),
     [task]
   );
+  const [{ isOver: isOverReparent, isDragging }, refDropReparent] = useDrop(
+    () => ({
+      accept: DraggableItemTypes.TASK,
+      canDrop: () => true,
+      drop: () => {
+        return { id: task.id };
+      },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+        canDrop: !!monitor.canDrop(),
+        isDragging: !!monitor.getItem(),
+      }),
+    }),
+    [task]
+  );
+
+  const handleNameChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const payload: Partial<Task> = { name: e.target.value };
+      onChange(task.id, payload);
+    },
+    [task, onChange]
+  );
+
   return (
-    <div
-      ref={refDrop}
-      className={`${
-        isOver
-          ? "bg-indigo-300"
-          : backgroundByIndentLevel[
-              indentLevel % backgroundByIndentLevel.length
-            ]
-      } ${isSelected ? "font-bold" : ""}`}
-    >
-      <div className="p-1 flex justify-between items-center">
-        <div>{hasCursor ? "X" : "Y"}</div>
-        <div>
-          <h1 className="text-md">{task.name}</h1>
-          <div className="flex space-x-2 items-center text-sm">
-            <div>{task.createdAt}</div>
-            <div>{task.tags.join(", ")}</div>
+    <>
+      <div
+        ref={refDropReparent}
+        className={`${
+          isOverReparent
+            ? "bg-indigo-300"
+            : backgroundByIndentLevel[
+                indentLevel % backgroundByIndentLevel.length
+              ]
+        } ${isSelected ? "font-bold" : ""}`}
+      >
+        <div className="p-1 flex justify-between items-center">
+          <div className="flex-1">
+            <h1 className="text-md">{task.name}</h1>
+            <div className="flex space-x-2 items-center text-sm">
+              <div>{task.createdAt}</div>
+              <div>{task.tags.join(", ")}</div>
+            </div>
+            <input type="text" value={task.name} onChange={handleNameChange} />
+          </div>
+          <div className="flex-0 flex items-center">
+            <div ref={dragHandle}>
+              <Bars4Icon className="h-4 w-4 text-gray-500" />
+            </div>
           </div>
         </div>
-        <div ref={dragHandle}>
-          <Bars4Icon className="h-4 w-4 text-gray-500" />
-        </div>
       </div>
-    </div>
+      {isDragging ? (
+        <div
+          ref={refDropReorder}
+          className={`h-8 ${isOverReorder ? "bg-indigo-600" : ""} `}
+        />
+      ) : null}
+    </>
   );
 }
