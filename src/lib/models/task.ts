@@ -22,6 +22,10 @@ export class Task {
     };
   }
 
+  get sortedChildren(): Task[] {
+    return this.children.sort((a, b) => a.order - b.order);
+  }
+
   public get totalNodes(): number {
     return this.children.reduce((acc, child) => acc + child.totalNodes, 1);
   }

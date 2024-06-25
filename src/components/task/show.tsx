@@ -4,24 +4,37 @@ import { DraggableItemTypes, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback } from "react";
 
+type DropResult = { id: UUID; action: "reorder" | "reparent" };
+
 export function TaskShow({
   task,
   reparent,
   indentLevel,
   onChange,
+  reorder,
 }: {
   indentLevel: number;
   task: Task;
   reparent: (taskId: UUID, newParentId: UUID) => void;
+  reorder: (taskId: UUID, afterId: UUID) => void;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
 }) {
   const [{ isDragging }, refDrag, refPreview] = useDrag(() => ({
     type: DraggableItemTypes.TASK,
     end: (_item, monitor) => {
       if (monitor.didDrop()) {
-        const newParentId = (monitor.getDropResult() as { id: UUID }).id;
-        if (newParentId === task.id) return;
-        reparent(task.id, newParentId);
+        const result = monitor.getDropResult() as DropResult;
+        if (result.action === "reorder") {
+          const afterId = result.id;
+          if (afterId === task.id) return;
+          reorder(task.id, afterId);
+        } else if (result.action === "reparent") {
+          const newParentId = result.id;
+          if (newParentId === task.id) return;
+          reparent(task.id, newParentId);
+        } else {
+          console.error("unknown action", result.action);
+        }
       }
     },
     collect: (monitor) => ({
@@ -40,12 +53,13 @@ export function TaskShow({
         />
         {task.children.length > 0 ? (
           <ul className="pl-2">
-            {task.children.map((child) => (
+            {task.sortedChildren.map((child) => (
               <li key={child.id}>
                 <TaskShow
                   onChange={onChange}
                   task={child}
                   reparent={reparent}
+                  reorder={reorder}
                   indentLevel={indentLevel + 1}
                 />
               </li>
@@ -86,7 +100,8 @@ function RenderIndividualTask({
       accept: DraggableItemTypes.TASK,
       canDrop: () => true,
       drop: () => {
-        return { id: task.id };
+        console.log("dropped", task.id, "over reorder");
+        return { id: task.id, action: "reorder" };
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -100,7 +115,8 @@ function RenderIndividualTask({
       accept: DraggableItemTypes.TASK,
       canDrop: () => true,
       drop: () => {
-        return { id: task.id };
+        console.log("dropped", task.id, "over reparent");
+        return { id: task.id, action: "reparent" };
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -135,6 +151,7 @@ function RenderIndividualTask({
           <div className="flex-1">
             <h1 className="text-md">{task.name}</h1>
             <div className="flex space-x-2 items-center text-sm">
+              <div>Order: {task.order}</div>
               <div>{task.createdAt}</div>
               <div>{task.tags.join(", ")}</div>
             </div>

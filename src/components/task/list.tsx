@@ -5,10 +5,12 @@ import { TaskShow } from "./show";
 export function TaskList({
   task,
   reparent,
+  reorder,
   onChange,
 }: {
   task: Task;
   reparent: (taskId: UUID, newParentId: UUID) => void;
+  reorder: (taskId: UUID, afterId: UUID) => void;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
 }) {
   // const onKeyDown = useCallback(
@@ -51,6 +53,7 @@ export function TaskList({
       <TaskShow
         task={task}
         reparent={reparent}
+        reorder={reorder}
         indentLevel={0}
         onChange={onChange}
       />

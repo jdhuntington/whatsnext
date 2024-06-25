@@ -37,6 +37,26 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     },
     [changeDoc]
   );
+  const reorder = useCallback(
+    (sourceId: UUID, afterId: UUID) => {
+      changeDoc((d) => {
+        const targetTask = d.tasks[sourceId];
+        const newOrderValue = d.tasks[afterId].order + 1;
+        console.log("making order for", targetTask.name, "to", newOrderValue);
+        Object.values(d.tasks)
+          .filter(
+            (t) =>
+              t.parentId === targetTask.parentId && t.order >= newOrderValue
+          )
+          .forEach((t) => {
+            console.log("incrementing order for", t.name);
+            t.order += 1;
+          });
+        targetTask.order = newOrderValue;
+      });
+    },
+    [changeDoc]
+  );
 
   const onChange = useCallback(
     (taskId: UUID, values: Partial<Task>) => {
@@ -73,7 +93,12 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           </label>
         </div>
         <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
-        <TaskList onChange={onChange} task={rootTask} reparent={reparent} />
+        <TaskList
+          onChange={onChange}
+          task={rootTask}
+          reparent={reparent}
+          reorder={reorder}
+        />
       </div>
     </DndProvider>
   );
