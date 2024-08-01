@@ -135,6 +135,16 @@ function RenderIndividualTask({
     [task, onChange]
   );
 
+  const handleTagsChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const payload: Partial<Task> = {
+        tags: (e.target.value ?? "").split(",").map((tag) => tag.trim()),
+      };
+      onChange(task.id, payload);
+    },
+    [task, onChange]
+  );
+
   return (
     <>
       <div
@@ -155,7 +165,24 @@ function RenderIndividualTask({
               <div>{task.createdAt}</div>
               <div>{task.tags.join(", ")}</div>
             </div>
-            <input type="text" value={task.name} onChange={handleNameChange} />
+            <label>
+              Description
+              <br />
+              <input
+                type="text"
+                value={task.name}
+                onChange={handleNameChange}
+              />
+            </label>
+            <label>
+              Tags
+              <br />
+              <input
+                type="text"
+                value={task.tags.join(", ")}
+                onChange={handleTagsChange}
+              />
+            </label>
           </div>
           <div className="flex-0 flex items-center">
             <div ref={dragHandle}>
