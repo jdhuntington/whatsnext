@@ -56,6 +56,7 @@ export function TaskList({
         reorder={reorder}
         indentLevel={0}
         onChange={onChange}
+        tags={task.allTags}
       />
     </div>
   );

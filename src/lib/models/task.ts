@@ -1,4 +1,4 @@
-import { SerializedTask, UUID, genId } from "../../types";
+import { SerializedTask, Tag, UUID, genId } from "../../types";
 
 const universalRootTaskId = "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as UUID;
 
@@ -6,7 +6,7 @@ export class Task {
   public parentId: UUID = universalRootTaskId;
   public id: UUID = genId();
   public name: string = "";
-  public tags: string[] = [];
+  public tags: Tag[] = [];
   public createdAt: string = new Date().toISOString();
   public children: Task[] = [];
   public order: number = 0;
@@ -57,6 +57,19 @@ export class Task {
     return task;
   }
 
+  get allTags(): Tag[] {
+    const tags = new Set<Tag>();
+    for (const child of this.children) {
+      for (const tag of child.allTags) {
+        tags.add(tag);
+      }
+    }
+    for (const tag of this.tags) {
+      tags.add(tag);
+    }
+    return Array.from(tags);
+  }
+
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined
   ): Task {
@@ -69,7 +82,7 @@ export class Task {
       const serialized = doc[id];
       task.id = serialized.id as UUID;
       task.name = serialized.name;
-      task.tags = serialized.tags;
+      task.tags = serialized.tags as Tag[];
       task.parentId = serialized.parentId as UUID;
       task.createdAt = serialized.createdAt;
       task.order = serialized.order;

@@ -19,3 +19,5 @@ export interface TaskSet {
 export const DraggableItemTypes = {
   TASK: "TASK",
 };
+
+export type Tag = string & { __typename: "Tag" };
