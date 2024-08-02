@@ -9,6 +9,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TaskList } from "./components/task/list";
 import { Export } from "./components/export/export";
+import { Import } from "./components/import/import";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
@@ -102,6 +103,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
         </div>
       </DndProvider>
       <Export doc={doc} />
+      <Import changeDoc={changeDoc} />
     </div>
   );
 }
