@@ -28,21 +28,13 @@ export const Tags = ({
     <div>
       <div className="flex flex-wrap gap-1">
         {selectedTags.map((tag) => (
-          <button
+          <div
             key={tag}
-            onClick={() => {
-              if (selectedTags.includes(tag)) {
-                onRemoveTag(tag);
-              }
-            }}
-            className={`px-2 py-1 rounded-full ${
-              selectedTags.includes(tag)
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-800"
-            }`}
+            className={`px-4 py-1 text-sm rounded-full bg-blue-500 text-white flex items-center space-x-2`}
           >
-            {tag}
-          </button>
+            <div>{tag}</div>
+            <button onClick={() => onRemoveTag(tag)}>x</button>
+          </div>
         ))}
       </div>
       <div>
