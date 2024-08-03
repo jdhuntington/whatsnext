@@ -19,14 +19,21 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     setDocChangedCount((c) => c + 1);
   }, [doc]);
   const rootTask = useMemo(() => Task.deserializeTasks(doc?.tasks), [doc]);
+  const addTask = useCallback(
+    (task: Task) => {
+      changeDoc((d) => {
+        d.tasks[task.id] = task.serialize();
+      });
+    },
+    [changeDoc]
+  );
   const addNewTask = useCallback(() => {
     const task = new Task();
     task.name = `${faker.hacker.adjective()} ${faker.hacker.noun()} ${faker.hacker.verb()} ${faker.hacker.ingverb()} ${faker.hacker.adjective()} ${faker.hacker.noun()} ${faker.hacker.verb()} ${faker.hacker.ingverb()}`;
     task.tags = [faker.hacker.verb() as Tag, faker.hacker.ingverb() as Tag];
-    changeDoc((d) => {
-      d.tasks[task.id] = task.serialize();
-    });
-  }, [changeDoc]);
+    addTask(task);
+  }, [addTask]);
+
   const reparent = useCallback(
     (sourceId: UUID, newParent: UUID) => {
       changeDoc((d) => {
@@ -103,7 +110,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
         </div>
       </DndProvider>
       <Export doc={doc} />
-      <Import changeDoc={changeDoc} />
+      <Import changeDoc={changeDoc} addTask={addTask} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { ConnectDragSource, useDrop } from "react-dnd";
 import { Task } from "../../lib/models/task";
 import { DraggableItemTypes, Tag, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 
 const backgroundByIndentLevel = [
@@ -16,14 +16,23 @@ const backgroundByIndentLevel = [
   "bg-gray-200",
 ];
 
-export const RenderIndividualTask: React.FC<{
+interface Props {
   indentLevel: number;
   task: Task;
   dragHandle: ConnectDragSource;
   isSelected: boolean;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   tags: Tag[];
-}> = ({ indentLevel, task, dragHandle, isSelected, onChange, tags }) => {
+}
+
+export const RenderIndividualTask: React.FC<Props> = (props) => {
+  const { indentLevel, task, dragHandle, isSelected, onChange, tags } = props;
+  const [isEditing, setIsEditing] = useState(false);
+  const enableEdit = useCallback(() => setIsEditing(true), []);
+  const disableEdit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsEditing(false);
+  }, []);
   const [{ isOver: isOverReorder }, refDropReorder] = useDrop(
     () => ({
       accept: DraggableItemTypes.TASK,
@@ -88,7 +97,7 @@ export const RenderIndividualTask: React.FC<{
     <>
       <div
         ref={refDropReparent}
-        className={`${
+        className={`border-2 border-white hover:border-dotted hover:border-purple-800 ${
           isOverReparent
             ? "bg-indigo-300"
             : backgroundByIndentLevel[
@@ -98,33 +107,47 @@ export const RenderIndividualTask: React.FC<{
       >
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">
-            <h1 className="text-md">{task.name}</h1>
-            <div className="flex space-x-2 items-center text-sm">
-              <div>Order: {task.order}</div>
-              <div>{task.createdAt}</div>
-              <div>{task.tags.join(", ")}</div>
+            <div className="flex space-x-1 items-center">
+              <h1 className="text-md" onDoubleClick={enableEdit}>
+                {task.name}
+              </h1>
+              <h2 className="flex items-center space-x-1">
+                {task.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-sm bg-gray-200 rounded-full py-1 px-2"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </h2>
             </div>
-            <div className="p-1 lg:p-2 space-y-1 lg:space-y-2">
-              <div>
-                <label>
-                  Description
-                  <br />
-                  <input
-                    type="text"
-                    value={task.name}
-                    onChange={handleNameChange}
-                  />
-                </label>
+
+            {isEditing ? (
+              <div className="p-1 lg:p-2 space-y-1 lg:space-y-2">
+                <form onSubmit={disableEdit}>
+                  <div>
+                    <label>
+                      Description
+                      <br />
+                      <input
+                        type="text"
+                        value={task.name}
+                        onChange={handleNameChange}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <Tags
+                      selectedTags={task.tags}
+                      allTags={tags}
+                      onAddTag={handleAddTag}
+                      onRemoveTag={handleRemoveTag}
+                    />
+                  </div>
+                </form>
               </div>
-              <div>
-                <Tags
-                  selectedTags={task.tags}
-                  allTags={tags}
-                  onAddTag={handleAddTag}
-                  onRemoveTag={handleRemoveTag}
-                />
-              </div>
-            </div>
+            ) : null}
           </div>
           <div className="flex-0 flex items-center">
             <div ref={dragHandle}>

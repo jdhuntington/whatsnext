@@ -1,6 +1,7 @@
 import { SerializedTask, Tag, UUID, genId } from "../../types";
 
-const universalRootTaskId = "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as UUID;
+export const universalRootTaskId =
+  "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as UUID;
 
 export class Task {
   public parentId: UUID = universalRootTaskId;
