@@ -29,8 +29,8 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
   const { indentLevel, task, dragHandle, isSelected, onChange, tags } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
-  const disableEdit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
     setIsEditing(false);
   }, []);
   const [{ isOver: isOverReorder }, refDropReorder] = useDrop(
@@ -75,12 +75,16 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
 
   const handleAddTag = useCallback(
     (newTag: Tag) => {
-      const payload: Partial<Task> = {
-        tags: [...task.tags, newTag],
-      };
-      onChange(task.id, payload);
+      if (!newTag || newTag.trim().length === 0) {
+        disableEdit();
+      } else {
+        const payload: Partial<Task> = {
+          tags: [...task.tags, newTag],
+        };
+        onChange(task.id, payload);
+      }
     },
-    [task, onChange]
+    [task, onChange, disableEdit]
   );
 
   const handleRemoveTag = useCallback(
@@ -125,8 +129,8 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
 
             {isEditing ? (
               <div className="p-1 lg:p-2 space-y-1 lg:space-y-2">
-                <form onSubmit={disableEdit}>
-                  <div>
+                <div>
+                  <form onSubmit={disableEdit}>
                     <label>
                       Description
                       <br />
@@ -136,16 +140,16 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                         onChange={handleNameChange}
                       />
                     </label>
-                  </div>
-                  <div>
-                    <Tags
-                      selectedTags={task.tags}
-                      allTags={tags}
-                      onAddTag={handleAddTag}
-                      onRemoveTag={handleRemoveTag}
-                    />
-                  </div>
-                </form>
+                  </form>
+                </div>
+                <div>
+                  <Tags
+                    selectedTags={task.tags}
+                    allTags={tags}
+                    onAddTag={handleAddTag}
+                    onRemoveTag={handleRemoveTag}
+                  />
+                </div>
               </div>
             ) : null}
           </div>

@@ -9,6 +9,7 @@ export class Task {
   public name: string = "";
   public tags: Tag[] = [];
   public createdAt: string = new Date().toISOString();
+  public completedAt: string | null = null;
   public children: Task[] = [];
   public order: number = 0;
 
@@ -20,6 +21,7 @@ export class Task {
       parentId: this.parentId,
       createdAt: this.createdAt,
       order: this.order,
+      completedAt: this.completedAt,
     };
   }
 
@@ -87,6 +89,7 @@ export class Task {
       task.parentId = serialized.parentId as UUID;
       task.createdAt = serialized.createdAt;
       task.order = serialized.order;
+      task.completedAt = serialized.completedAt;
       taskMap.set(task.id, task);
     }
     for (const task of taskMap.values()) {

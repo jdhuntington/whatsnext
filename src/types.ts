@@ -10,6 +10,7 @@ export interface SerializedTask {
   parentId: string;
   createdAt: string;
   order: number;
+  completedAt: string | null;
 }
 
 export interface TaskSet {

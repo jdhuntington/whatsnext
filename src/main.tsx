@@ -9,6 +9,8 @@ import { BrowserWebSocketClientAdapter } from "@automerge/automerge-repo-network
 import "./index.css";
 import { TaskSet } from "./types.ts";
 import { universalRootTask } from "./lib/models/task.ts";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Debug } from "./components/debug/debug.tsx";
 
 const repo = new Repo({
   network: [
@@ -34,10 +36,15 @@ const docUrl = (document.location.hash = handle.url);
 // @ts-expect-error we'll use this later for experimentation
 window.handle = handle;
 
+const router = createBrowserRouter([
+  { path: "/", element: <App docUrl={docUrl} /> },
+  { path: "/debug", element: <Debug /> },
+]);
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RepoContext.Provider value={repo}>
-      <App docUrl={docUrl} />
+      <RouterProvider router={router} />
     </RepoContext.Provider>
   </React.StrictMode>
 );
