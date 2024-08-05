@@ -13,6 +13,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Debug } from "./components/debug/debug.tsx";
 import { NextActions } from "./components/next-actions/next-actions.tsx";
 import { Shell } from "./components/shell/shell.tsx";
+import { Settings } from "./components/settings/settings.tsx";
 
 const repo = new Repo({
   network: [
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
       { path: "/", element: <App docUrl={docUrl} /> },
       { path: "/wn", element: <NextActions docUrl={docUrl} /> },
       { path: "/debug", element: <Debug /> },
+      { path: "/settings", element: <Settings docUrl={docUrl} /> },
     ],
   },
 ]);

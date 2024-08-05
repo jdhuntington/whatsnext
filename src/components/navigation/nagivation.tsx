@@ -33,6 +33,16 @@ export const Navigation: React.FC = () => {
           Debug
         </NavLink>
       </li>
+      <li>
+        <NavLink
+          className={(cb) =>
+            `py-1 px-2 rounded font-bold hover:underline ${cb.isActive ? "bg-yellow-200 text-yellow-800" : "bg-white text-gray-800"}`
+          }
+          to="/settings"
+        >
+          Settings
+        </NavLink>
+      </li>
     </ul>
   );
 };

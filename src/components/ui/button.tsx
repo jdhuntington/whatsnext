@@ -1,18 +1,22 @@
 import React from "react";
 
-export const primaryClasses =
-  "twoverride inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-indigo-600 " +
-  "hover:bg-indigo-700 " +
-  "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:text-gray-200";
+export const baseClasses =
+  "inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:bg-gray-400 disabled:text-gray-200";
 
-const PrimaryButton = React.forwardRef<
+export const primaryClasses =
+  "text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500";
+
+export const defaultClasses =
+  "text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-500";
+
+const Button = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { primary?: boolean }
 >((props, ref) => {
-  const { className, ...rest } = props;
-  const extendedClassName = `${className ?? ""} ${primaryClasses}`;
+  const { primary, className, ...rest } = props;
+  const extendedClassName = `${className ?? ""} ${baseClasses} ${primary ? primaryClasses : defaultClasses}`;
   return <button ref={ref} className={extendedClassName} {...rest} />;
 });
 
-PrimaryButton.displayName = "PrimaryButton";
-export { PrimaryButton };
+Button.displayName = "Button";
+export { Button };

@@ -4,12 +4,10 @@ import { Tag, TaskSet, UUID } from "./types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Task } from "./lib/models/task";
-import { PrimaryButton } from "./components/ui/button";
+import { Button } from "./components/ui/button";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TaskList } from "./components/task/list";
-import { Export } from "./components/export/export";
-import { Import } from "./components/import/import";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
@@ -97,7 +95,9 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
             </label>
           </div>
           <div className="space-x-2">
-            <PrimaryButton onClick={addNewTask}>Add Task</PrimaryButton>
+            <Button primary onClick={addNewTask}>
+              Add Task
+            </Button>
           </div>
           <TaskList
             onChange={onChange}
@@ -107,8 +107,6 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
           />
         </div>
       </DndProvider>
-      <Export doc={doc} />
-      <Import changeDoc={changeDoc} addTask={addTask} />
     </div>
   );
 }
