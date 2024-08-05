@@ -73,6 +73,27 @@ export class Task {
     return Array.from(tags);
   }
 
+  get isAvailable(): boolean {
+    if (this.isComplete) {
+      return false;
+    }
+    if (this.children.length > 0) {
+      return false;
+    }
+    return true;
+  }
+
+  get nextActions(): Task[] {
+    const actions: Task[] = [];
+    if (this.isAvailable) {
+      actions.push(this);
+    }
+    for (const child of this.children) {
+      actions.push(...child.nextActions);
+    }
+    return actions;
+  }
+
   get isComplete(): boolean {
     return this.completedAt !== null && this.completedAt !== undefined;
   }

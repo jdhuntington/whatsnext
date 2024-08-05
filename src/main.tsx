@@ -11,6 +11,8 @@ import { TaskSet } from "./types.ts";
 import { universalRootTask } from "./lib/models/task.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Debug } from "./components/debug/debug.tsx";
+import { NextActions } from "./components/next-actions/next-actions.tsx";
+import { Shell } from "./components/shell/shell.tsx";
 
 const repo = new Repo({
   network: [
@@ -33,12 +35,17 @@ if (isValidAutomergeUrl(rootDocUrl)) {
   });
 }
 const docUrl = (document.location.hash = handle.url);
-// @ts-expect-error we'll use this later for experimentation
-window.handle = handle;
 
 const router = createBrowserRouter([
-  { path: "/", element: <App docUrl={docUrl} /> },
-  { path: "/debug", element: <Debug /> },
+  {
+    path: "/",
+    element: <Shell />,
+    children: [
+      { path: "/", element: <App docUrl={docUrl} /> },
+      { path: "/wn", element: <NextActions docUrl={docUrl} /> },
+      { path: "/debug", element: <Debug /> },
+    ],
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

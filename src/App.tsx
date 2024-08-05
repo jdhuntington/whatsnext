@@ -1,5 +1,5 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
-import { useDocument, useRepo } from "@automerge/automerge-repo-react-hooks";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { Tag, TaskSet, UUID } from "./types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
@@ -13,7 +13,6 @@ import { Import } from "./components/import/import";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
-  const repo = useRepo();
   const [docChangedCount, setDocChangedCount] = useState(0);
   useEffect(() => {
     setDocChangedCount((c) => c + 1);
@@ -83,7 +82,6 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
             <h1>
               Doc changed count: <code>{docChangedCount}</code>
             </h1>
-            <pre>{JSON.stringify(repo.peers, null, 2)}</pre>
           </div>
           <div>
             <label>
