@@ -1,6 +1,5 @@
 import { Doc } from "@automerge/automerge";
 import { TaskSet } from "../../types";
-import { useState } from "react";
 
 interface Props {
   doc?: Doc<TaskSet>;
@@ -8,36 +7,20 @@ interface Props {
 
 export const Export: React.FC<Props> = (props) => {
   const { doc } = props;
-  const [visible, setVisible] = useState(false);
-  if (!visible) {
-    return (
-      <div>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setVisible(true);
-          }}
-        >
-          Export
-        </a>
-      </div>
-    );
-  }
+  const handleExport = () => {
+    const json = JSON.stringify(doc?.tasks, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "whatsnext.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
   return (
     <div>
-      <pre className="p-4 text-xs bg-gray-100">
-        {JSON.stringify(doc, null, 2)}
-      </pre>
-      <button
-        className="mt-2"
-        onClick={(e) => {
-          e.preventDefault();
-          setVisible(false);
-        }}
-      >
-        Close
-      </button>
+      <button onClick={handleExport}>Export</button>
     </div>
   );
 };

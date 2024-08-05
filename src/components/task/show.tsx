@@ -46,7 +46,7 @@ export const TaskShow: React.FC<Props> = (props) => {
       <div>
         <div className="flex items-center space-x-1">
           <div
-            className="rounded-full text-base font-bold bg-grey-200 text-grey-600 flex-0"
+            className="rounded-full text-base font-bold bg-grey-200 text-grey-600 flex-0 w-6"
             onClick={toggleExpanded}
           >
             {task.children.length === 0 ? " " : isExpanded ? "-" : "+"}
@@ -63,7 +63,7 @@ export const TaskShow: React.FC<Props> = (props) => {
           </div>
         </div>
         {task.children.length > 0 && isExpanded ? (
-          <ul className="pl-2">
+          <ul className="pl-3">
             {task.sortedChildren.map((child) => (
               <li key={child.id}>
                 <TaskShow

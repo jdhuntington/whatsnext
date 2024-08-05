@@ -5,17 +5,6 @@ import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 
-const backgroundByIndentLevel = [
-  "bg-red-200",
-  "bg-green-200",
-  "bg-blue-200",
-  "bg-yellow-200",
-  "bg-pink-200",
-  "bg-purple-200",
-  "bg-indigo-200",
-  "bg-gray-200",
-];
-
 interface Props {
   indentLevel: number;
   task: Task;
@@ -26,7 +15,7 @@ interface Props {
 }
 
 export const RenderIndividualTask: React.FC<Props> = (props) => {
-  const { indentLevel, task, dragHandle, isSelected, onChange, tags } = props;
+  const { task, dragHandle, isSelected, onChange, tags } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
@@ -102,17 +91,33 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       <div
         ref={refDropReparent}
         className={`border-2 border-white hover:border-dotted hover:border-purple-800 ${
-          isOverReparent
-            ? "bg-indigo-300"
-            : backgroundByIndentLevel[
-                indentLevel % backgroundByIndentLevel.length
-              ]
+          isOverReparent ? "bg-indigo-300" : "bg-gray-100"
         } ${isSelected ? "font-bold" : ""}`}
       >
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">
             <div className="flex space-x-1 items-center">
-              <h1 className="text-md" onDoubleClick={enableEdit}>
+              <div className="w-6">
+                {task.children.length === 0 ? (
+                  <input
+                    type="checkbox"
+                    checked={task.isComplete}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        onChange(task.id, {
+                          completedAt: new Date().toISOString(),
+                        });
+                      } else {
+                        onChange(task.id, { completedAt: null });
+                      }
+                    }}
+                  />
+                ) : null}
+              </div>
+              <h1
+                onDoubleClick={enableEdit}
+                className={`text-md ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
+              >
                 {task.name}
               </h1>
               <h2 className="flex items-center space-x-1">
@@ -163,7 +168,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       {isDragging ? (
         <div
           ref={refDropReorder}
-          className={`h-8 ${isOverReorder ? "bg-indigo-600" : ""} `}
+          className={`h-1 ${isOverReorder ? "bg-indigo-600" : ""} `}
         />
       ) : null}
     </>

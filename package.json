@@ -1,15 +1,4 @@
 {
-  "name": "whatsnext",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "test:browser": "vitest --workspace=vitest.workspace.ts"
-  },
   "dependencies": {
     "@automerge/automerge": "2.2.2",
     "@automerge/automerge-repo": "^1.1.5",
@@ -43,5 +32,16 @@
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  }
+  },
+  "name": "whatsnext",
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "dev": "vite",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "test:browser": "vitest --workspace=vitest.workspace.ts"
+  },
+  "type": "module",
+  "version": "0.0.0"
 }

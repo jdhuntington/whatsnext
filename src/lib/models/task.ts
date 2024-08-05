@@ -73,6 +73,10 @@ export class Task {
     return Array.from(tags);
   }
 
+  get isComplete(): boolean {
+    return this.completedAt !== null && this.completedAt !== undefined;
+  }
+
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined
   ): Task {
