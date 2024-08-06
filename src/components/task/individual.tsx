@@ -1,6 +1,6 @@
 import { ConnectDragSource, useDrop } from "react-dnd";
 import { Task } from "../../lib/models/task";
-import { DraggableItemTypes, Tag, UUID } from "../../types";
+import { DraggableItemTypes, Tag, TaskMode, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
@@ -27,7 +27,6 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       accept: DraggableItemTypes.TASK,
       canDrop: () => true,
       drop: () => {
-        console.log("dropped", task.id, "over reorder");
         return { id: task.id, action: "reorder" };
       },
       collect: (monitor) => ({
@@ -37,12 +36,11 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
     }),
     [task]
   );
-  const [{ isOver: isOverReparent, isDragging }, refDropReparent] = useDrop(
+  const [{ isOver: isOverReparent }, refDropReparent] = useDrop(
     () => ({
       accept: DraggableItemTypes.TASK,
       canDrop: () => true,
       drop: () => {
-        console.log("dropped", task.id, "over reparent");
         return { id: task.id, action: "reparent" };
       },
       collect: (monitor) => ({
@@ -57,6 +55,23 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const payload: Partial<Task> = { name: e.target.value };
+      onChange(task.id, payload);
+    },
+    [task, onChange]
+  );
+
+  const handleOrderChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const payload: Partial<Task> = { order: parseInt(e.target.value, 10) };
+      onChange(task.id, payload);
+    },
+    [task, onChange]
+  );
+
+  const handleModeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newMode = e.target.checked ? "parallel" : "sequential";
+      const payload: Partial<Task> = { mode: newMode as TaskMode };
       onChange(task.id, payload);
     },
     [task, onChange]
@@ -90,7 +105,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
     <>
       <div
         ref={refDropReparent}
-        className={`border-2 border-white hover:border-dotted hover:border-purple-800 ${
+        className={` border-2 border-white hover:border-dotted hover:border-purple-800 ${
           isOverReparent ? "bg-indigo-300" : "bg-gray-100"
         } ${isSelected ? "font-bold" : ""}`}
       >
@@ -118,7 +133,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                 onDoubleClick={enableEdit}
                 className={`text-md ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
               >
-                {task.name}
+                {task.mode === "parallel" ? "=" : "-"} {task.name}
               </h1>
               <h2 className="flex items-center space-x-1">
                 {task.tags.map((tag) => (
@@ -135,7 +150,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
             {isEditing ? (
               <div className="p-1 lg:p-2 space-y-1 lg:space-y-2">
                 <div>
-                  <form onSubmit={disableEdit}>
+                  <form onSubmit={disableEdit} className="flex space-x-1">
                     <label>
                       Description
                       <br />
@@ -144,6 +159,23 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                         value={task.name}
                         onChange={handleNameChange}
                       />
+                    </label>
+                    <label>
+                      Order
+                      <br />
+                      <input
+                        type="text"
+                        value={`${task.order}`}
+                        onChange={handleOrderChange}
+                      />
+                    </label>
+                    <label className="flex space-x-1">
+                      <input
+                        type="checkbox"
+                        checked={task.mode === "parallel"}
+                        onChange={handleModeChange}
+                      />
+                      <div>Parallel</div>
                     </label>
                   </form>
                 </div>
@@ -165,12 +197,11 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      {isDragging ? (
-        <div
-          ref={refDropReorder}
-          className={`h-1 ${isOverReorder ? "bg-indigo-600" : ""} `}
-        />
-      ) : null}
+
+      <div
+        ref={refDropReorder}
+        className={`h-2 ${isOverReorder ? "bg-indigo-600" : ""} `}
+      />
     </>
   );
 };

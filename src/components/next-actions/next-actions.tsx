@@ -25,8 +25,12 @@ export const NextActions: React.FC<Props> = (props) => {
     },
     [changeDoc]
   );
-  const cutoffTime = useAppSelector((s) =>
-    dayjs(s.nextActions.completedItemsCutoffTime)
+  const cutoffTimeIsoDate = useAppSelector(
+    (s) => s.nextActions.completedItemsCutoffTime
+  );
+  const cutoffTime = useMemo(
+    () => dayjs(cutoffTimeIsoDate),
+    [cutoffTimeIsoDate]
   );
   const appDispatch = useAppDispatch();
   const clearCompleted = useCallback(() => {

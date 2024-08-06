@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import { SerializedTask, Tag, UUID, genId } from "../../types";
+import { SerializedTask, Tag, TaskMode, UUID, genId } from "../../types";
 
 export const universalRootTaskId =
   "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as UUID;
@@ -13,6 +13,7 @@ export class Task {
   public completedAt: string | null = null;
   public children: Task[] = [];
   public order: number = 0;
+  public mode: TaskMode = "serial";
 
   public serialize(): SerializedTask {
     return {
@@ -23,6 +24,7 @@ export class Task {
       createdAt: this.createdAt,
       order: this.order,
       completedAt: this.completedAt,
+      mode: this.mode,
     };
   }
 
@@ -58,6 +60,8 @@ export class Task {
     task.createdAt = this.createdAt;
     task.order = this.order;
     task.children = this.children;
+    task.completedAt = this.completedAt;
+    task.mode = this.mode;
     return task;
   }
 
@@ -127,6 +131,7 @@ export class Task {
       task.createdAt = serialized.createdAt;
       task.order = serialized.order;
       task.completedAt = serialized.completedAt;
+      task.mode = serialized.mode as TaskMode;
       taskMap.set(task.id, task);
     }
     for (const task of taskMap.values()) {
@@ -146,4 +151,5 @@ export class Task {
 
 export const universalRootTask = new Task();
 universalRootTask.id = universalRootTaskId;
+universalRootTask.mode = "parallel";
 universalRootTask.name = "_";

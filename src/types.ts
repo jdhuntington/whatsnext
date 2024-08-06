@@ -3,6 +3,8 @@ export const genId = (): UUID => {
   return crypto.randomUUID() as UUID;
 };
 
+export type TaskMode = "serial" | "parallel";
+
 export interface SerializedTask {
   id: string;
   name: string;
@@ -11,6 +13,7 @@ export interface SerializedTask {
   createdAt: string;
   order: number;
   completedAt: string | null;
+  mode: TaskMode;
 }
 
 export interface TaskSet {
