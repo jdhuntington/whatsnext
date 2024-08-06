@@ -7,7 +7,7 @@ export const primaryClasses =
   "text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500";
 
 export const defaultClasses =
-  "text-white bg-gray-600 hover:bg-gray-700 focus:ring-gray-500";
+  "text-gray-800 bg-gray-200 hover:bg-gray-300 hover:text-black focus:ring-gray-500";
 
 const Button = React.forwardRef<
   HTMLButtonElement,

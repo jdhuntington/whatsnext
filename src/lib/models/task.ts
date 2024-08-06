@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from "dayjs";
 import { SerializedTask, Tag, UUID, genId } from "../../types";
 
 export const universalRootTaskId =
@@ -83,13 +84,24 @@ export class Task {
     return true;
   }
 
-  get nextActions(): Task[] {
+  public actionCompletedAfter(cutoffTime: Dayjs): boolean {
+    if (this.isComplete) {
+      const completedAt = this.completedAt;
+      if (!completedAt) {
+        return false;
+      }
+      return dayjs(completedAt).isAfter(cutoffTime);
+    }
+    return false;
+  }
+
+  public nextActions(cutoffTime: Dayjs): Task[] {
     const actions: Task[] = [];
-    if (this.isAvailable) {
+    if (this.isAvailable || this.actionCompletedAfter(cutoffTime)) {
       actions.push(this);
     }
     for (const child of this.children) {
-      actions.push(...child.nextActions);
+      actions.push(...child.nextActions(cutoffTime));
     }
     return actions;
   }
