@@ -11,8 +11,8 @@ export default defineWorkspace([
     test: {
       browser: {
         enabled: true,
-        name: "firefox",
-        provider: "preview",
+        name: "chrome",
+        headless: false,
       },
     },
   },

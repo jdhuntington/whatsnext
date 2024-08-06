@@ -38,7 +38,7 @@ export const NextActions: React.FC<Props> = (props) => {
   }, [appDispatch]);
 
   const tags = rootTask.allTags;
-  const tasks = rootTask.nextActions(cutoffTime);
+  const tasks = rootTask.availableActionsSince(cutoffTime);
   return (
     <div className="space-y-1">
       <h2>Next Actions</h2>

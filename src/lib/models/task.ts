@@ -99,13 +99,22 @@ export class Task {
     return false;
   }
 
-  public nextActions(cutoffTime: Dayjs): Task[] {
+  public availableActionsSince(cutoffTime: Dayjs): Task[] {
     const actions: Task[] = [];
     if (this.isAvailable || this.actionCompletedAfter(cutoffTime)) {
       actions.push(this);
     }
-    for (const child of this.children) {
-      actions.push(...child.nextActions(cutoffTime));
+    if (this.mode === "serial") {
+      for (const child of this.children) {
+        const childActions = child.availableActionsSince(cutoffTime);
+        if (childActions.length > 0) {
+          return [childActions[0]];
+        }
+      }
+    } else {
+      for (const child of this.children) {
+        actions.push(...child.availableActionsSince(cutoffTime));
+      }
     }
     return actions;
   }
