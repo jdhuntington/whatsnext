@@ -105,12 +105,13 @@ export class Task {
       actions.push(this);
     }
     if (this.mode === "serial") {
-      for (const child of this.children) {
-        const childActions = child.availableActionsSince(cutoffTime);
-        if (childActions.length > 0) {
-          return [childActions[0]];
-        }
+      const nextAvailableChild = this.sortedChildren.find(
+        (child) => !child.isComplete
+      );
+      if (!nextAvailableChild) {
+        return actions;
       }
+      actions.push(...nextAvailableChild.availableActionsSince(cutoffTime));
     } else {
       for (const child of this.children) {
         actions.push(...child.availableActionsSince(cutoffTime));

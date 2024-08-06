@@ -4,6 +4,7 @@ import { DraggableItemTypes, Tag, TaskMode, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
+import { TaskModeIndicator } from "./indicators";
 
 interface Props {
   indentLevel: number;
@@ -70,8 +71,8 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
 
   const handleModeChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newMode = e.target.checked ? "parallel" : "sequential";
-      const payload: Partial<Task> = { mode: newMode as TaskMode };
+      const mode: TaskMode = e.target.checked ? "parallel" : "serial";
+      const payload: Partial<Task> = { mode };
       onChange(task.id, payload);
     },
     [task, onChange]
@@ -129,12 +130,17 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                   />
                 ) : null}
               </div>
-              <h1
+              <div
                 onDoubleClick={enableEdit}
-                className={`text-md ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
+                className="flex space-x-1 items-center"
               >
-                {task.mode === "parallel" ? "=" : "-"} {task.name}
-              </h1>
+                <TaskModeIndicator mode={task.mode} />
+                <h1
+                  className={`text-md  ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
+                >
+                  {task.name}
+                </h1>
+              </div>
               <h2 className="flex items-center space-x-1">
                 {task.tags.map((tag) => (
                   <span
