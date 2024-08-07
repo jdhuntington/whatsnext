@@ -114,7 +114,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
           <div className="flex-1">
             <div className="flex space-x-1 items-center">
               <div className="w-6">
-                {task.children.length === 0 ? (
+                {task.completionAvailable ? (
                   <input
                     type="checkbox"
                     checked={task.isComplete}

@@ -44,9 +44,6 @@ export const NextActions: React.FC<Props> = (props) => {
       <h2>Next Actions</h2>
       <div>
         <Button onClick={clearCompleted}>Clear completed items</Button>
-        <pre>
-          {JSON.stringify({ cutoffTime, type: typeof cutoffTime }, null, 2)}
-        </pre>
       </div>
       <ul>
         {tasks.map((task) => (

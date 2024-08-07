@@ -124,6 +124,20 @@ export class Task {
     return this.completedAt !== null && this.completedAt !== undefined;
   }
 
+  /**
+   * Returns true if someone might want to check this as "complete" in the UI.
+   * Only false if there are incomplete children.
+   */
+  get completionAvailable(): boolean {
+    if (this.isComplete) {
+      return true;
+    }
+    if (this.children.length === 0) {
+      return true;
+    }
+    return this.children.every((child) => child.isComplete);
+  }
+
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined
   ): Task {
