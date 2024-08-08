@@ -13,10 +13,12 @@ interface Props {
   reorder: (taskId: UUID, afterId: UUID) => void;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   tags: Tag[];
+  addChild: (parentId: UUID) => void;
 }
 
 export const TaskShow: React.FC<Props> = (props) => {
-  const { task, reparent, indentLevel, onChange, reorder, tags } = props;
+  const { task, reparent, indentLevel, onChange, reorder, tags, addChild } =
+    props;
   const [isExpanded, setIsExpanded] = useState(task.id === universalRootTaskId);
   const toggleExpanded = useCallback(() => setIsExpanded((v) => !v), []);
   const [{ isDragging }, refDrag, refPreview] = useDrag(() => ({
@@ -59,6 +61,7 @@ export const TaskShow: React.FC<Props> = (props) => {
               indentLevel={indentLevel}
               isSelected={false}
               tags={tags}
+              addChild={addChild}
             />
           </div>
         </div>
@@ -73,6 +76,7 @@ export const TaskShow: React.FC<Props> = (props) => {
                   reorder={reorder}
                   indentLevel={indentLevel + 1}
                   tags={tags}
+                  addChild={addChild}
                 />
               </li>
             ))}

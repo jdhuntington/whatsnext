@@ -138,6 +138,10 @@ export class Task {
     return this.children.every((child) => child.isComplete);
   }
 
+  get hasChildren(): boolean {
+    return this.children.length > 0;
+  }
+
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined
   ): Task {

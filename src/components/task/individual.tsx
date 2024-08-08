@@ -5,6 +5,8 @@ import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 import { TaskModeIndicator } from "./indicators";
+import { PlusIcon } from "@heroicons/react/20/solid";
+import { IconButton } from "../ui/button";
 
 interface Props {
   indentLevel: number;
@@ -13,10 +15,11 @@ interface Props {
   isSelected: boolean;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   tags: Tag[];
+  addChild: (parentId: UUID) => void;
 }
 
 export const RenderIndividualTask: React.FC<Props> = (props) => {
-  const { task, dragHandle, isSelected, onChange, tags } = props;
+  const { task, dragHandle, isSelected, onChange, tags, addChild } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
@@ -102,6 +105,10 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
     [task, onChange]
   );
 
+  const addChildCallback = useCallback(() => {
+    addChild(task.id);
+  }, [addChild, task.id]);
+
   return (
     <>
       <div
@@ -134,7 +141,9 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                 onDoubleClick={enableEdit}
                 className="flex space-x-1 items-center"
               >
-                <TaskModeIndicator mode={task.mode} />
+                {task.hasChildren ? (
+                  <TaskModeIndicator mode={task.mode} />
+                ) : null}
                 <h1
                   className={`text-md  ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
                 >
@@ -196,7 +205,8 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
               </div>
             ) : null}
           </div>
-          <div className="flex-0 flex items-center">
+          <div className="flex-0 flex space-x-2 items-center">
+            <IconButton icon={PlusIcon} onClick={addChildCallback} />
             <div ref={dragHandle}>
               <Bars4Icon className="h-4 w-4 text-gray-500" />
             </div>

@@ -30,6 +30,15 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     task.tags = [faker.hacker.verb() as Tag, faker.hacker.ingverb() as Tag];
     addTask(task);
   }, [addTask]);
+  const addChild = useCallback(
+    (parentId: UUID) => {
+      const task = new Task();
+      task.name = `${faker.hacker.adjective()}`;
+      task.parentId = parentId;
+      addTask(task);
+    },
+    [addTask]
+  );
 
   const reparent = useCallback(
     (sourceId: UUID, newParent: UUID) => {
@@ -104,6 +113,7 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
             task={rootTask}
             reparent={reparent}
             reorder={reorder}
+            addChild={addChild}
           />
         </div>
       </DndProvider>

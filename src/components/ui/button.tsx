@@ -20,3 +20,28 @@ const Button = React.forwardRef<
 
 Button.displayName = "Button";
 export { Button };
+
+type IconProps = {
+  className?: string;
+};
+
+const IconButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    icon: React.ComponentType<IconProps>;
+  }
+>((props, ref) => {
+  const { icon: Icon, ...rest } = props;
+  return (
+    <button
+      ref={ref}
+      {...rest}
+      className="w-4 h-4 text-gray-800 bg-gray-200 hover:text-black hover:bg-gray-400 rounded"
+    >
+      <Icon />
+    </button>
+  );
+});
+
+IconButton.displayName = "IconButton";
+export { IconButton };

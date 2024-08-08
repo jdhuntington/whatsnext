@@ -2,17 +2,15 @@ import { Task } from "../../lib/models/task";
 import { UUID } from "../../types";
 import { TaskShow } from "./show";
 
-export function TaskList({
-  task,
-  reparent,
-  reorder,
-  onChange,
-}: {
+interface Props {
   task: Task;
   reparent: (taskId: UUID, newParentId: UUID) => void;
   reorder: (taskId: UUID, afterId: UUID) => void;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
-}) {
+  addChild: (parentId: UUID) => void;
+}
+export const TaskList: React.FC<Props> = (props) => {
+  const { task, reparent, reorder, onChange, addChild } = props;
   // const onKeyDown = useCallback(
   //   (e: KeyboardEvent) => {
   //     const target = e.target as HTMLElement;
@@ -57,7 +55,8 @@ export function TaskList({
         indentLevel={0}
         onChange={onChange}
         tags={task.allTags}
+        addChild={addChild}
       />
     </div>
   );
-}
+};
