@@ -1,0 +1,653 @@
+{
+  "0427bd4f-e2cb-4ce7-9eef-c540be2b7f7f": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T14:13:04.936Z",
+    "id": "0427bd4f-e2cb-4ce7-9eef-c540be2b7f7f",
+    "mode": "parallel",
+    "name": "Ready for Jon to visit",
+    "order": 99,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": []
+  },
+  "0642d1c4-753a-4828-9055-5eab23c30f5a": {
+    "completedAt": "2024-08-08T14:45:50.274Z",
+    "createdAt": "2024-08-08T14:44:37.914Z",
+    "id": "0642d1c4-753a-4828-9055-5eab23c30f5a",
+    "mode": "serial",
+    "name": "multi-byte",
+    "order": 0,
+    "parentId": "10d54361-4a8e-407b-95b5-0f5b8cb19526",
+    "tags": []
+  },
+  "07fc4d41-5d8f-42a7-b8ef-0f1eaa78a77d": {
+    "completedAt": "2024-08-07T16:48:51.322Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "07fc4d41-5d8f-42a7-b8ef-0f1eaa78a77d",
+    "mode": "serial",
+    "name": "Review options for vacation",
+    "order": 0,
+    "parentId": "e67b6af3-3c1b-4ace-a858-92fb85b9f540",
+    "tags": []
+  },
+  "103664e3-e589-4506-b5aa-c3b778052ba8": {
+    "completedAt": "2024-08-06T19:15:49.424Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "103664e3-e589-4506-b5aa-c3b778052ba8",
+    "mode": "serial",
+    "name": "Respond to Nicky",
+    "order": 0,
+    "parentId": "843e645f-1e18-4622-8df9-46ab328459a6",
+    "tags": []
+  },
+  "10d54361-4a8e-407b-95b5-0f5b8cb19526": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T14:12:13.144Z",
+    "id": "10d54361-4a8e-407b-95b5-0f5b8cb19526",
+    "mode": "parallel",
+    "name": "INBOX",
+    "order": 0,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": [
+      "INBOX"
+    ]
+  },
+  "11c98459-290c-4d11-aeda-b8b75ccfe53d": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "11c98459-290c-4d11-aeda-b8b75ccfe53d",
+    "mode": "serial",
+    "name": "Implement first pass of competitor filter",
+    "order": 0,
+    "parentId": "4fbc9ba7-24d1-4ce0-b7a0-d23f731d449e",
+    "tags": [
+      "STOA"
+    ]
+  },
+  "1a1af771-3c64-4da1-86ba-1b8a1435b7ab": {
+    "completedAt": "2024-08-06T15:41:12.411Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "1a1af771-3c64-4da1-86ba-1b8a1435b7ab",
+    "mode": "serial",
+    "name": "Email Micah Carr and see how things are going",
+    "order": 0,
+    "parentId": "843e645f-1e18-4622-8df9-46ab328459a6",
+    "tags": []
+  },
+  "200336c6-9f7e-4a42-b29d-adc057d65f13": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "200336c6-9f7e-4a42-b29d-adc057d65f13",
+    "mode": "serial",
+    "name": "Get TinyFest tickets",
+    "order": 10,
+    "parentId": "bb20c5fd-ce26-4f72-b1be-50d66eb8985e",
+    "tags": []
+  },
+  "2127570e-b17f-4f7b-8b9c-4b59466a49f3": {
+    "completedAt": "2024-08-08T13:56:56.492Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "2127570e-b17f-4f7b-8b9c-4b59466a49f3",
+    "mode": "serial",
+    "name": "Pay BofA",
+    "order": 0,
+    "parentId": "638d13ce-9c65-42c2-a4ce-4ece9271d46e",
+    "tags": []
+  },
+  "2146eb8b-489e-44a2-bff9-7ee74f0c8333": {
+    "createdAt": "2024-08-03T15:26:04.953Z",
+    "id": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
+    "mode": "parallel",
+    "name": "Senior Place Single Actions",
+    "order": 0,
+    "parentId": "c5f242af-b9a9-4adb-951f-dc24f736181e",
+    "tags": []
+  },
+  "26d55429-d168-4452-85d7-d669613ad868": {
+    "completedAt": "2024-08-08T15:24:47.503Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "26d55429-d168-4452-85d7-d669613ad868",
+    "mode": "serial",
+    "name": "Follow up with our lawncare company and make sure they charged us correctly for the sprinkler service",
+    "order": 0,
+    "parentId": "3e4c199f-33be-4164-8883-3e8e40938332",
+    "tags": []
+  },
+  "38d2cfaf-bd01-4d19-a68d-20c639a69dc6": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T13:52:55.176Z",
+    "id": "38d2cfaf-bd01-4d19-a68d-20c639a69dc6",
+    "mode": "serial",
+    "name": "Schedule a time for Jason and Thiago to chat https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxtrHLFbBSlKWNHxLRzwpPCpn",
+    "order": 0,
+    "parentId": "ee471195-95cc-4f09-aedb-d33891ba6e7c",
+    "tags": [
+      "Jason",
+      "Senior Place",
+      "Waiting"
+    ]
+  },
+  "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T14:51:59.504Z",
+    "id": "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f",
+    "mode": "serial",
+    "name": "Do laundry",
+    "order": 98,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": [
+      "Home"
+    ]
+  },
+  "3e4c199f-33be-4164-8883-3e8e40938332": {
+    "createdAt": "2024-08-03T15:10:59.096Z",
+    "id": "3e4c199f-33be-4164-8883-3e8e40938332",
+    "mode": "parallel",
+    "name": "Single Actions",
+    "order": 10,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": []
+  },
+  "4fbc9ba7-24d1-4ce0-b7a0-d23f731d449e": {
+    "createdAt": "2024-08-03T15:27:49.502Z",
+    "id": "4fbc9ba7-24d1-4ce0-b7a0-d23f731d449e",
+    "mode": "serial",
+    "name": "Complete tasks for StoaApp",
+    "order": 0,
+    "parentId": "cc11a3ae-a09c-45d2-a6e7-80cee1c2ec23",
+    "tags": []
+  },
+  "54f8988a-eb1c-4e86-9d55-782f48ee3461": {
+    "completedAt": "2024-08-06T14:34:53.376Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "54f8988a-eb1c-4e86-9d55-782f48ee3461",
+    "mode": "serial",
+    "name": "Reschedule dentist appointment",
+    "order": 0,
+    "parentId": "f25f3451-83c6-486a-8654-5f692b0c76a2",
+    "tags": []
+  },
+  "58a2d5df-549c-40f6-aed9-459d519cc44d": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "58a2d5df-549c-40f6-aed9-459d519cc44d",
+    "mode": "serial",
+    "name": "Do I have things assigned to all of my areas?",
+    "order": 0,
+    "parentId": "3e4c199f-33be-4164-8883-3e8e40938332",
+    "tags": []
+  },
+  "5b1e7c02-74cc-4257-b8eb-a8bf44b245e4": {
+    "completedAt": "2024-08-06T15:19:50.330Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "5b1e7c02-74cc-4257-b8eb-a8bf44b245e4",
+    "mode": "serial",
+    "name": "Text Logan",
+    "order": 0,
+    "parentId": "ee471195-95cc-4f09-aedb-d33891ba6e7c",
+    "tags": []
+  },
+  "638d13ce-9c65-42c2-a4ce-4ece9271d46e": {
+    "completedAt": "2024-08-08T13:56:57.269Z",
+    "createdAt": "2024-08-03T15:07:15.447Z",
+    "id": "638d13ce-9c65-42c2-a4ce-4ece9271d46e",
+    "mode": "parallel",
+    "name": "Pay bills",
+    "order": 1,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": []
+  },
+  "659d2fb3-d3c1-486a-816d-c862e3a2e47e": {
+    "completedAt": "2024-08-08T13:53:29.470Z",
+    "createdAt": "2024-08-03T15:09:33.477Z",
+    "id": "659d2fb3-d3c1-486a-816d-c862e3a2e47e",
+    "mode": "serial",
+    "name": "Be ready to run sales next week",
+    "order": 0,
+    "parentId": "c5f242af-b9a9-4adb-951f-dc24f736181e",
+    "tags": []
+  },
+  "678ff30a-835c-47d9-9c3f-5a66d9e89456": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "678ff30a-835c-47d9-9c3f-5a66d9e89456",
+    "mode": "serial",
+    "name": "Sign letter for Scott",
+    "order": 0,
+    "parentId": "3e4c199f-33be-4164-8883-3e8e40938332",
+    "tags": []
+  },
+  "6af64478-b8bb-45f3-a638-152e474c24a8": {
+    "completedAt": null,
+    "createdAt": "2024-08-06T14:29:28.054Z",
+    "id": "6af64478-b8bb-45f3-a638-152e474c24a8",
+    "mode": "serial",
+    "name": "Fill out customer council survey https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxtrHThcvZlLdSFHtXJdHVNWW",
+    "order": 0,
+    "parentId": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
+    "tags": [
+      "Senior Place",
+      "Low Energy"
+    ]
+  },
+  "6aff1b28-9d04-42c2-8b3b-4106e08b0178": {
+    "completedAt": "2024-08-06T15:20:26.723Z",
+    "createdAt": "2024-08-06T14:37:31.345Z",
+    "id": "6aff1b28-9d04-42c2-8b3b-4106e08b0178",
+    "mode": "serial",
+    "name": "Box up keyboard",
+    "order": 0,
+    "parentId": "fdb43446-6023-4d7c-ab3f-17c5d49ba03c",
+    "tags": [
+      "Home"
+    ]
+  },
+  "6b5b0d3a-3440-4457-ab81-234024f860ca": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T14:52:43.429Z",
+    "id": "6b5b0d3a-3440-4457-ab81-234024f860ca",
+    "mode": "serial",
+    "name": "Start last load",
+    "order": 2,
+    "parentId": "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f",
+    "tags": [
+      "Home"
+    ]
+  },
+  "7600e98d-bac4-4dc7-a52f-4f082cb0f70a": {
+    "completedAt": "2024-08-06T15:20:22.769Z",
+    "createdAt": "2024-08-05T12:33:27.617Z",
+    "id": "7600e98d-bac4-4dc7-a52f-4f082cb0f70a",
+    "mode": "serial",
+    "name": "Respond to Job on Turo.com",
+    "order": 0,
+    "parentId": "f25f3451-83c6-486a-8654-5f692b0c76a2",
+    "tags": [
+      "Personal Online"
+    ]
+  },
+  "7607e774-1e01-400d-bf9e-c3e945101a02": {
+    "createdAt": "2024-08-03T15:28:24.780Z",
+    "id": "7607e774-1e01-400d-bf9e-c3e945101a02",
+    "mode": "serial",
+    "name": "We have a plan for Josiah playing music",
+    "order": 0,
+    "parentId": "94e73450-72c2-452b-938e-e3b7cbdabb0d",
+    "tags": []
+  },
+  "7c8b49ec-8918-4542-92f8-5f95dfc8e1f1": {
+    "completedAt": "2024-08-06T19:07:14.770Z",
+    "createdAt": "2024-08-03T15:26:49.921Z",
+    "id": "7c8b49ec-8918-4542-92f8-5f95dfc8e1f1",
+    "mode": "serial",
+    "name": "Alison has a working computer",
+    "order": 0,
+    "parentId": "94e73450-72c2-452b-938e-e3b7cbdabb0d",
+    "tags": []
+  },
+  "843e645f-1e18-4622-8df9-46ab328459a6": {
+    "completedAt": "2024-08-07T16:48:19.822Z",
+    "createdAt": "2024-08-03T15:27:05.377Z",
+    "id": "843e645f-1e18-4622-8df9-46ab328459a6",
+    "mode": "parallel",
+    "name": "Catch up with people",
+    "order": 0,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": []
+  },
+  "8442e359-805d-4c0a-9cc2-54181859d049": {
+    "completedAt": null,
+    "createdAt": "2024-08-07T16:47:36.189Z",
+    "id": "8442e359-805d-4c0a-9cc2-54181859d049",
+    "mode": "serial",
+    "name": "Schedule time with Logan to talk on Thursday",
+    "order": 0,
+    "parentId": "ee471195-95cc-4f09-aedb-d33891ba6e7c",
+    "tags": [
+      "Senior Place"
+    ]
+  },
+  "86ba7131-61ab-430c-9be7-3d469d6a3c08": {
+    "completedAt": "2024-08-06T14:21:33.722Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "86ba7131-61ab-430c-9be7-3d469d6a3c08",
+    "mode": "serial",
+    "name": "Watch Jason's videos",
+    "order": 0,
+    "parentId": "659d2fb3-d3c1-486a-816d-c862e3a2e47e",
+    "tags": []
+  },
+  "910d582b-0da3-4b88-bc93-0d908ca0da98": {
+    "completedAt": "2024-08-07T17:00:53.628Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "910d582b-0da3-4b88-bc93-0d908ca0da98",
+    "mode": "serial",
+    "name": "Watch video from San Mateo county",
+    "order": 0,
+    "parentId": "659d2fb3-d3c1-486a-816d-c862e3a2e47e",
+    "tags": [
+      "Senior Place"
+    ]
+  },
+  "94e73450-72c2-452b-938e-e3b7cbdabb0d": {
+    "completedAt": null,
+    "createdAt": "2024-08-06T17:09:33.691Z",
+    "id": "94e73450-72c2-452b-938e-e3b7cbdabb0d",
+    "mode": "parallel",
+    "name": "Family",
+    "order": 20,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": [
+      "Area"
+    ]
+  },
+  "94ec407c-9369-4dcd-98e6-d12c014c82fb": {
+    "completedAt": "2024-08-07T16:49:07.601Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "94ec407c-9369-4dcd-98e6-d12c014c82fb",
+    "mode": "serial",
+    "name": "review chore list",
+    "order": 0,
+    "parentId": "ecffae2f-1b62-42c0-9177-c9aaadf02d31",
+    "tags": []
+  },
+  "95c6f1b3-6124-4c61-ae1a-61d7a5f914b1": {
+    "completedAt": "2024-08-06T15:20:25.243Z",
+    "createdAt": "2024-08-06T14:28:18.025Z",
+    "id": "95c6f1b3-6124-4c61-ae1a-61d7a5f914b1",
+    "mode": "serial",
+    "name": "Respond to Lana's text",
+    "order": 0,
+    "parentId": "f2d13acb-6345-4381-a5d5-e51079cce81b",
+    "tags": [
+      "Anywhere"
+    ]
+  },
+  "95ef69ed-db4e-4627-bb41-8f68f1e5e847": {
+    "completedAt": "2024-08-08T13:56:55.943Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "95ef69ed-db4e-4627-bb41-8f68f1e5e847",
+    "mode": "serial",
+    "name": "Pay AMEX",
+    "order": 0,
+    "parentId": "638d13ce-9c65-42c2-a4ce-4ece9271d46e",
+    "tags": []
+  },
+  "970e846b-f10a-4156-966e-d6e479c74773": {
+    "completedAt": "2024-08-08T13:56:55.331Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "970e846b-f10a-4156-966e-d6e479c74773",
+    "mode": "serial",
+    "name": "Pay Citibank",
+    "order": 0,
+    "parentId": "638d13ce-9c65-42c2-a4ce-4ece9271d46e",
+    "tags": []
+  },
+  "9c5c8ed9-7881-46a6-b352-d53a2e288fb5": {
+    "completedAt": "2024-08-06T15:44:18.182Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "9c5c8ed9-7881-46a6-b352-d53a2e288fb5",
+    "mode": "serial",
+    "name": "Ping Chris from Microconf and see how things are going",
+    "order": 0,
+    "parentId": "843e645f-1e18-4622-8df9-46ab328459a6",
+    "tags": []
+  },
+  "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B": {
+    "createdAt": "2024-08-03T14:47:12.226Z",
+    "id": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "mode": "parallel",
+    "name": "_",
+    "order": 0,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": []
+  },
+  "ae0305ac-44a0-4edb-86d7-ddb6510913bd": {
+    "completedAt": "2024-08-06T14:36:45.949Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "ae0305ac-44a0-4edb-86d7-ddb6510913bd",
+    "mode": "serial",
+    "name": "Schedule 15m to sit with Alison and make sure everything is working",
+    "order": 0,
+    "parentId": "7c8b49ec-8918-4542-92f8-5f95dfc8e1f1",
+    "tags": []
+  },
+  "b6d1f5d9-0ae7-44e4-b5d8-520d67c22059": {
+    "completedAt": "2024-08-08T13:56:54.819Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "b6d1f5d9-0ae7-44e4-b5d8-520d67c22059",
+    "mode": "serial",
+    "name": "Pay FTCU credit",
+    "order": 0,
+    "parentId": "638d13ce-9c65-42c2-a4ce-4ece9271d46e",
+    "tags": []
+  },
+  "b7a057b7-3512-4c8a-93f1-a01462a56d94": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T14:45:24.996Z",
+    "id": "b7a057b7-3512-4c8a-93f1-a01462a56d94",
+    "mode": "serial",
+    "name": "Clean up office",
+    "order": 0,
+    "parentId": "0427bd4f-e2cb-4ce7-9eef-c540be2b7f7f",
+    "tags": [
+      "Home"
+    ]
+  },
+  "bb20c5fd-ce26-4f72-b1be-50d66eb8985e": {
+    "completedAt": null,
+    "createdAt": "2024-08-05T12:18:51.742Z",
+    "id": "bb20c5fd-ce26-4f72-b1be-50d66eb8985e",
+    "mode": "serial",
+    "name": "Go to TinyFest",
+    "order": 0,
+    "parentId": "c5f242af-b9a9-4adb-951f-dc24f736181e",
+    "tags": []
+  },
+  "be5250ad-c7d7-4baf-be15-6386b1af98aa": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "be5250ad-c7d7-4baf-be15-6386b1af98aa",
+    "mode": "serial",
+    "name": "Figure out how to build report in PostHog",
+    "order": 0,
+    "parentId": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
+    "tags": [
+      "Senior Place"
+    ]
+  },
+  "c5f242af-b9a9-4adb-951f-dc24f736181e": {
+    "completedAt": null,
+    "createdAt": "2024-08-06T14:21:47.111Z",
+    "id": "c5f242af-b9a9-4adb-951f-dc24f736181e",
+    "mode": "parallel",
+    "name": "Senior Place",
+    "order": 30,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": [
+      "Area"
+    ]
+  },
+  "cad00860-b9c2-414e-b94c-79ca4d2ea0a7": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T13:50:31.603Z",
+    "id": "cad00860-b9c2-414e-b94c-79ca4d2ea0a7",
+    "mode": "serial",
+    "name": "Respond to Allisha https://mail.google.com/mail/u/0/#inbox/KtbxLwhCFZxzfzPDPWKKKTPmrvXzfjSgMg",
+    "order": 0,
+    "parentId": "e27ad0af-c82a-4123-bba3-a766f09e8f58",
+    "tags": [
+      "STOA",
+      "Personal Online"
+    ]
+  },
+  "cc11a3ae-a09c-45d2-a6e7-80cee1c2ec23": {
+    "completedAt": null,
+    "createdAt": "2024-08-06T17:08:44.706Z",
+    "id": "cc11a3ae-a09c-45d2-a6e7-80cee1c2ec23",
+    "mode": "parallel",
+    "name": "Speech & Debate",
+    "order": 40,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": [
+      "Area"
+    ]
+  },
+  "d999a448-4d87-4ba7-a70a-16927aa07109": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "d999a448-4d87-4ba7-a70a-16927aa07109",
+    "mode": "serial",
+    "name": "Review Jacob's OG trip info",
+    "order": 0,
+    "parentId": "3e4c199f-33be-4164-8883-3e8e40938332",
+    "tags": []
+  },
+  "e27ad0af-c82a-4123-bba3-a766f09e8f58": {
+    "createdAt": "2024-08-03T15:25:20.745Z",
+    "id": "e27ad0af-c82a-4123-bba3-a766f09e8f58",
+    "mode": "serial",
+    "name": "Run tab for Big Muddy",
+    "order": 0,
+    "parentId": "cc11a3ae-a09c-45d2-a6e7-80cee1c2ec23",
+    "tags": []
+  },
+  "e43204f0-9ca4-4a4b-88db-eb84995267d9": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "e43204f0-9ca4-4a4b-88db-eb84995267d9",
+    "mode": "serial",
+    "name": "Ping Jon Armstrong about getting together with Josiah to play",
+    "order": 0,
+    "parentId": "7607e774-1e01-400d-bf9e-c3e945101a02",
+    "tags": []
+  },
+  "e5a10a9d-dc2d-4bf7-9fd4-d560d93714b8": {
+    "completedAt": "2024-08-05T12:33:25.374Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "e5a10a9d-dc2d-4bf7-9fd4-d560d93714b8",
+    "mode": "serial",
+    "name": "Call Dad and see what email address he used to sign up",
+    "order": 0,
+    "parentId": "f25f3451-83c6-486a-8654-5f692b0c76a2",
+    "tags": []
+  },
+  "e67b6af3-3c1b-4ace-a858-92fb85b9f540": {
+    "createdAt": "2024-08-03T15:21:36.132Z",
+    "id": "e67b6af3-3c1b-4ace-a858-92fb85b9f540",
+    "mode": "serial",
+    "name": "We go on a family vacation",
+    "order": 0,
+    "parentId": "94e73450-72c2-452b-938e-e3b7cbdabb0d",
+    "tags": []
+  },
+  "e88bd68a-e684-42ac-9d82-dd1d1cc2a66c": {
+    "completedAt": "2024-08-07T17:00:49.690Z",
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "e88bd68a-e684-42ac-9d82-dd1d1cc2a66c",
+    "mode": "serial",
+    "name": "Email Alisha Speed and ask about what a tab director needs to do in setting up tab",
+    "order": 0,
+    "parentId": "e27ad0af-c82a-4123-bba3-a766f09e8f58",
+    "tags": [
+      "STOA"
+    ]
+  },
+  "ea4c690c-d62d-40d3-8b3c-c7af0778aa32": {
+    "completedAt": null,
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "ea4c690c-d62d-40d3-8b3c-c7af0778aa32",
+    "mode": "serial",
+    "name": "Help Brooke with DKIM",
+    "order": 0,
+    "parentId": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
+    "tags": [
+      "Waiting"
+    ]
+  },
+  "ecffae2f-1b62-42c0-9177-c9aaadf02d31": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "ecffae2f-1b62-42c0-9177-c9aaadf02d31",
+    "mode": "serial",
+    "name": "Review takeaways from our yearly \"offsite\"",
+    "order": 0,
+    "parentId": "94e73450-72c2-452b-938e-e3b7cbdabb0d",
+    "tags": []
+  },
+  "ee471195-95cc-4f09-aedb-d33891ba6e7c": {
+    "createdAt": "2024-08-03T15:27:32.334Z",
+    "id": "ee471195-95cc-4f09-aedb-d33891ba6e7c",
+    "mode": "serial",
+    "name": "Hire a developer",
+    "order": 0,
+    "parentId": "c5f242af-b9a9-4adb-951f-dc24f736181e",
+    "tags": []
+  },
+  "f25f3451-83c6-486a-8654-5f692b0c76a2": {
+    "completedAt": "2024-08-07T16:49:41.755Z",
+    "createdAt": "2024-08-03T14:51:24.392Z",
+    "id": "f25f3451-83c6-486a-8654-5f692b0c76a2",
+    "mode": "serial",
+    "name": "Visit Oregon in August",
+    "order": 0,
+    "parentId": "94e73450-72c2-452b-938e-e3b7cbdabb0d",
+    "tags": []
+  },
+  "f2d13acb-6345-4381-a5d5-e51079cce81b": {
+    "completedAt": null,
+    "createdAt": "2024-08-06T14:28:00.554Z",
+    "id": "f2d13acb-6345-4381-a5d5-e51079cce81b",
+    "mode": "parallel",
+    "name": "Ready for Ambassador 2024",
+    "order": 0,
+    "parentId": "cc11a3ae-a09c-45d2-a6e7-80cee1c2ec23",
+    "tags": []
+  },
+  "f6a77715-7e42-4c6d-b231-628369da1d04": {
+    "createdAt": "2024-08-03T14:51:13.247Z",
+    "id": "f6a77715-7e42-4c6d-b231-628369da1d04",
+    "mode": "serial",
+    "name": "See if we can log in to CUDRC",
+    "order": 0,
+    "parentId": "3e4c199f-33be-4164-8883-3e8e40938332",
+    "tags": []
+  },
+  "f9fc59aa-5e9a-43fc-8024-a24d52070179": {
+    "completedAt": null,
+    "createdAt": "2024-08-05T12:18:58.673Z",
+    "id": "f9fc59aa-5e9a-43fc-8024-a24d52070179",
+    "mode": "serial",
+    "name": "Double-check with Erica that she still wants to go to TinyFest",
+    "order": 1,
+    "parentId": "bb20c5fd-ce26-4f72-b1be-50d66eb8985e",
+    "tags": [
+      "Erica"
+    ]
+  },
+  "fc09eadc-d227-4964-9385-a628f938ab03": {
+    "completedAt": null,
+    "createdAt": "2024-08-08T14:52:25.497Z",
+    "id": "fc09eadc-d227-4964-9385-a628f938ab03",
+    "mode": "serial",
+    "name": "Move previous load to dryer & hang",
+    "order": 1,
+    "parentId": "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f",
+    "tags": [
+      "Home"
+    ]
+  },
+  "fdb43446-6023-4d7c-ab3f-17c5d49ba03c": {
+    "completedAt": "2024-08-06T19:07:10.186Z",
+    "createdAt": "2024-08-06T14:37:21.414Z",
+    "id": "fdb43446-6023-4d7c-ab3f-17c5d49ba03c",
+    "mode": "serial",
+    "name": "Return keyboard",
+    "order": 0,
+    "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
+    "tags": []
+  },
+  "ffe49499-b2c6-4930-8856-7b819069228d": {
+    "completedAt": null,
+    "createdAt": "2024-08-06T14:27:36.987Z",
+    "id": "ffe49499-b2c6-4930-8856-7b819069228d",
+    "mode": "serial",
+    "name": "Do background check for Ambassador",
+    "order": 0,
+    "parentId": "f2d13acb-6345-4381-a5d5-e51079cce81b",
+    "tags": [
+      "Personal Online"
+    ]
+  }
+}
