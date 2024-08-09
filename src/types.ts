@@ -13,6 +13,7 @@ export interface SerializedTask {
   createdAt: string;
   order: number;
   completedAt: string | null;
+  deferUntil: string | null;
   mode: TaskMode;
 }
 

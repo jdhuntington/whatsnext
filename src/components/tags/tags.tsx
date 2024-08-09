@@ -30,7 +30,7 @@ export const Tags = ({
         {selectedTags.map((tag) => (
           <div
             key={tag}
-            className={`px-4 py-1 text-sm rounded-full bg-blue-500 text-white flex items-center space-x-2`}
+            className={`px-4 py-1 text-sm rounded-full bg-emerald-500 text-white flex items-center space-x-2`}
           >
             <div>{tag}</div>
             <button onClick={() => onRemoveTag(tag)}>x</button>

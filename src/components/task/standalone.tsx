@@ -53,7 +53,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
   return (
     <>
       <div
-        className={`border-2 border-white hover:border-dotted hover:border-purple-800 bg-gray-100`}
+        className={`border-2 border-white hover:border-dotted hover:border-emerald-800 bg-gray-100`}
       >
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">

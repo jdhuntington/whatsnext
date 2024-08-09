@@ -4,7 +4,7 @@ export const baseClasses =
   "inline-flex justify-center py-1 px-2 border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:bg-gray-400 disabled:text-gray-200";
 
 export const primaryClasses =
-  "text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500";
+  "text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500";
 
 export const defaultClasses =
   "text-gray-800 bg-gray-200 hover:bg-gray-300 hover:text-black focus:ring-gray-500";

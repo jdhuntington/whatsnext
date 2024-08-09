@@ -113,7 +113,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
     <>
       <div
         ref={refDropReparent}
-        className={` border-2 border-white hover:border-dotted hover:border-purple-800 ${
+        className={` border-2 border-white hover:border-dotted hover:border-emerald-800 ${
           isOverReparent ? "bg-indigo-300" : "bg-gray-100"
         } ${isSelected ? "font-bold" : ""}`}
       >

@@ -11,6 +11,7 @@ export class Task {
   public tags: Tag[] = [];
   public createdAt: string = new Date().toISOString();
   public completedAt: string | null = null;
+  public deferUntil: string | null = null;
   public children: Task[] = [];
   public order: number = 0;
   public mode: TaskMode = "serial";
@@ -24,6 +25,7 @@ export class Task {
       createdAt: this.createdAt,
       order: this.order,
       completedAt: this.completedAt,
+      deferUntil: this.deferUntil,
       mode: this.mode,
     };
   }
@@ -61,6 +63,7 @@ export class Task {
     task.order = this.order;
     task.children = this.children;
     task.completedAt = this.completedAt;
+    task.deferUntil = this.deferUntil;
     task.mode = this.mode;
     return task;
   }
@@ -159,6 +162,7 @@ export class Task {
       task.createdAt = serialized.createdAt;
       task.order = serialized.order;
       task.completedAt = serialized.completedAt;
+      task.deferUntil = serialized.deferUntil;
       task.mode = serialized.mode as TaskMode;
       taskMap.set(task.id, task);
     }
