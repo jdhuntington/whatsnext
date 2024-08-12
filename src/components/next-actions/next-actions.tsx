@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Button } from "../ui/button";
 import { nextActionsSlice } from "../../features/next-actions";
 import dayjs from "dayjs";
+import { Stage, StageContent, StageHeader } from "../shell/stage";
 
 interface Props {
   docUrl: AutomergeUrl;
@@ -40,18 +41,19 @@ export const NextActions: React.FC<Props> = (props) => {
   const tags = rootTask.allTags;
   const tasks = rootTask.availableActionsSince(cutoffTime);
   return (
-    <div className="space-y-1">
-      <h2>Next Actions</h2>
-      <div>
+    <Stage>
+      <StageHeader>
         <Button onClick={clearCompleted}>Clear completed items</Button>
-      </div>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <StandaloneTask task={task} onChange={onChange} tags={tags} />
-          </li>
-        ))}
-      </ul>
-    </div>
+      </StageHeader>
+      <StageContent>
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id}>
+              <StandaloneTask task={task} onChange={onChange} tags={tags} />
+            </li>
+          ))}
+        </ul>
+      </StageContent>
+    </Stage>
   );
 };

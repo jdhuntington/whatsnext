@@ -8,6 +8,7 @@ import { Button } from "./components/ui/button";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { TaskList } from "./components/task/list";
+import { Stage, StageContent, StageHeader } from "./components/shell/stage";
 
 function App({ docUrl }: { docUrl: AutomergeUrl }) {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
@@ -79,45 +80,34 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
     [changeDoc]
   );
 
-  const [search, setSearch] = useState("");
-
   return (
-    <div>
-      <DndProvider backend={HTML5Backend}>
-        <div className="space-y-1 p-2">
-          <div className="flex space-x-1">
-            <h1>
-              Doc changed count: <code>{docChangedCount}</code>
-            </h1>
-          </div>
-          <div>
-            <label>
-              Search:
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setSearch(e.target.value);
-                }}
-              />
-            </label>
-          </div>
-          <div className="space-x-2">
-            <Button primary onClick={addNewTask}>
-              Add Task
-            </Button>
-          </div>
-          <TaskList
-            onChange={onChange}
-            task={rootTask}
-            reparent={reparent}
-            reorder={reorder}
-            addChild={addChild}
-          />
+    <Stage>
+      <StageHeader>
+        <div className="flex space-x-4 items-center">
+          <Button primary onClick={addNewTask}>
+            Add Task
+          </Button>
+          <h1>
+            Doc changed count: <code>{docChangedCount}</code>
+          </h1>
         </div>
-      </DndProvider>
-    </div>
+      </StageHeader>
+      <StageContent>
+        <DndProvider backend={HTML5Backend}>
+          <div className="space-y-1 p-2">
+            <div></div>
+            <div className="space-x-2"></div>
+            <TaskList
+              onChange={onChange}
+              task={rootTask}
+              reparent={reparent}
+              reorder={reorder}
+              addChild={addChild}
+            />
+          </div>
+        </DndProvider>
+      </StageContent>
+    </Stage>
   );
 }
 
