@@ -10,10 +10,18 @@ import { nextActionsSlice } from "../../features/next-actions";
 import dayjs from "dayjs";
 import { Stage, StageContent, StageHeader } from "../shell/stage";
 
+export const NextActions: React.FC = () => {
+  const docUrl = useAppSelector((s) => s.configuration.documentId);
+  if (!docUrl) {
+    return null;
+  }
+  return <NextActionsInner docUrl={docUrl} />;
+};
+
 interface Props {
   docUrl: AutomergeUrl;
 }
-export const NextActions: React.FC<Props> = (props) => {
+const NextActionsInner: React.FC<Props> = (props) => {
   const { docUrl } = props;
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
   const rootTask = useMemo(() => Task.deserializeTasks(doc?.tasks), [doc]);

@@ -1,31 +1,25 @@
-import { AutomergeUrl } from "@automerge/automerge-repo";
-import { Task } from "../../lib/models/task";
-import { TaskSet } from "../../types";
-import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { useCallback } from "react";
 import { Export } from "../export/export";
 import { Import } from "../import/import";
+import { Stage, StageContent, StageHeader } from "../shell/stage";
+import { useAppSelector } from "../../hooks";
+import { UpdateDocument } from "./update-document";
 
-interface Props {
-  docUrl: AutomergeUrl;
-}
-export const Settings: React.FC<Props> = (props) => {
-  const { docUrl } = props;
-  const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
+export const Settings: React.FC = () => {
+  const docUrl = useAppSelector((s) => s.configuration.documentId);
 
-  const addTask = useCallback(
-    (task: Task) => {
-      changeDoc((d) => {
-        d.tasks[task.id] = task.serialize();
-      });
-    },
-    [changeDoc]
-  );
   return (
-    <div>
-      <h1>Settings</h1>
-      <Export doc={doc} />
-      <Import changeDoc={changeDoc} addTask={addTask} />
-    </div>
+    <Stage>
+      <StageHeader>
+        <div className="flex space-x-4 items-center">
+          {docUrl ? <Export docUrl={docUrl} /> : null}
+        </div>
+      </StageHeader>
+      <StageContent>
+        <div className="space-y-2">
+          <UpdateDocument />
+          {docUrl ? <Import docUrl={docUrl} /> : null}
+        </div>
+      </StageContent>
+    </Stage>
   );
 };

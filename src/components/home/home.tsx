@@ -1,16 +1,30 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { Tag, TaskSet, UUID } from "./types";
+import { Tag, TaskSet, UUID } from "./../../types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
-import { Task } from "./lib/models/task";
-import { Button } from "./components/ui/button";
+import { Task } from "./../../lib/models/task";
+import { Button } from "./../../components/ui/button";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { TaskList } from "./components/task/list";
-import { Stage, StageContent, StageHeader } from "./components/shell/stage";
+import { TaskList } from "./../../components/task/list";
+import {
+  Stage,
+  StageContent,
+  StageHeader,
+} from "./../../components/shell/stage";
+import { useAppSelector } from "../../hooks";
 
-function App({ docUrl }: { docUrl: AutomergeUrl }) {
+export const Home: React.FC = () => {
+  const docUrl = useAppSelector((s) => s.configuration.documentId);
+  if (!docUrl) {
+    return null;
+  }
+  return <HomeInner docUrl={docUrl} />;
+};
+
+const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
+  const { docUrl } = props;
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
   const [docChangedCount, setDocChangedCount] = useState(0);
   useEffect(() => {
@@ -109,6 +123,4 @@ function App({ docUrl }: { docUrl: AutomergeUrl }) {
       </StageContent>
     </Stage>
   );
-}
-
-export default App;
+};

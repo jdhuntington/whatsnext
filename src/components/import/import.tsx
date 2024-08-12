@@ -1,14 +1,35 @@
 import { ChangeFn } from "@automerge/automerge";
 import { TaskSet } from "../../types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Task } from "../../lib/models/task";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { AutomergeUrl } from "@automerge/automerge-repo";
 
 interface Props {
+  docUrl: AutomergeUrl;
+}
+
+export const Import: React.FC<Props> = (props) => {
+  const { docUrl } = props;
+
+  const [_doc, changeDoc] = useDocument<TaskSet>(docUrl);
+  const addTask = useCallback(
+    (task: Task) => {
+      changeDoc((d) => {
+        d.tasks[task.id] = task.serialize();
+      });
+    },
+    [changeDoc]
+  );
+  return <ImportInner changeDoc={changeDoc} addTask={addTask} />;
+};
+
+interface InnerProps {
   changeDoc: (fn: ChangeFn<TaskSet>) => void;
   addTask: (task: Task) => void;
 }
 
-export const Import: React.FC<Props> = (props) => {
+const ImportInner: React.FC<InnerProps> = (props) => {
   const { changeDoc, addTask } = props;
   const [visible, setVisible] = useState(false);
   const [inputValue, setInputValue] = useState("");

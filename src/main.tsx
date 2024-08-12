@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import { isValidAutomergeUrl, Repo } from "@automerge/automerge-repo";
 import { BroadcastChannelNetworkAdapter } from "@automerge/automerge-repo-network-broadcastchannel";
 import { IndexedDBStorageAdapter } from "@automerge/automerge-repo-storage-indexeddb";
 import { RepoContext } from "@automerge/automerge-repo-react-hooks";
@@ -14,6 +12,11 @@ import { Debug } from "./components/debug/debug.tsx";
 import { NextActions } from "./components/next-actions/next-actions.tsx";
 import { Shell } from "./components/shell/shell.tsx";
 import { Settings } from "./components/settings/settings.tsx";
+import { Provider } from "react-redux";
+import { store } from "./store.ts";
+import { configurationSlice } from "./features/configuration.ts";
+import { Home } from "./components/home/home.tsx";
+import { Repo } from "@automerge/automerge-repo";
 
 const repo = new Repo({
   network: [
@@ -23,37 +26,45 @@ const repo = new Repo({
   storage: new IndexedDBStorageAdapter(),
 });
 
-const rootDocUrl = `${document.location.hash.substring(1)}`;
-let handle;
-if (isValidAutomergeUrl(rootDocUrl)) {
-  handle = repo.find(rootDocUrl);
-} else {
-  handle = repo.create<TaskSet>();
+const buildInitialDoc = () => {
+  const handle = repo.create<TaskSet>();
   handle.change((d) => {
     d.tasks = {
       [universalRootTask.id]: universalRootTask.serialize(),
     };
   });
-}
-const docUrl = (document.location.hash = handle.url);
+  return handle;
+};
+
+const persistInitialDocument = () => {
+  const state = store.getState();
+  if (!state.configuration.documentId) {
+    const newDoc = buildInitialDoc();
+    store.dispatch(configurationSlice.actions.setDocId(newDoc.url));
+  }
+};
+store.subscribe(persistInitialDocument);
+persistInitialDocument();
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Shell />,
     children: [
-      { path: "/", element: <App docUrl={docUrl} /> },
-      { path: "/wn", element: <NextActions docUrl={docUrl} /> },
+      { path: "/", element: <Home /> },
+      { path: "/wn", element: <NextActions /> },
       { path: "/debug", element: <Debug /> },
-      { path: "/settings", element: <Settings docUrl={docUrl} /> },
+      { path: "/settings", element: <Settings /> },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RepoContext.Provider value={repo}>
-      <RouterProvider router={router} />
-    </RepoContext.Provider>
+    <Provider store={store}>
+      <RepoContext.Provider value={repo}>
+        <RouterProvider router={router} />
+      </RepoContext.Provider>
+    </Provider>
   </React.StrictMode>
 );

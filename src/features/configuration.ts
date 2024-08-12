@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { AutomergeDocId } from "../types";
+import { AutomergeUrl } from "@automerge/automerge-repo";
 
 interface ConfigurationState {
-  documentId: AutomergeDocId | null;
+  documentId: AutomergeUrl | null;
 }
 
 const initialState: ConfigurationState = {
@@ -14,7 +14,7 @@ export const configurationSlice = createSlice({
   name: "configuration",
   initialState,
   reducers: {
-    setDocId: (state, action: PayloadAction<AutomergeDocId>) => {
+    setDocId: (state, action: PayloadAction<AutomergeUrl>) => {
       state.documentId = action.payload;
     },
   },
