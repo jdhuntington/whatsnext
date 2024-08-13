@@ -14,6 +14,8 @@ import {
   StageHeader,
 } from "./../../components/shell/stage";
 import { useAppSelector } from "../../hooks";
+import { ClearCompleted } from "../clear/clear";
+import dayjs from "dayjs";
 
 export const Home: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -94,6 +96,14 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     [changeDoc]
   );
 
+  const cutoffTimeIsoDate = useAppSelector(
+    (s) => s.nextActions.completedItemsCutoffTime
+  );
+  const cutoffTime = useMemo(
+    () => dayjs(cutoffTimeIsoDate),
+    [cutoffTimeIsoDate]
+  );
+
   return (
     <Stage>
       <StageHeader>
@@ -101,6 +111,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
           <Button primary onClick={addNewTask}>
             Add Task
           </Button>
+          <ClearCompleted />
           <h1>
             Doc changed count: <code>{docChangedCount}</code>
           </h1>
@@ -109,9 +120,8 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
       <StageContent>
         <DndProvider backend={HTML5Backend}>
           <div className="space-y-1 p-2">
-            <div></div>
-            <div className="space-x-2"></div>
             <TaskList
+              hideBefore={cutoffTime}
               onChange={onChange}
               task={rootTask}
               reparent={reparent}

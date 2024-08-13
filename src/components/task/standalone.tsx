@@ -2,15 +2,17 @@ import { Task } from "../../lib/models/task";
 import { Tag, UUID } from "../../types";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
+import { TaskFullPath } from "./task-full-path";
 
 interface Props {
   task: Task;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   tags: Tag[];
+  fullPath?: boolean;
 }
 
 export const StandaloneTask: React.FC<Props> = (props) => {
-  const { task, onChange, tags } = props;
+  const { task, onChange, tags, fullPath } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +55,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
   return (
     <>
       <div
-        className={`border-2 border-white hover:border-dotted hover:border-emerald-800 bg-gray-100`}
+        className={`border-2 border-white hover:border-dotted hover:border-emerald-800 bg-white rounded`}
       >
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">
@@ -79,7 +81,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                 onDoubleClick={enableEdit}
                 className={`text-md ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
               >
-                {task.name}
+                {fullPath ? <TaskFullPath task={task} /> : task.name}
               </h1>
               <h2 className="flex items-center space-x-1">
                 {task.tags.map((tag) => (

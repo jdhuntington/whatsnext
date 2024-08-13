@@ -3,6 +3,7 @@ import { Task, universalRootTaskId } from "../../lib/models/task";
 import { DraggableItemTypes, Tag, UUID } from "../../types";
 import { RenderIndividualTask } from "./individual";
 import { useCallback, useState } from "react";
+import { Dayjs } from "dayjs";
 
 type DropResult = { id: UUID; action: "reorder" | "reparent" };
 
@@ -14,11 +15,20 @@ interface Props {
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   tags: Tag[];
   addChild: (parentId: UUID) => void;
+  hideBefore: Dayjs;
 }
 
 export const TaskShow: React.FC<Props> = (props) => {
-  const { task, reparent, indentLevel, onChange, reorder, tags, addChild } =
-    props;
+  const {
+    hideBefore,
+    task,
+    reparent,
+    indentLevel,
+    onChange,
+    reorder,
+    tags,
+    addChild,
+  } = props;
   const [isExpanded, setIsExpanded] = useState(task.id === universalRootTaskId);
   const toggleExpanded = useCallback(() => setIsExpanded((v) => !v), []);
   const [{ isDragging }, refDrag, refPreview] = useDrag(() => ({
@@ -43,6 +53,13 @@ export const TaskShow: React.FC<Props> = (props) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
+  const addChildCallback = useCallback(() => {
+    addChild(task.id);
+    setIsExpanded(true);
+  }, [addChild, task.id]);
+  if (task.completedAt && hideBefore.isAfter(task.completedAt)) {
+    return null;
+  }
   return (
     <div ref={refPreview} className={isDragging ? "bg-red-300 opacity-35" : ""}>
       <div>
@@ -61,7 +78,7 @@ export const TaskShow: React.FC<Props> = (props) => {
               indentLevel={indentLevel}
               isSelected={false}
               tags={tags}
-              addChild={addChild}
+              addChild={addChildCallback}
             />
           </div>
         </div>
@@ -77,6 +94,7 @@ export const TaskShow: React.FC<Props> = (props) => {
                   indentLevel={indentLevel + 1}
                   tags={tags}
                   addChild={addChild}
+                  hideBefore={hideBefore}
                 />
               </li>
             ))}

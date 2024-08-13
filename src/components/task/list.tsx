@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { Task } from "../../lib/models/task";
 import { UUID } from "../../types";
 import { TaskShow } from "./show";
@@ -8,9 +9,10 @@ interface Props {
   reorder: (taskId: UUID, afterId: UUID) => void;
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   addChild: (parentId: UUID) => void;
+  hideBefore: Dayjs;
 }
 export const TaskList: React.FC<Props> = (props) => {
-  const { task, reparent, reorder, onChange, addChild } = props;
+  const { task, reparent, reorder, onChange, addChild, hideBefore } = props;
   // const onKeyDown = useCallback(
   //   (e: KeyboardEvent) => {
   //     const target = e.target as HTMLElement;
@@ -56,6 +58,7 @@ export const TaskList: React.FC<Props> = (props) => {
         onChange={onChange}
         tags={task.allTags}
         addChild={addChild}
+        hideBefore={hideBefore}
       />
     </div>
   );

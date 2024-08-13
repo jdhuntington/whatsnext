@@ -15,6 +15,7 @@ export class Task {
   public children: Task[] = [];
   public order: number = 0;
   public mode: TaskMode = "serial";
+  parent?: Task;
 
   public serialize(): SerializedTask {
     return {
@@ -68,6 +69,10 @@ export class Task {
     return task;
   }
 
+  get isRoot(): boolean {
+    return this.id === universalRootTaskId;
+  }
+
   get allTags(): Tag[] {
     const tags = new Set<Tag>();
     for (const child of this.children) {
@@ -79,6 +84,13 @@ export class Task {
       tags.add(tag);
     }
     return Array.from(tags);
+  }
+
+  get ancestors(): Task[] {
+    if (this.parent) {
+      return [...this.parent.ancestors, this];
+    }
+    return [this];
   }
 
   get isAvailable(): boolean {
@@ -172,6 +184,7 @@ export class Task {
       }
       const parent = taskMap.get(task.parentId);
       if (parent) {
+        task.parent = parent;
         parent.children.push(task);
       } else {
         throw new Error(`Parent task not found for task ${task.id}`);
