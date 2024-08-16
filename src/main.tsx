@@ -13,10 +13,11 @@ import { NextActions } from "./components/next-actions/next-actions.tsx";
 import { Shell } from "./components/shell/shell.tsx";
 import { Settings } from "./components/settings/settings.tsx";
 import { Provider } from "react-redux";
-import { store } from "./store.ts";
+import { persistedStore, store } from "./store.ts";
 import { configurationSlice } from "./features/configuration.ts";
 import { Home } from "./components/home/home.tsx";
 import { Repo } from "@automerge/automerge-repo";
+import { PersistGate } from "redux-persist/integration/react";
 
 const repo = new Repo({
   network: [
@@ -62,9 +63,11 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RepoContext.Provider value={repo}>
-        <RouterProvider router={router} />
-      </RepoContext.Provider>
+      <PersistGate loading={null} persistor={persistedStore}>
+        <RepoContext.Provider value={repo}>
+          <RouterProvider router={router} />
+        </RepoContext.Provider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
