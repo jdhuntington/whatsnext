@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { genId, Tag } from "../../types";
+import { Input } from "../ui/input";
 
 interface Props {
   allTags: Tag[];
@@ -39,8 +40,7 @@ export const Tags = ({
       </div>
       <div>
         <form onSubmit={addTagCallback}>
-          <input
-            type="text"
+          <Input
             placeholder="add tag"
             list={myListId}
             value={inputValue}

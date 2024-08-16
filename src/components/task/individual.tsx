@@ -7,6 +7,8 @@ import { Tags } from "../tags/tags";
 import { TaskModeIndicator } from "./indicators";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { IconButton } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 
 interface Props {
   indentLevel: number;
@@ -122,8 +124,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
             <div className="flex space-x-1 items-center">
               <div className="w-6">
                 {task.completionAvailable ? (
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     checked={task.isComplete}
                     onChange={(e) => {
                       if (e.target.checked) {
@@ -169,24 +170,18 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                     <label>
                       Description
                       <br />
-                      <input
-                        type="text"
-                        value={task.name}
-                        onChange={handleNameChange}
-                      />
+                      <Input value={task.name} onChange={handleNameChange} />
                     </label>
                     <label>
                       Order
                       <br />
-                      <input
-                        type="text"
+                      <Input
                         value={`${task.order}`}
                         onChange={handleOrderChange}
                       />
                     </label>
                     <label className="flex space-x-1">
-                      <input
-                        type="checkbox"
+                      <Checkbox
                         checked={task.mode === "parallel"}
                         onChange={handleModeChange}
                       />

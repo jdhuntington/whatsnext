@@ -3,6 +3,8 @@ import { Tag, UUID } from "../../types";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 import { TaskFullPath } from "./task-full-path";
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 
 interface Props {
   task: Task;
@@ -62,8 +64,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
             <div className="flex space-x-1 items-center">
               <div className="w-6">
                 {task.children.length === 0 ? (
-                  <input
-                    type="checkbox"
+                  <Checkbox
                     checked={task.isComplete}
                     onChange={(e) => {
                       if (e.target.checked) {
@@ -102,11 +103,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                     <label>
                       Description
                       <br />
-                      <input
-                        type="text"
-                        value={task.name}
-                        onChange={handleNameChange}
-                      />
+                      <Input value={task.name} onChange={handleNameChange} />
                     </label>
                   </form>
                 </div>

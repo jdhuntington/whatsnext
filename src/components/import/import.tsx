@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Task } from "../../lib/models/task";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { AutomergeUrl } from "@automerge/automerge-repo";
+import { Checkbox } from "../ui/checkbox";
 
 interface Props {
   docUrl: AutomergeUrl;
@@ -12,7 +13,8 @@ interface Props {
 export const Import: React.FC<Props> = (props) => {
   const { docUrl } = props;
 
-  const [_doc, changeDoc] = useDocument<TaskSet>(docUrl);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
   const addTask = useCallback(
     (task: Task) => {
       changeDoc((d) => {
@@ -84,8 +86,7 @@ const ImportInner: React.FC<InnerProps> = (props) => {
       </div>
       <div>
         <label>
-          <input
-            type="checkbox"
+          <Checkbox
             checked={lineByLine}
             onChange={(e) => setLineByLine(e.target.checked)}
           />

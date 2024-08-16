@@ -43,11 +43,24 @@ const NextActionsInner: React.FC<Props> = (props) => {
     [cutoffTimeIsoDate]
   );
 
-  const tags = rootTask.allTags;
+  const tags = useMemo(
+    () =>
+      rootTask.allTags
+        .slice()
+        .sort((a, b) =>
+          a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase())
+        ),
+    [rootTask.allTags]
+  );
   const [visibleTags, setVisibleTags] = useState<Tag[]>(tags);
+  const [showUntagged, setShowUntagged] = useState(true);
   const tasks = rootTask
     .availableActionsSince(cutoffTime)
-    .filter((t) => t.tags.some((tag) => visibleTags.includes(tag)));
+    .filter(
+      (t) =>
+        (showUntagged && t.tags.length === 0) ||
+        t.tags.some((tag) => visibleTags.includes(tag))
+    );
   return (
     <Stage>
       <StageHeader>
@@ -67,6 +80,14 @@ const NextActionsInner: React.FC<Props> = (props) => {
                 <li>
                   <Button primary onClick={() => setVisibleTags([])}>
                     None
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    primary
+                    onClick={() => setShowUntagged((prev) => !prev)}
+                  >
+                    {showUntagged ? "Hide" : "Show"} untagged
                   </Button>
                 </li>
                 {tags.map((tag) => (

@@ -4,6 +4,7 @@ import { Section } from "../shell/section";
 import { Button } from "../ui/button";
 import { configurationSlice } from "../../features/configuration";
 import { AutomergeUrl } from "@automerge/automerge-repo";
+import { Input } from "../ui/input";
 
 export const UpdateDocument: React.FC = () => {
   const upstreamDocUrl = useAppSelector(
@@ -25,11 +26,7 @@ export const UpdateDocument: React.FC = () => {
           <label>
             Document URL
             <br />
-            <input
-              type="text"
-              value={docUrl}
-              onChange={(e) => setDocUrl(e.target.value)}
-            />
+            <Input value={docUrl} onChange={(e) => setDocUrl(e.target.value)} />
           </label>
         </div>
         <div>
