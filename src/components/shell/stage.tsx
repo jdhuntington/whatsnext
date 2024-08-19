@@ -1,5 +1,5 @@
 interface ChildrenProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Stage: React.FC<ChildrenProps> = ({ children }) => {

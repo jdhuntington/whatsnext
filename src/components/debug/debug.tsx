@@ -1,34 +1,42 @@
-import { useState } from "react";
-import { Tags } from "../tags/tags";
-import { Tag } from "../../types";
+import { useCallback, useState } from "react";
+import { Stage, StageContent, StageHeader } from "../shell/stage";
+import { RelativeDateInput } from "../ui/relative-date-input";
+import dayjs, { Dayjs } from "dayjs";
 
 export const Debug: React.FC = () => {
+  const [upstreamValue, setUpstreamValue] = useState<Dayjs | null>(dayjs());
   const [messages, setMessages] = useState<string[]>([]);
-  const [tags, setTags] = useState<Tag[]>(["foo" as Tag, "bar" as Tag]);
-  const addMessage = (message: string) => {
-    setMessages([...messages, message]);
-  };
+  const addMessage = useCallback((message: string) => {
+    setMessages((m) => [...m, message]);
+  }, []);
+  const onChangeComplete = useCallback(
+    (d: Dayjs | null) => {
+      addMessage(`OnComplete: ${d ? d.toISOString() : "null"}`);
+      setUpstreamValue(d);
+    },
+    [addMessage, setUpstreamValue]
+  );
   return (
-    <div>
-      <h1 className="text-xl">Debug</h1>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          addMessage("Submitted form");
-        }}
-      >
-        <Tags
-          onAddTag={(t) => addMessage(`Added tag ${t}`)}
-          onRemoveTag={(t) => addMessage(`Removed tag ${t}`)}
-          selectedTags={tags}
-          allTags={["foo" as Tag, "bar" as Tag, "baz" as Tag]}
-        />
+    <Stage>
+      <StageHeader />
+      <StageContent>
+        <label>
+          RelativeDateInput
+          <br />
+          <RelativeDateInput
+            onChangeComplete={onChangeComplete}
+            initial={upstreamValue}
+          />
+        </label>
         <ul>
+          <li>
+            <pre>{JSON.stringify({ upstreamValue }, null, 2)}</pre>
+          </li>
           {messages.map((m, i) => (
             <li key={i}>{m}</li>
           ))}
         </ul>
-      </form>
-    </div>
+      </StageContent>
+    </Stage>
   );
 };

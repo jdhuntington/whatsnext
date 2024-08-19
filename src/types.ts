@@ -27,4 +27,4 @@ export const DraggableItemTypes = {
 
 export type Tag = string & { __typename: "Tag" };
 export type IsoDate = string & { __typename: "IsoDate" };
-export type TaskId = UUID & { __typename: "TaskId" };
+export type TaskId = string & { __typename: "TaskId" };
