@@ -1,0 +1,17 @@
+{
+  "language": "TypeScript",
+  "installCommand": "npm install",
+  "formatCommand": "npx prettier . --write",
+  "buildCommand": "npm run build",
+  "style": "Tailwind",
+  "iconSet": "Heroicons",
+  "directories": {
+    "components": "/src/components",
+    "pages": "/src/pages",
+    "types": "/src/types",
+    "styles": "/src/styles",
+    "tailwindConfig": "/tailwind.config.js",
+    "staticAssets": "/public/assets"
+  },
+  "env": ""
+}
