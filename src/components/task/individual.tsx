@@ -9,6 +9,7 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 import { IconButton } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
+import { now } from "../../lib/date-parser";
 
 interface Props {
   indentLevel: number;
@@ -129,7 +130,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                     onChange={(e) => {
                       if (e.target.checked) {
                         onChange(task.id, {
-                          completedAt: new Date().toISOString(),
+                          completedAt: now(),
                         });
                       } else {
                         onChange(task.id, { completedAt: null });

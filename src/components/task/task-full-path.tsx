@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { Task } from "../../lib/models/task";
 
 interface Props {
@@ -14,7 +14,7 @@ export const TaskFullPath: React.FC<Props> = (props) => {
   return (
     <div className="space-x-1 flex items-center">
       {filteredAncestors.map((ancestor, index) => (
-        <>
+        <Fragment key={ancestor.id}>
           <div key={ancestor.id}>{ancestor.name}</div>
           {index < filteredAncestors.length - 1 && (
             <div
@@ -24,7 +24,7 @@ export const TaskFullPath: React.FC<Props> = (props) => {
               /
             </div>
           )}
-        </>
+        </Fragment>
       ))}
     </div>
   );

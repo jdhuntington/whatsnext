@@ -1,5 +1,20 @@
 import dayjs, { Dayjs } from "dayjs";
-import { SerializedTask, Tag, TaskMode, UUID, genId } from "../../types";
+import {
+  LocalDate,
+  OptionalLocalDate,
+  SerializedTask,
+  Tag,
+  TaskMode,
+  UUID,
+  genId,
+} from "../../types";
+import {
+  now,
+  parseIsoDate,
+  parseOptionalIsoDate,
+  toIsoDate,
+  toOptionalIsoDate,
+} from "../date-parser";
 
 export const universalRootTaskId =
   "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as UUID;
@@ -9,9 +24,9 @@ export class Task {
   public id: UUID = genId();
   public name: string = "";
   public tags: Tag[] = [];
-  public createdAt: string = new Date().toISOString();
-  public completedAt: string | null = null;
-  public deferUntil: string | null = null;
+  public createdAt: LocalDate = now();
+  public completedAt: OptionalLocalDate = null;
+  public deferUntil: OptionalLocalDate = null;
   public children: Task[] = [];
   public order: number = 0;
   public mode: TaskMode = "serial";
@@ -23,10 +38,10 @@ export class Task {
       name: this.name,
       tags: this.tags,
       parentId: this.parentId,
-      createdAt: this.createdAt,
+      createdAt: toIsoDate(this.createdAt),
       order: this.order,
-      completedAt: this.completedAt,
-      deferUntil: this.deferUntil,
+      completedAt: toOptionalIsoDate(this.completedAt),
+      deferUntil: toOptionalIsoDate(this.deferUntil),
       mode: this.mode,
     };
   }
@@ -157,8 +172,19 @@ export class Task {
     return this.children.length > 0;
   }
 
+  isAvailableBefore(availableBefore: OptionalLocalDate): boolean {
+    if (availableBefore === null) {
+      return true;
+    }
+    if (this.deferUntil === null) {
+      return true;
+    }
+    return this.deferUntil.isBefore(availableBefore);
+  }
+
   static deserializeTasks(
-    doc: { [id: string]: SerializedTask } | undefined
+    doc: { [id: string]: SerializedTask } | undefined,
+    desiredTaskId: UUID = universalRootTaskId
   ): Task {
     if (!doc) {
       return universalRootTask;
@@ -171,10 +197,10 @@ export class Task {
       task.name = serialized.name;
       task.tags = serialized.tags as Tag[];
       task.parentId = serialized.parentId as UUID;
-      task.createdAt = serialized.createdAt;
+      task.createdAt = parseIsoDate(serialized.createdAt);
       task.order = serialized.order;
-      task.completedAt = serialized.completedAt;
-      task.deferUntil = serialized.deferUntil;
+      task.completedAt = parseOptionalIsoDate(serialized.completedAt);
+      task.deferUntil = parseOptionalIsoDate(serialized.deferUntil);
       task.mode = serialized.mode as TaskMode;
       taskMap.set(task.id, task);
     }
@@ -190,7 +216,7 @@ export class Task {
         throw new Error(`Parent task not found for task ${task.id}`);
       }
     }
-    return taskMap.get(universalRootTaskId) as Task;
+    return taskMap.get(desiredTaskId) as Task;
   }
 }
 

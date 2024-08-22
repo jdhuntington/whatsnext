@@ -1,6 +1,6 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { Task } from "../../lib/models/task";
-import { Tag, TaskSet, UUID } from "../../types";
+import { OptionalLocalDate, Tag, TaskSet, UUID } from "../../types";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback, useMemo, useState } from "react";
 import { StandaloneTask } from "../task/standalone";
@@ -10,6 +10,8 @@ import { Stage, StageContent, StageHeader } from "../shell/stage";
 import { ClearCompleted } from "../clear/clear";
 import { Section } from "../shell/section";
 import { Button } from "../ui/button";
+import { now } from "../../lib/date-parser";
+import { Checkbox } from "../ui/checkbox";
 
 export const NextActions: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -29,8 +31,16 @@ const NextActionsInner: React.FC<Props> = (props) => {
   const onChange = useCallback(
     (taskId: UUID, values: Partial<Task>) => {
       changeDoc((d) => {
-        const task = d.tasks[taskId];
-        Object.assign(task, values);
+        const task = Task.deserializeTasks(d.tasks, taskId);
+        Object.keys(values).forEach((key) => {
+          const typedKey = key as keyof Task;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          task[typedKey as any] = values[typedKey]!;
+        });
+        const serialized = task.serialize();
+        Object.keys(values).forEach((key) => {
+          d.tasks[taskId][key] = serialized[key];
+        });
       });
     },
     [changeDoc]
@@ -54,12 +64,20 @@ const NextActionsInner: React.FC<Props> = (props) => {
   );
   const [visibleTags, setVisibleTags] = useState<Tag[]>(tags);
   const [showUntagged, setShowUntagged] = useState(true);
+  const [availableBefore, setAvailableBefore] =
+    useState<OptionalLocalDate>(null);
+  const toggleAvailableBefore = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) =>
+      setAvailableBefore(e.target.checked ? now() : null),
+    []
+  );
   const tasks = rootTask
     .availableActionsSince(cutoffTime)
     .filter(
       (t) =>
-        (showUntagged && t.tags.length === 0) ||
-        t.tags.some((tag) => visibleTags.includes(tag))
+        ((showUntagged && t.tags.length === 0) ||
+          t.tags.some((tag) => visibleTags.includes(tag))) &&
+        (availableBefore === null || t.isAvailableBefore(availableBefore))
     );
   return (
     <Stage>
@@ -112,6 +130,14 @@ const NextActionsInner: React.FC<Props> = (props) => {
                   </li>
                 ))}
               </ul>
+              <h2 className="text-lg font-semibold mt-2 mt-4">Other</h2>
+              <label className="flex space-x-1">
+                <Checkbox
+                  onChange={toggleAvailableBefore}
+                  checked={!!availableBefore}
+                />
+                <div>Hide deferred tasks</div>
+              </label>
             </Section>
           </div>
           <Section className="col-span-3">

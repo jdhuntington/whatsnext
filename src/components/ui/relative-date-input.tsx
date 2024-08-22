@@ -1,21 +1,19 @@
-import { Dayjs } from "dayjs";
 import React, { Reducer, useReducer } from "react";
 import { Spinner } from "./spinner";
 import { Input } from "./input";
-import { parseDate } from "../../lib/date-parser";
-
-type RelativeDateInputValue = Dayjs | null;
+import { formattedDate, parseDate } from "../../lib/date-parser";
+import { OptionalLocalDate } from "../../types";
 
 interface ComponentState {
-  upstreamValue: RelativeDateInputValue;
-  internalPendingValue: RelativeDateInputValue;
+  upstreamValue: OptionalLocalDate;
+  internalPendingValue: OptionalLocalDate;
   mode: "unchanged" | "dirty" | "pending" | "processing";
   currentValue: string;
 }
 
 interface Props {
-  initial: RelativeDateInputValue;
-  onChangeComplete: (value: RelativeDateInputValue) => void;
+  initial: OptionalLocalDate;
+  onChangeComplete: (value: OptionalLocalDate) => void;
   clearable?: boolean;
   /**
    * For use in interactive testing
@@ -26,8 +24,8 @@ interface Props {
 type Action =
   | { type: "change"; value: string }
   | { type: "blur" }
-  | { type: "processingComplete"; value: RelativeDateInputValue }
-  | { type: "updateUpstream"; value: RelativeDateInputValue };
+  | { type: "processingComplete"; value: OptionalLocalDate }
+  | { type: "updateUpstream"; value: OptionalLocalDate };
 
 const invalidAction = (action: Action): never => {
   throw new Error(`unknown action type ${action.type}`);
@@ -36,17 +34,14 @@ const invalidMode = (mode: ComponentState["mode"]): never => {
   throw new Error(`unknown mode ${mode}`);
 };
 
-const upstreamToInput = (upstream: RelativeDateInputValue): string => {
+const upstreamToInput = (upstream: OptionalLocalDate): string => {
   if (upstream === null) {
     return "";
   }
-  return upstream.format("YYYY-MM-DD");
+  return formattedDate(upstream);
 };
 
 const reducer: Reducer<ComponentState, Action> = (p, a): ComponentState => {
-  if (a.type === "updateUpstream") {
-    console.log(p, a);
-  }
   switch (a.type) {
     case "change":
       return { ...p, mode: "dirty", currentValue: a.value };
@@ -133,24 +128,21 @@ export const RelativeDateInput: React.FC<
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, state.mode, state.internalPendingValue]); // onChangeComplete in this array would have unintended consequences for poorly behaved upstreams
   return (
-    <div>
-      <div className="relative">
-        <span className="box flex-1">
-          <Input
-            value={state.currentValue}
-            onChange={onChange}
-            autoComplete="off"
-            onBlur={onBlur}
-            {...rest}
-          />
-        </span>
-        {mode === "pending" ? (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-            <Spinner />
-          </div>
-        ) : null}
-      </div>
-      <pre>{JSON.stringify(state, null, 2)}</pre>
+    <div className="relative">
+      <span className="box flex-1">
+        <Input
+          value={state.currentValue}
+          onChange={onChange}
+          autoComplete="off"
+          onBlur={onBlur}
+          {...rest}
+        />
+      </span>
+      {mode === "pending" ? (
+        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+          <Spinner />
+        </div>
+      ) : null}
     </div>
   );
 };

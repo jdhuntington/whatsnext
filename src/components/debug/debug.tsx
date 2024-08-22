@@ -1,21 +1,23 @@
 import { useCallback, useState } from "react";
 import { Stage, StageContent, StageHeader } from "../shell/stage";
 import { RelativeDateInput } from "../ui/relative-date-input";
-import dayjs, { Dayjs } from "dayjs";
+import { OptionalLocalDate } from "../../types";
+import { now } from "../../lib/date-parser";
 
 export const Debug: React.FC = () => {
-  const [upstreamValue, setUpstreamValue] = useState<Dayjs | null>(dayjs());
+  const [upstreamValue, setUpstreamValue] = useState<OptionalLocalDate>(now());
   const [messages, setMessages] = useState<string[]>([]);
   const addMessage = useCallback((message: string) => {
     setMessages((m) => [...m, message]);
   }, []);
   const onChangeComplete = useCallback(
-    (d: Dayjs | null) => {
+    (d: OptionalLocalDate) => {
       addMessage(`OnComplete: ${d ? d.toISOString() : "null"}`);
       setUpstreamValue(d);
     },
     [addMessage, setUpstreamValue]
   );
+
   return (
     <Stage>
       <StageHeader />
@@ -29,9 +31,6 @@ export const Debug: React.FC = () => {
           />
         </label>
         <ul>
-          <li>
-            <pre>{JSON.stringify({ upstreamValue }, null, 2)}</pre>
-          </li>
           {messages.map((m, i) => (
             <li key={i}>{m}</li>
           ))}

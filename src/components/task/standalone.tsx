@@ -1,10 +1,12 @@
 import { Task } from "../../lib/models/task";
-import { Tag, UUID } from "../../types";
+import { OptionalLocalDate, Tag, UUID } from "../../types";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 import { TaskFullPath } from "./task-full-path";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
+import { RelativeDateInput } from "../ui/relative-date-input";
+import { now } from "../../lib/date-parser";
 
 interface Props {
   task: Task;
@@ -54,6 +56,13 @@ export const StandaloneTask: React.FC<Props> = (props) => {
     [task, onChange]
   );
 
+  const handleDeferChange = useCallback(
+    (deferUntil: OptionalLocalDate) => {
+      onChange(task.id, { deferUntil });
+    },
+    [task, onChange]
+  );
+
   return (
     <>
       <div
@@ -69,7 +78,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                     onChange={(e) => {
                       if (e.target.checked) {
                         onChange(task.id, {
-                          completedAt: new Date().toISOString(),
+                          completedAt: now(),
                         });
                       } else {
                         onChange(task.id, { completedAt: null });
@@ -114,6 +123,16 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                     onAddTag={handleAddTag}
                     onRemoveTag={handleRemoveTag}
                   />
+                </div>
+                <div>
+                  <label>
+                    Defer until
+                    <br />
+                    <RelativeDateInput
+                      initial={task.deferUntil}
+                      onChangeComplete={handleDeferChange}
+                    />
+                  </label>
                 </div>
               </div>
             ) : null}
