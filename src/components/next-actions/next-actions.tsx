@@ -131,13 +131,12 @@ const NextActionsInner: React.FC<Props> = (props) => {
                 ))}
               </ul>
               <h2 className="text-lg font-semibold mt-2 mt-4">Other</h2>
-              <label className="flex space-x-1">
-                <Checkbox
-                  onChange={toggleAvailableBefore}
-                  checked={!!availableBefore}
-                />
-                <div>Hide deferred tasks</div>
-              </label>
+              <Checkbox
+                onChange={toggleAvailableBefore}
+                checked={!!availableBefore}
+              >
+                Hide deferred tasks
+              </Checkbox>
             </Section>
           </div>
           <Section className="col-span-3">
