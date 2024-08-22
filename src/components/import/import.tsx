@@ -21,7 +21,7 @@ export const Import: React.FC<Props> = (props) => {
         d.tasks[task.id] = task.serialize();
       });
     },
-    [changeDoc]
+    [changeDoc],
   );
   return <ImportInner changeDoc={changeDoc} addTask={addTask} />;
 };

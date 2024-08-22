@@ -39,7 +39,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         d.tasks[task.id] = task.serialize();
       });
     },
-    [changeDoc]
+    [changeDoc],
   );
   const addNewTask = useCallback(() => {
     const task = new Task();
@@ -54,7 +54,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
       task.parentId = parentId;
       addTask(task);
     },
-    [addTask]
+    [addTask],
   );
 
   const reparent = useCallback(
@@ -63,7 +63,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         d.tasks[sourceId].parentId = newParent;
       });
     },
-    [changeDoc]
+    [changeDoc],
   );
   const reorder = useCallback(
     (sourceId: UUID, afterId: UUID) => {
@@ -74,7 +74,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         Object.values(d.tasks)
           .filter(
             (t) =>
-              t.parentId === targetTask.parentId && t.order >= newOrderValue
+              t.parentId === targetTask.parentId && t.order >= newOrderValue,
           )
           .forEach((t) => {
             console.log("incrementing order for", t.name);
@@ -83,7 +83,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         targetTask.order = newOrderValue;
       });
     },
-    [changeDoc]
+    [changeDoc],
   );
 
   const onChange = useCallback(
@@ -93,15 +93,15 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         Object.assign(task, values);
       });
     },
-    [changeDoc]
+    [changeDoc],
   );
 
   const cutoffTimeIsoDate = useAppSelector(
-    (s) => s.nextActions.completedItemsCutoffTime
+    (s) => s.nextActions.completedItemsCutoffTime,
   );
   const cutoffTime = useMemo(
     () => dayjs(cutoffTimeIsoDate),
-    [cutoffTimeIsoDate]
+    [cutoffTimeIsoDate],
   );
 
   return (

@@ -69,5 +69,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </RepoContext.Provider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

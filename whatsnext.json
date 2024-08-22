@@ -47,9 +47,7 @@
     "name": "INBOX",
     "order": 0,
     "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
-    "tags": [
-      "INBOX"
-    ]
+    "tags": ["INBOX"]
   },
   "11c98459-290c-4d11-aeda-b8b75ccfe53d": {
     "createdAt": "2024-08-03T14:51:13.247Z",
@@ -58,9 +56,7 @@
     "name": "Implement first pass of competitor filter",
     "order": 0,
     "parentId": "4fbc9ba7-24d1-4ce0-b7a0-d23f731d449e",
-    "tags": [
-      "STOA"
-    ]
+    "tags": ["STOA"]
   },
   "1a1af771-3c64-4da1-86ba-1b8a1435b7ab": {
     "completedAt": "2024-08-06T15:41:12.411Z",
@@ -118,11 +114,7 @@
     "name": "Schedule a time for Jason and Thiago to chat https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxtrHLFbBSlKWNHxLRzwpPCpn",
     "order": 0,
     "parentId": "ee471195-95cc-4f09-aedb-d33891ba6e7c",
-    "tags": [
-      "Jason",
-      "Senior Place",
-      "Waiting"
-    ]
+    "tags": ["Jason", "Senior Place", "Waiting"]
   },
   "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f": {
     "completedAt": null,
@@ -132,9 +124,7 @@
     "name": "Do laundry",
     "order": 98,
     "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
-    "tags": [
-      "Home"
-    ]
+    "tags": ["Home"]
   },
   "3e4c199f-33be-4164-8883-3e8e40938332": {
     "createdAt": "2024-08-03T15:10:59.096Z",
@@ -220,10 +210,7 @@
     "name": "Fill out customer council survey https://mail.google.com/mail/u/0/#inbox/FMfcgzQVxtrHThcvZlLdSFHtXJdHVNWW",
     "order": 0,
     "parentId": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
-    "tags": [
-      "Senior Place",
-      "Low Energy"
-    ]
+    "tags": ["Senior Place", "Low Energy"]
   },
   "6aff1b28-9d04-42c2-8b3b-4106e08b0178": {
     "completedAt": "2024-08-06T15:20:26.723Z",
@@ -233,9 +220,7 @@
     "name": "Box up keyboard",
     "order": 0,
     "parentId": "fdb43446-6023-4d7c-ab3f-17c5d49ba03c",
-    "tags": [
-      "Home"
-    ]
+    "tags": ["Home"]
   },
   "6b5b0d3a-3440-4457-ab81-234024f860ca": {
     "completedAt": null,
@@ -245,9 +230,7 @@
     "name": "Start last load",
     "order": 2,
     "parentId": "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f",
-    "tags": [
-      "Home"
-    ]
+    "tags": ["Home"]
   },
   "7600e98d-bac4-4dc7-a52f-4f082cb0f70a": {
     "completedAt": "2024-08-06T15:20:22.769Z",
@@ -257,9 +240,7 @@
     "name": "Respond to Job on Turo.com",
     "order": 0,
     "parentId": "f25f3451-83c6-486a-8654-5f692b0c76a2",
-    "tags": [
-      "Personal Online"
-    ]
+    "tags": ["Personal Online"]
   },
   "7607e774-1e01-400d-bf9e-c3e945101a02": {
     "createdAt": "2024-08-03T15:28:24.780Z",
@@ -298,9 +279,7 @@
     "name": "Schedule time with Logan to talk on Thursday",
     "order": 0,
     "parentId": "ee471195-95cc-4f09-aedb-d33891ba6e7c",
-    "tags": [
-      "Senior Place"
-    ]
+    "tags": ["Senior Place"]
   },
   "86ba7131-61ab-430c-9be7-3d469d6a3c08": {
     "completedAt": "2024-08-06T14:21:33.722Z",
@@ -320,9 +299,7 @@
     "name": "Watch video from San Mateo county",
     "order": 0,
     "parentId": "659d2fb3-d3c1-486a-816d-c862e3a2e47e",
-    "tags": [
-      "Senior Place"
-    ]
+    "tags": ["Senior Place"]
   },
   "94e73450-72c2-452b-938e-e3b7cbdabb0d": {
     "completedAt": null,
@@ -332,9 +309,7 @@
     "name": "Family",
     "order": 20,
     "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
-    "tags": [
-      "Area"
-    ]
+    "tags": ["Area"]
   },
   "94ec407c-9369-4dcd-98e6-d12c014c82fb": {
     "completedAt": "2024-08-07T16:49:07.601Z",
@@ -354,9 +329,7 @@
     "name": "Respond to Lana's text",
     "order": 0,
     "parentId": "f2d13acb-6345-4381-a5d5-e51079cce81b",
-    "tags": [
-      "Anywhere"
-    ]
+    "tags": ["Anywhere"]
   },
   "95ef69ed-db4e-4627-bb41-8f68f1e5e847": {
     "completedAt": "2024-08-08T13:56:55.943Z",
@@ -425,9 +398,7 @@
     "name": "Clean up office",
     "order": 0,
     "parentId": "0427bd4f-e2cb-4ce7-9eef-c540be2b7f7f",
-    "tags": [
-      "Home"
-    ]
+    "tags": ["Home"]
   },
   "bb20c5fd-ce26-4f72-b1be-50d66eb8985e": {
     "completedAt": null,
@@ -446,9 +417,7 @@
     "name": "Figure out how to build report in PostHog",
     "order": 0,
     "parentId": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
-    "tags": [
-      "Senior Place"
-    ]
+    "tags": ["Senior Place"]
   },
   "c5f242af-b9a9-4adb-951f-dc24f736181e": {
     "completedAt": null,
@@ -458,9 +427,7 @@
     "name": "Senior Place",
     "order": 30,
     "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
-    "tags": [
-      "Area"
-    ]
+    "tags": ["Area"]
   },
   "cad00860-b9c2-414e-b94c-79ca4d2ea0a7": {
     "completedAt": null,
@@ -470,10 +437,7 @@
     "name": "Respond to Allisha https://mail.google.com/mail/u/0/#inbox/KtbxLwhCFZxzfzPDPWKKKTPmrvXzfjSgMg",
     "order": 0,
     "parentId": "e27ad0af-c82a-4123-bba3-a766f09e8f58",
-    "tags": [
-      "STOA",
-      "Personal Online"
-    ]
+    "tags": ["STOA", "Personal Online"]
   },
   "cc11a3ae-a09c-45d2-a6e7-80cee1c2ec23": {
     "completedAt": null,
@@ -483,9 +447,7 @@
     "name": "Speech & Debate",
     "order": 40,
     "parentId": "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B",
-    "tags": [
-      "Area"
-    ]
+    "tags": ["Area"]
   },
   "d999a448-4d87-4ba7-a70a-16927aa07109": {
     "createdAt": "2024-08-03T14:51:13.247Z",
@@ -541,9 +503,7 @@
     "name": "Email Alisha Speed and ask about what a tab director needs to do in setting up tab",
     "order": 0,
     "parentId": "e27ad0af-c82a-4123-bba3-a766f09e8f58",
-    "tags": [
-      "STOA"
-    ]
+    "tags": ["STOA"]
   },
   "ea4c690c-d62d-40d3-8b3c-c7af0778aa32": {
     "completedAt": null,
@@ -553,9 +513,7 @@
     "name": "Help Brooke with DKIM",
     "order": 0,
     "parentId": "2146eb8b-489e-44a2-bff9-7ee74f0c8333",
-    "tags": [
-      "Waiting"
-    ]
+    "tags": ["Waiting"]
   },
   "ecffae2f-1b62-42c0-9177-c9aaadf02d31": {
     "createdAt": "2024-08-03T14:51:13.247Z",
@@ -612,9 +570,7 @@
     "name": "Double-check with Erica that she still wants to go to TinyFest",
     "order": 1,
     "parentId": "bb20c5fd-ce26-4f72-b1be-50d66eb8985e",
-    "tags": [
-      "Erica"
-    ]
+    "tags": ["Erica"]
   },
   "fc09eadc-d227-4964-9385-a628f938ab03": {
     "completedAt": null,
@@ -624,9 +580,7 @@
     "name": "Move previous load to dryer & hang",
     "order": 1,
     "parentId": "3dd810dd-8048-4c6a-ad9b-2f8c8f6b953f",
-    "tags": [
-      "Home"
-    ]
+    "tags": ["Home"]
   },
   "fdb43446-6023-4d7c-ab3f-17c5d49ba03c": {
     "completedAt": "2024-08-06T19:07:10.186Z",
@@ -646,8 +600,6 @@
     "name": "Do background check for Ambassador",
     "order": 0,
     "parentId": "f2d13acb-6345-4381-a5d5-e51079cce81b",
-    "tags": [
-      "Personal Online"
-    ]
+    "tags": ["Personal Online"]
   }
 }

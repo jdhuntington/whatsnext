@@ -9,7 +9,7 @@ export const TaskFullPath: React.FC<Props> = (props) => {
   const { task } = props;
   const filteredAncestors = useMemo(
     () => task.ancestors.filter((t) => !t.isRoot),
-    [task]
+    [task],
   );
   return (
     <div className="space-x-1 flex items-center">

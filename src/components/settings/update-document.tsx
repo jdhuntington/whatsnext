@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 
 export const UpdateDocument: React.FC = () => {
   const upstreamDocUrl = useAppSelector(
-    (s) => s.configuration.documentId ?? ""
+    (s) => s.configuration.documentId ?? "",
   );
   const dispatch = useAppDispatch();
   const [docUrl, setDocUrl] = useState<string>(upstreamDocUrl);

@@ -105,7 +105,7 @@ export const RelativeDateInput: React.FC<
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       dispatch({ type: "change", value: e.target.value });
     },
-    [dispatch]
+    [dispatch],
   );
   const onBlur = React.useCallback(() => {
     if (mode === "dirty") {

@@ -43,14 +43,14 @@ const NextActionsInner: React.FC<Props> = (props) => {
         });
       });
     },
-    [changeDoc]
+    [changeDoc],
   );
   const cutoffTimeIsoDate = useAppSelector(
-    (s) => s.nextActions.completedItemsCutoffTime
+    (s) => s.nextActions.completedItemsCutoffTime,
   );
   const cutoffTime = useMemo(
     () => dayjs(cutoffTimeIsoDate),
-    [cutoffTimeIsoDate]
+    [cutoffTimeIsoDate],
   );
 
   const tags = useMemo(
@@ -58,9 +58,9 @@ const NextActionsInner: React.FC<Props> = (props) => {
       rootTask.allTags
         .slice()
         .sort((a, b) =>
-          a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase())
+          a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase()),
         ),
-    [rootTask.allTags]
+    [rootTask.allTags],
   );
   const [visibleTags, setVisibleTags] = useState<Tag[]>(tags);
   const [showUntagged, setShowUntagged] = useState(true);
@@ -69,7 +69,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
   const toggleAvailableBefore = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) =>
       setAvailableBefore(e.target.checked ? now() : null),
-    []
+    [],
   );
   const tasks = rootTask
     .availableActionsSince(cutoffTime)
@@ -77,7 +77,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
       (t) =>
         ((showUntagged && t.tags.length === 0) ||
           t.tags.some((tag) => visibleTags.includes(tag))) &&
-        (availableBefore === null || t.isAvailableBefore(availableBefore))
+        (availableBefore === null || t.isAvailableBefore(availableBefore)),
     );
   return (
     <Stage>

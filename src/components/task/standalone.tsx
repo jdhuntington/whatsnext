@@ -29,7 +29,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { name: e.target.value };
       onChange(task.id, payload);
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   const handleAddTag = useCallback(
@@ -43,7 +43,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
         onChange(task.id, payload);
       }
     },
-    [task, onChange, disableEdit]
+    [task, onChange, disableEdit],
   );
 
   const handleRemoveTag = useCallback(
@@ -53,14 +53,14 @@ export const StandaloneTask: React.FC<Props> = (props) => {
       };
       onChange(task.id, payload);
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   const handleDeferChange = useCallback(
     (deferUntil: OptionalLocalDate) => {
       onChange(task.id, { deferUntil });
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   return (

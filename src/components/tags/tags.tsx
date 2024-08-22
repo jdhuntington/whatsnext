@@ -23,7 +23,7 @@ export const Tags = ({
       onAddTag(inputValue as Tag);
       setInputValue("");
     },
-    [inputValue, onAddTag]
+    [inputValue, onAddTag],
   );
   return (
     <div>
@@ -50,7 +50,7 @@ export const Tags = ({
             {allTags.map((tag) =>
               selectedTags.includes(tag) ? null : (
                 <option key={tag} value={tag} />
-              )
+              ),
             )}
           </datalist>
         </form>

@@ -15,7 +15,7 @@ export const Debug: React.FC = () => {
       addMessage(`OnComplete: ${d ? d.toISOString() : "null"}`);
       setUpstreamValue(d);
     },
-    [addMessage, setUpstreamValue]
+    [addMessage, setUpstreamValue],
   );
 
   return (

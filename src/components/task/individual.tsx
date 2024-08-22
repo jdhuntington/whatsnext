@@ -41,7 +41,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
         canDrop: !!monitor.canDrop(),
       }),
     }),
-    [task]
+    [task],
   );
   const [{ isOver: isOverReparent }, refDropReparent] = useDrop(
     () => ({
@@ -56,7 +56,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
         isDragging: !!monitor.getItem(),
       }),
     }),
-    [task]
+    [task],
   );
 
   const handleNameChange = useCallback(
@@ -64,7 +64,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { name: e.target.value };
       onChange(task.id, payload);
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   const handleOrderChange = useCallback(
@@ -72,7 +72,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { order: parseInt(e.target.value, 10) };
       onChange(task.id, payload);
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   const handleModeChange = useCallback(
@@ -81,7 +81,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { mode };
       onChange(task.id, payload);
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   const handleAddTag = useCallback(
@@ -95,7 +95,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
         onChange(task.id, payload);
       }
     },
-    [task, onChange, disableEdit]
+    [task, onChange, disableEdit],
   );
 
   const handleRemoveTag = useCallback(
@@ -105,7 +105,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       };
       onChange(task.id, payload);
     },
-    [task, onChange]
+    [task, onChange],
   );
 
   const addChildCallback = useCallback(() => {

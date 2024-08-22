@@ -22,7 +22,7 @@ export const parseDate = (input: string, now: Dayjs = dayjs()): LocalDate => {
     }
     const [, amount, unit] = match;
     return utcToLocal(
-      now.add(Number(amount), unit as dayjs.ManipulateType) as UtcDate
+      now.add(Number(amount), unit as dayjs.ManipulateType) as UtcDate,
     );
   }
   throw new Error(`Invalid date string: ${input}`);
@@ -41,14 +41,14 @@ export const formattedDate = (date: LocalDate): string =>
   date.format("YYYY-MM-DD HH:mm");
 
 export const toOptionalIsoDate = (
-  date: OptionalLocalDate | OptionalUtcDate
+  date: OptionalLocalDate | OptionalUtcDate,
 ): OptionalIsoDate => (date ? (date.toISOString() as OptionalIsoDate) : null);
 
 export const toIsoDate = (date: LocalDate | UtcDate): IsoDate =>
   date.toISOString() as IsoDate;
 
 export const parseOptionalIsoDate = (
-  input: OptionalIsoDate
+  input: OptionalIsoDate,
 ): OptionalLocalDate => (input ? utcToLocal(dayjs(input) as UtcDate) : null);
 
 export const parseIsoDate = (input: IsoDate): LocalDate =>

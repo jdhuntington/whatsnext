@@ -136,7 +136,7 @@ export class Task {
     }
     if (this.mode === "serial") {
       const nextAvailableChild = this.sortedChildren.find(
-        (child) => !child.isComplete
+        (child) => !child.isComplete,
       );
       if (!nextAvailableChild) {
         return actions;
@@ -184,7 +184,7 @@ export class Task {
 
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined,
-    desiredTaskId: UUID = universalRootTaskId
+    desiredTaskId: UUID = universalRootTaskId,
   ): Task {
     if (!doc) {
       return universalRootTask;
