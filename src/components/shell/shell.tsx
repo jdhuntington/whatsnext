@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Navigation } from "../navigation/nagivation";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
+import { Capture } from "../capture/capture";
 
 export const Shell: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ export const Shell: React.FC = () => {
         </div>
         <div />
       </div>
+      <Capture />
       <div className="flex-grow flex flex-col">
         <Outlet />
       </div>

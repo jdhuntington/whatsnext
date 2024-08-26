@@ -14,4 +14,8 @@ export const off = (eventName: EventName, callback: () => void) => {
   eventEmitter.off(eventName, callback);
 };
 
-export type EventName = "moveCursorDown" | "moveCursorUp" | "toggleSelection";
+export type EventName =
+  | "moveCursorDown"
+  | "moveCursorUp"
+  | "toggleSelection"
+  | "insertAbove";

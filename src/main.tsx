@@ -18,6 +18,7 @@ import { configurationSlice } from "./features/configuration.ts";
 import { Home } from "./components/home/home.tsx";
 import { Repo } from "@automerge/automerge-repo";
 import { PersistGate } from "redux-persist/integration/react";
+import { EventMediator } from "./components/event-mediator/event-mediator.tsx";
 
 const repo = new Repo({
   network: [
@@ -62,6 +63,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    <EventMediator />
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistedStore}>
         <RepoContext.Provider value={repo}>
@@ -69,5 +71,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </RepoContext.Provider>
       </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
