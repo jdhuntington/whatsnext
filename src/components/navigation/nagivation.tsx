@@ -23,6 +23,7 @@ export const Navigation: React.FC = () => {
     <ul className="flex space-x-2 items-center">
       <InternalNavLink to="/">Home</InternalNavLink>
       <InternalNavLink to="/wn">What&apos;s Next?</InternalNavLink>
+      <InternalNavLink to="/fix">Needs Attention</InternalNavLink>
       <InternalNavLink to="/debug">Debug</InternalNavLink>
       <InternalNavLink to="/settings">Settings</InternalNavLink>
     </ul>

@@ -136,7 +136,7 @@ export class Task {
     }
     if (this.mode === "serial") {
       const nextAvailableChild = this.sortedChildren.find(
-        (child) => !child.isComplete,
+        (child) => !child.isComplete
       );
       if (!nextAvailableChild) {
         return actions;
@@ -148,6 +148,19 @@ export class Task {
       }
     }
     return actions;
+  }
+
+  needsAttention(): Task[] {
+    if (this.isComplete) {
+      return [];
+    }
+    if (this.children.length === 0) {
+      return [];
+    }
+    if (this.children.every((child) => child.isComplete)) {
+      return [this];
+    }
+    return this.children.flatMap((child) => child.needsAttention());
   }
 
   get isComplete(): boolean {
@@ -184,7 +197,7 @@ export class Task {
 
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined,
-    desiredTaskId: UUID = universalRootTaskId,
+    desiredTaskId: UUID = universalRootTaskId
   ): Task {
     if (!doc) {
       return universalRootTask;

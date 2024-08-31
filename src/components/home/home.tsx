@@ -39,7 +39,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         d.tasks[task.id] = task.serialize();
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
   const addNewTask = useCallback(() => {
     const task = new Task();
@@ -54,7 +54,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
       task.parentId = parentId;
       addTask(task);
     },
-    [addTask],
+    [addTask]
   );
 
   const reparent = useCallback(
@@ -63,7 +63,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         d.tasks[sourceId].parentId = newParent;
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
   const reorder = useCallback(
     (sourceId: UUID, afterId: UUID) => {
@@ -74,7 +74,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         Object.values(d.tasks)
           .filter(
             (t) =>
-              t.parentId === targetTask.parentId && t.order >= newOrderValue,
+              t.parentId === targetTask.parentId && t.order >= newOrderValue
           )
           .forEach((t) => {
             console.log("incrementing order for", t.name);
@@ -83,25 +83,33 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         targetTask.order = newOrderValue;
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
 
   const onChange = useCallback(
     (taskId: UUID, values: Partial<Task>) => {
       changeDoc((d) => {
-        const task = d.tasks[taskId];
-        Object.assign(task, values);
+        const task = Task.deserializeTasks(d.tasks, taskId);
+        Object.keys(values).forEach((key) => {
+          const typedKey = key as keyof Task;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          task[typedKey as any] = values[typedKey]!;
+        });
+        const serialized = task.serialize();
+        Object.keys(values).forEach((key) => {
+          d.tasks[taskId][key] = serialized[key];
+        });
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
 
   const cutoffTimeIsoDate = useAppSelector(
-    (s) => s.nextActions.completedItemsCutoffTime,
+    (s) => s.nextActions.completedItemsCutoffTime
   );
   const cutoffTime = useMemo(
     () => dayjs(cutoffTimeIsoDate),
-    [cutoffTimeIsoDate],
+    [cutoffTimeIsoDate]
   );
 
   return (

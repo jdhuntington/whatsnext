@@ -19,6 +19,7 @@ import { Home } from "./components/home/home.tsx";
 import { Repo } from "@automerge/automerge-repo";
 import { PersistGate } from "redux-persist/integration/react";
 import { EventMediator } from "./components/event-mediator/event-mediator.tsx";
+import { NeedsAttention } from "./components/needs-attention/needs-attention.tsx";
 
 const repo = new Repo({
   network: [
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/wn", element: <NextActions /> },
+      { path: "/fix", element: <NeedsAttention /> },
       { path: "/debug", element: <Debug /> },
       { path: "/settings", element: <Settings /> },
     ],
