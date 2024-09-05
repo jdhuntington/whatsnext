@@ -28,10 +28,6 @@ export const Home: React.FC = () => {
 const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
   const { docUrl } = props;
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
-  const [docChangedCount, setDocChangedCount] = useState(0);
-  useEffect(() => {
-    setDocChangedCount((c) => c + 1);
-  }, [doc]);
   const rootTask = useMemo(() => Task.deserializeTasks(doc?.tasks), [doc]);
   const addTask = useCallback(
     (task: Task) => {
@@ -120,9 +116,6 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
             Add Task
           </Button>
           <ClearCompleted />
-          <h1>
-            Doc changed count: <code>{docChangedCount}</code>
-          </h1>
         </div>
       </StageHeader>
       <StageContent>
