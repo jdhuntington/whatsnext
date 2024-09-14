@@ -1,6 +1,6 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { Tag, TaskSet, UUID } from "./../../types";
+import { Tag, TaskId, TaskSet, UUID } from "./../../types";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 import { Task } from "./../../lib/models/task";
@@ -13,9 +13,11 @@ import {
   StageContent,
   StageHeader,
 } from "./../../components/shell/stage";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { ClearCompleted } from "../clear/clear";
 import dayjs from "dayjs";
+import { selectionSlice } from "../../features/selection";
+import { SelectedTasks } from "../selected-tasks/selected-tasks";
 
 export const Home: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -29,6 +31,16 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
   const { docUrl } = props;
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
   const rootTask = useMemo(() => Task.deserializeTasks(doc?.tasks), [doc]);
+
+  const appDispatch = useAppDispatch();
+
+  const selectTask = useCallback(
+    (taskId: TaskId) => {
+      appDispatch(selectionSlice.actions.toggleSelection(taskId));
+    },
+    [appDispatch]
+  );
+
   const addTask = useCallback(
     (task: Task) => {
       changeDoc((d) => {
@@ -119,18 +131,26 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
         </div>
       </StageHeader>
       <StageContent>
-        <DndProvider backend={HTML5Backend}>
-          <div className="space-y-1 p-2">
-            <TaskList
-              hideBefore={cutoffTime}
-              onChange={onChange}
-              task={rootTask}
-              reparent={reparent}
-              reorder={reorder}
-              addChild={addChild}
-            />
+        <div className="grid grid-cols-4 gap-4">
+          <div className="col-span-3">
+            <DndProvider backend={HTML5Backend}>
+              <div className="space-y-1 p-2">
+                <TaskList
+                  selectTask={selectTask}
+                  hideBefore={cutoffTime}
+                  onChange={onChange}
+                  task={rootTask}
+                  reparent={reparent}
+                  reorder={reorder}
+                  addChild={addChild}
+                />
+              </div>
+            </DndProvider>
           </div>
-        </DndProvider>
+          <div>
+            <SelectedTasks />
+          </div>
+        </div>
       </StageContent>
     </Stage>
   );

@@ -1,6 +1,6 @@
 import { useDrag } from "react-dnd";
 import { Task, universalRootTaskId } from "../../lib/models/task";
-import { DraggableItemTypes, Tag, UUID } from "../../types";
+import { DraggableItemTypes, Tag, TaskId, UUID } from "../../types";
 import { RenderIndividualTask } from "./individual";
 import { useCallback, useState } from "react";
 import { Dayjs } from "dayjs";
@@ -16,10 +16,12 @@ interface Props {
   tags: Tag[];
   addChild: (parentId: UUID) => void;
   hideBefore: Dayjs;
+  selectTask: (taskId: TaskId) => void;
 }
 
 export const TaskShow: React.FC<Props> = (props) => {
   const {
+    selectTask,
     hideBefore,
     task,
     reparent,
@@ -72,6 +74,7 @@ export const TaskShow: React.FC<Props> = (props) => {
           </div>
           <div className="flex-1">
             <RenderIndividualTask
+              selectTask={selectTask}
               onChange={onChange}
               dragHandle={refDrag}
               task={task}
@@ -87,6 +90,7 @@ export const TaskShow: React.FC<Props> = (props) => {
             {task.sortedChildren.map((child) => (
               <li key={child.id}>
                 <TaskShow
+                  selectTask={selectTask}
                   onChange={onChange}
                   task={child}
                   reparent={reparent}

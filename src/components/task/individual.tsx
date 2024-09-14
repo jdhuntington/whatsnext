@@ -1,12 +1,10 @@
 import { ConnectDragSource, useDrop } from "react-dnd";
 import { Task } from "../../lib/models/task";
-import { DraggableItemTypes, Tag, TaskMode, UUID } from "../../types";
+import { DraggableItemTypes, Tag, TaskId, TaskMode, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 import { TaskModeIndicator } from "./indicators";
-import { PlusIcon } from "@heroicons/react/20/solid";
-import { IconButton } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
 import { now } from "../../lib/date-parser";
@@ -19,16 +17,18 @@ interface Props {
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   tags: Tag[];
   addChild: (parentId: UUID) => void;
+  selectTask: (taskId: TaskId) => void;
 }
 
 export const RenderIndividualTask: React.FC<Props> = (props) => {
-  const { task, dragHandle, isSelected, onChange, tags, addChild } = props;
+  const { task, dragHandle, isSelected, onChange, tags, selectTask } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     setIsEditing(false);
   }, []);
+
   const [{ isOver: isOverReorder }, refDropReorder] = useDrop(
     () => ({
       accept: DraggableItemTypes.TASK,
@@ -41,7 +41,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
         canDrop: !!monitor.canDrop(),
       }),
     }),
-    [task],
+    [task]
   );
   const [{ isOver: isOverReparent }, refDropReparent] = useDrop(
     () => ({
@@ -56,7 +56,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
         isDragging: !!monitor.getItem(),
       }),
     }),
-    [task],
+    [task]
   );
 
   const handleNameChange = useCallback(
@@ -64,7 +64,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { name: e.target.value };
       onChange(task.id, payload);
     },
-    [task, onChange],
+    [task, onChange]
   );
 
   const handleOrderChange = useCallback(
@@ -72,7 +72,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { order: parseInt(e.target.value, 10) };
       onChange(task.id, payload);
     },
-    [task, onChange],
+    [task, onChange]
   );
 
   const handleModeChange = useCallback(
@@ -81,7 +81,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { mode };
       onChange(task.id, payload);
     },
-    [task, onChange],
+    [task, onChange]
   );
 
   const handleAddTag = useCallback(
@@ -95,7 +95,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
         onChange(task.id, payload);
       }
     },
-    [task, onChange, disableEdit],
+    [task, onChange, disableEdit]
   );
 
   const handleRemoveTag = useCallback(
@@ -105,17 +105,29 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
       };
       onChange(task.id, payload);
     },
-    [task, onChange],
+    [task, onChange]
   );
 
-  const addChildCallback = useCallback(() => {
-    addChild(task.id);
-  }, [addChild, task.id]);
+  const selectTaskCallback = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      const target = e.target as HTMLElement;
 
+      // Check if the target is not a checkbox or any other specific element
+      if (
+        target.tagName !== "INPUT" ||
+        target.getAttribute("type") !== "checkbox"
+      ) {
+        selectTask(task.id as unknown as TaskId);
+      }
+    },
+    [selectTask, task.id]
+  );
   return (
     <>
       <div
         ref={refDropReparent}
+        onClick={selectTaskCallback}
         className={` border-2 border-white hover:border-dotted hover:border-emerald-800 ${
           isOverReparent ? "bg-indigo-300" : "bg-white"
         } ${isSelected ? "font-bold" : ""}`}
@@ -181,7 +193,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                         onChange={handleOrderChange}
                       />
                     </label>
-                    <label className="flex space-x-1">
+                    <label className="flex space-x-1 items-center">
                       <Checkbox
                         checked={task.mode === "parallel"}
                         onChange={handleModeChange}
@@ -202,7 +214,6 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
             ) : null}
           </div>
           <div className="flex-0 flex space-x-2 items-center">
-            <IconButton icon={PlusIcon} onClick={addChildCallback} />
             <div ref={dragHandle}>
               <Bars4Icon className="h-4 w-4 text-gray-500" />
             </div>

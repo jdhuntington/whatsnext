@@ -4,8 +4,10 @@ import { configurationSlice } from "./features/configuration";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import persistStore from "redux-persist/es/persistStore";
+import { selectionSlice } from "./features/selection";
 
 const rootReducer = combineReducers({
+  selection: selectionSlice.reducer,
   nextActions: nextActionsSlice.reducer,
   configuration: configurationSlice.reducer,
 });

@@ -18,7 +18,7 @@ export const Shell: React.FC = () => {
         </div>
         <div />
       </div>
-      {/* <Capture /> */}
+      <Capture />
       <div className="flex-grow flex flex-col">
         <Outlet />
       </div>

@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import { Task } from "../../lib/models/task";
-import { UUID } from "../../types";
+import { TaskId, UUID } from "../../types";
 import { TaskShow } from "./show";
 
 interface Props {
@@ -10,13 +10,23 @@ interface Props {
   onChange: (taskId: UUID, values: Partial<Task>) => void;
   addChild: (parentId: UUID) => void;
   hideBefore: Dayjs;
+  selectTask: (taskId: TaskId) => void;
 }
 export const TaskList: React.FC<Props> = (props) => {
-  const { task, reparent, reorder, onChange, addChild, hideBefore } = props;
+  const {
+    task,
+    reparent,
+    reorder,
+    selectTask,
+    onChange,
+    addChild,
+    hideBefore,
+  } = props;
 
   return (
     <div>
       <TaskShow
+        selectTask={selectTask}
         task={task}
         reparent={reparent}
         reorder={reorder}
