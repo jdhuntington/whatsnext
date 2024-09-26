@@ -17,13 +17,20 @@ export const Tags = ({
 }: Props) => {
   const myListId = useMemo(() => genId(), []);
   const [inputValue, setInputValue] = useState("");
-  const addTagCallback = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+  const addTagCallback = useCallback(() => {
+    if (inputValue.trim() !== "") {
       onAddTag(inputValue as Tag);
       setInputValue("");
+    }
+  }, [inputValue, onAddTag]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addTagCallback();
+      }
     },
-    [inputValue, onAddTag],
+    [addTagCallback]
   );
   return (
     <div>
@@ -39,21 +46,18 @@ export const Tags = ({
         ))}
       </div>
       <div>
-        <form onSubmit={addTagCallback}>
-          <Input
-            placeholder="add tag"
-            list={myListId}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <datalist id={myListId}>
-            {allTags.map((tag) =>
-              selectedTags.includes(tag) ? null : (
-                <option key={tag} value={tag} />
-              ),
-            )}
-          </datalist>
-        </form>
+        <Input
+          onKeyDown={handleKeyDown}
+          placeholder="add tag"
+          list={myListId}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <datalist id={myListId}>
+          {allTags.map((tag) =>
+            selectedTags.includes(tag) ? null : <option key={tag} value={tag} />
+          )}
+        </datalist>
       </div>
     </div>
   );

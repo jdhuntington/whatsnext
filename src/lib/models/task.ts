@@ -4,8 +4,8 @@ import {
   OptionalLocalDate,
   SerializedTask,
   Tag,
+  TaskId,
   TaskMode,
-  UUID,
   genId,
 } from "../../types";
 import {
@@ -17,11 +17,11 @@ import {
 } from "../date-parser";
 
 export const universalRootTaskId =
-  "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as UUID;
+  "E2FFE8B4-92C8-4336-9B4B-D309E2A7C41B" as TaskId;
 
 export class Task {
-  public parentId: UUID = universalRootTaskId;
-  public id: UUID = genId();
+  public parentId: TaskId = universalRootTaskId;
+  public id: TaskId = genId();
   public name: string = "";
   public tags: Tag[] = [];
   public createdAt: LocalDate = now();
@@ -197,19 +197,19 @@ export class Task {
 
   static deserializeTasks(
     doc: { [id: string]: SerializedTask } | undefined,
-    desiredTaskId: UUID = universalRootTaskId
+    desiredTaskId: TaskId = universalRootTaskId
   ): Task {
     if (!doc) {
       return universalRootTask;
     }
-    const taskMap = new Map<UUID, Task>();
+    const taskMap = new Map<TaskId, Task>();
     for (const id in doc) {
       const task = new Task();
       const serialized = doc[id];
-      task.id = serialized.id as UUID;
+      task.id = serialized.id as TaskId;
       task.name = serialized.name;
       task.tags = serialized.tags as Tag[];
-      task.parentId = serialized.parentId as UUID;
+      task.parentId = serialized.parentId as TaskId;
       task.createdAt = parseIsoDate(serialized.createdAt);
       task.order = serialized.order;
       task.completedAt = parseOptionalIsoDate(serialized.completedAt);

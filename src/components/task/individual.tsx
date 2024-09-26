@@ -1,34 +1,37 @@
-import { ConnectDragSource, useDrop } from "react-dnd";
-import { Task } from "../../lib/models/task";
-import { DraggableItemTypes, Tag, TaskId, TaskMode, UUID } from "../../types";
 import { Bars4Icon } from "@heroicons/react/16/solid";
 import { useCallback, useState } from "react";
+import { ConnectDragSource, useDrop } from "react-dnd";
+import { useAppSelector } from "../../hooks";
+import { classNames } from "../../lib/class-names";
+import { now } from "../../lib/date-parser";
+import { Task } from "../../lib/models/task";
+import { DraggableItemTypes, Tag, TaskId, TaskMode } from "../../types";
 import { Tags } from "../tags/tags";
-import { TaskModeIndicator } from "./indicators";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ui/input";
-import { now } from "../../lib/date-parser";
+import { TaskModeIndicator } from "./indicators";
 
 interface Props {
   indentLevel: number;
   task: Task;
   dragHandle: ConnectDragSource;
-  isSelected: boolean;
-  onChange: (taskId: UUID, values: Partial<Task>) => void;
+  onChange: (taskId: TaskId, values: Partial<Task>) => void;
   tags: Tag[];
-  addChild: (parentId: UUID) => void;
+  addChild: (parentId: TaskId) => void;
   selectTask: (taskId: TaskId) => void;
 }
 
 export const RenderIndividualTask: React.FC<Props> = (props) => {
-  const { task, dragHandle, isSelected, onChange, tags, selectTask } = props;
+  const { task, dragHandle, onChange, tags, selectTask } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     setIsEditing(false);
   }, []);
-
+  const isSelected = useAppSelector((s) =>
+    s.selection.selectedTaskIds.includes(task.id)
+  );
   const [{ isOver: isOverReorder }, refDropReorder] = useDrop(
     () => ({
       accept: DraggableItemTypes.TASK,
@@ -123,15 +126,18 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
     },
     [selectTask, task.id]
   );
+
+  const style = classNames([
+    "border-2 border-white hover:border-dotted hover:border-emerald-800",
+    ["bg-indigo-300", isOverReparent && !isSelected],
+    ["bg-indigo-400", isOverReparent && isSelected],
+    ["bg-emerald-100", isSelected && !isOverReparent],
+    ["bg-white", !isSelected && !isOverReparent],
+  ]);
+
   return (
     <>
-      <div
-        ref={refDropReparent}
-        onClick={selectTaskCallback}
-        className={` border-2 border-white hover:border-dotted hover:border-emerald-800 ${
-          isOverReparent ? "bg-indigo-300" : "bg-white"
-        } ${isSelected ? "font-bold" : ""}`}
-      >
+      <div ref={refDropReparent} onClick={selectTaskCallback} className={style}>
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">
             <div className="flex space-x-1 items-center">

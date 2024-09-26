@@ -1,8 +1,7 @@
 import { Dayjs } from "dayjs";
 
-export type UUID = string & { __typename: "UUID" };
-export const genId = (): UUID => {
-  return crypto.randomUUID() as UUID;
+export const genId = (): TaskId => {
+  return crypto.randomUUID() as TaskId;
 };
 
 export type TaskMode = "serial" | "parallel";
