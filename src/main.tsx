@@ -24,7 +24,7 @@ import { NeedsAttention } from "./components/needs-attention/needs-attention.tsx
 const repo = new Repo({
   network: [
     new BroadcastChannelNetworkAdapter(),
-    new BrowserWebSocketClientAdapter("ws://localhost:6010"),
+    new BrowserWebSocketClientAdapter("ws://localhost:6010/api"),
   ],
   storage: new IndexedDBStorageAdapter(),
 });
