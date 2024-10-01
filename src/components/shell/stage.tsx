@@ -15,5 +15,5 @@ export const StageHeader: React.FC<ChildrenProps> = ({ children }) => {
 };
 
 export const StageContent: React.FC<ChildrenProps> = ({ children }) => {
-  return <div className="p-1 bg-gray-100 flex-grow">{children}</div>;
+  return <div className="flex-grow">{children}</div>;
 };

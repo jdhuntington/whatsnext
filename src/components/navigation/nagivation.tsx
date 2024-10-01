@@ -24,7 +24,6 @@ export const Navigation: React.FC = () => {
       <InternalNavLink to="/">Home</InternalNavLink>
       <InternalNavLink to="/wn">What&apos;s Next?</InternalNavLink>
       <InternalNavLink to="/fix">Needs Attention</InternalNavLink>
-      <InternalNavLink to="/debug">Debug</InternalNavLink>
       <InternalNavLink to="/settings">Settings</InternalNavLink>
     </ul>
   );
