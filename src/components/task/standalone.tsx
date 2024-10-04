@@ -4,9 +4,10 @@ import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 import { TaskFullPath } from "./task-full-path";
 import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
+import { Input } from "../ng-ui/input";
 import { RelativeDateInput } from "../ui/relative-date-input";
 import { now } from "../../lib/date-parser";
+import { Link } from "react-router-dom";
 
 interface Props {
   task: Task;
@@ -29,7 +30,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
       const payload: Partial<Task> = { name: e.target.value };
       onChange(task.id, payload);
     },
-    [task, onChange],
+    [task, onChange]
   );
 
   const handleAddTag = useCallback(
@@ -43,7 +44,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
         onChange(task.id, payload);
       }
     },
-    [task, onChange, disableEdit],
+    [task, onChange, disableEdit]
   );
 
   const handleRemoveTag = useCallback(
@@ -53,14 +54,14 @@ export const StandaloneTask: React.FC<Props> = (props) => {
       };
       onChange(task.id, payload);
     },
-    [task, onChange],
+    [task, onChange]
   );
 
   const handleDeferChange = useCallback(
     (deferUntil: OptionalLocalDate) => {
       onChange(task.id, { deferUntil });
     },
-    [task, onChange],
+    [task, onChange]
   );
 
   return (
@@ -103,6 +104,11 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                   </span>
                 ))}
               </h2>
+              <div className="text-xs">
+                <Link className="hover:underline" to={`/tasks/${task.id}`}>
+                  Go
+                </Link>
+              </div>
             </div>
 
             {isEditing ? (

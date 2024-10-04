@@ -4,7 +4,8 @@ import { useCallback, useState } from "react";
 import { Task } from "../../lib/models/task";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { AutomergeUrl } from "@automerge/automerge-repo";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../ng-ui/checkbox";
+import { Field, Label } from "../ng-ui/fieldset";
 
 interface Props {
   docUrl: AutomergeUrl;
@@ -21,7 +22,7 @@ export const Import: React.FC<Props> = (props) => {
         d.tasks[task.id] = task.serialize();
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
   return <ImportInner changeDoc={changeDoc} addTask={addTask} />;
 };
@@ -85,13 +86,10 @@ const ImportInner: React.FC<InnerProps> = (props) => {
         />
       </div>
       <div>
-        <label>
-          <Checkbox
-            checked={lineByLine}
-            onChange={(e) => setLineByLine(e.target.checked)}
-          />
-          Line by line
-        </label>
+        <Field>
+          <Checkbox checked={lineByLine} onChange={setLineByLine} />
+          <Label>Line by line</Label>
+        </Field>
       </div>
       <div>
         <button>Import</button>

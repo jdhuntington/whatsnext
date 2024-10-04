@@ -4,11 +4,11 @@ import { Section } from "../shell/section";
 import { Button } from "../ui/button";
 import { configurationSlice } from "../../features/configuration";
 import { AutomergeUrl } from "@automerge/automerge-repo";
-import { Input } from "../ui/input";
+import { Input } from "../ng-ui/input";
 
 export const UpdateDocument: React.FC = () => {
   const upstreamDocUrl = useAppSelector(
-    (s) => s.configuration.documentId ?? "",
+    (s) => s.configuration.documentId ?? ""
   );
   const dispatch = useAppDispatch();
   const [docUrl, setDocUrl] = useState<string>(upstreamDocUrl);

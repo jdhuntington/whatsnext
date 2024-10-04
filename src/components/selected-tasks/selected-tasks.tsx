@@ -4,7 +4,7 @@ import { selectionSlice } from "../../features/selection";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Button } from "./../../components/ui/button";
 import { SerializedTask, Tag, TaskId, TaskMode, TaskSet } from "./../../types";
-import { Input } from "../ui/input";
+import { Input } from "../ng-ui/input";
 import { Section } from "../shell/section";
 import { Checkbox } from "../ui/checkbox";
 import { Tags } from "../tags/tags";

@@ -1,8 +1,8 @@
 import React, { Reducer, useReducer } from "react";
 import { Spinner } from "./spinner";
-import { Input } from "./input";
 import { formattedDate, parseDate } from "../../lib/date-parser";
 import { OptionalLocalDate } from "../../types";
+import { Input } from "../ng-ui/input";
 
 interface ComponentState {
   upstreamValue: OptionalLocalDate;
@@ -105,7 +105,7 @@ export const RelativeDateInput: React.FC<
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       dispatch({ type: "change", value: e.target.value });
     },
-    [dispatch],
+    [dispatch]
   );
   const onBlur = React.useCallback(() => {
     if (mode === "dirty") {

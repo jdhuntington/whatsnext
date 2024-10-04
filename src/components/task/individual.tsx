@@ -8,7 +8,7 @@ import { Task } from "../../lib/models/task";
 import { DraggableItemTypes, Tag, TaskId, TaskMode } from "../../types";
 import { Tags } from "../tags/tags";
 import { Checkbox } from "../ui/checkbox";
-import { Input } from "../ui/input";
+import { Input } from "../ng-ui/input";
 import { TaskModeIndicator } from "./indicators";
 
 interface Props {

@@ -6,7 +6,7 @@ import { Task } from "./../../lib/models/task";
 import { Button } from "./../../components/ui/button";
 import { useAppSelector } from "../../hooks";
 import { off, on } from "../../lib/events";
-import { Input } from "../ui/input";
+import { Input } from "../ng-ui/input";
 
 export const Capture: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);

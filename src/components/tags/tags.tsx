@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { genId, Tag } from "../../types";
-import { Input } from "../ui/input";
+import { Input } from "../ng-ui/input";
 
 interface Props {
   allTags: Tag[];
