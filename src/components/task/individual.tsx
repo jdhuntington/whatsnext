@@ -10,6 +10,7 @@ import { Tags } from "../tags/tags";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ng-ui/input";
 import { TaskModeIndicator } from "./indicators";
+import { Text } from "../ng-ui/text";
 
 interface Props {
   indentLevel: number;
@@ -127,11 +128,10 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
   );
 
   const style = classNames([
-    "border-2 border-white hover:border-dotted hover:border-emerald-800",
-    ["bg-indigo-300", isOverReparent && !isSelected],
-    ["bg-indigo-400", isOverReparent && isSelected],
-    ["bg-emerald-100", isSelected && !isOverReparent],
-    ["bg-white", !isSelected && !isOverReparent],
+    "border-2 border-transparent hover:border-dotted hover:border-emerald-800 hover:border-emerald-200",
+    ["bg-indigo-300 dark:bg-indigo-800", isOverReparent && !isSelected],
+    ["bg-indigo-400 dark:bg-indigo-800", isOverReparent && isSelected],
+    ["bg-emerald-100 dark:bg-emerald-900", isSelected && !isOverReparent],
   ]);
 
   return (
@@ -163,18 +163,15 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                 {task.hasChildren ? (
                   <TaskModeIndicator mode={task.mode} />
                 ) : null}
-                <h1
-                  className={`text-md  ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
+                <Text
+                  className={`text-md  ${task.isComplete ? "line-through" : ""}`}
                 >
                   {task.name}
-                </h1>
+                </Text>
               </div>
               <h2 className="flex items-center space-x-1">
                 {task.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-sm bg-gray-200 rounded-full py-1 px-2"
-                  >
+                  <span key={tag} className="text-sm rounded-full py-1 px-2">
                     {tag}
                   </span>
                 ))}

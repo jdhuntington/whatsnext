@@ -56,7 +56,6 @@ export const Tags = ({ selectedTags, onAddTag, onRemoveTag }: Props) => {
             selectedTags.includes(tag) ? null : <option key={tag} value={tag} />
           )}
         </datalist>
-        <Code>{JSON.stringify(allTags, null, 2)}</Code>
       </div>
     </div>
   );

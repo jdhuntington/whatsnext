@@ -65,7 +65,7 @@ export const TaskShow: React.FC<Props> = (props) => {
       <div>
         <div className="flex items-center space-x-1">
           <div
-            className="rounded-full text-base font-bold bg-grey-200 text-grey-600 flex-0 w-6"
+            className="rounded-full text-base font-bold flex-0 w-6"
             onClick={toggleExpanded}
           >
             {task.children.length === 0 ? " " : isExpanded ? "-" : "+"}

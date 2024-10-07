@@ -9,6 +9,7 @@ import {
   StageHeader,
 } from "./../../components/shell/stage";
 import { IsoDate, TaskSet } from "./../../types";
+import { Code } from "../ng-ui/text";
 
 type changeFn = (fn: (d: TaskSet) => void) => void;
 
@@ -86,7 +87,7 @@ const DebugTask: React.FC<{
           onBlur={updateTask}
         />
       </div>
-      <pre className="text-xs">{JSON.stringify(task, null, 2)}</pre>
+      <Code>{JSON.stringify(task, null, 2)}</Code>
     </div>
   );
 };

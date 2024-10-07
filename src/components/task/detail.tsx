@@ -11,6 +11,7 @@ import { useCallback, useState } from "react";
 import { now, toIsoDate } from "../../lib/date-parser";
 import { EditableInput } from "./edit-name";
 import { Tags } from "../tags/tags";
+import { Code } from "../ng-ui/text";
 
 export const Detail: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -148,7 +149,9 @@ const DetailInner: React.FC<Props> = (props) => {
           onRemoveTag={handleRemoveTag}
         />
       </div>
-      <pre>{JSON.stringify(task, null, 2)}</pre>
+      <Code>
+        <pre>{JSON.stringify(task, null, 2)}</pre>
+      </Code>
     </>
   );
 };
