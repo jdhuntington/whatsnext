@@ -1,8 +1,10 @@
 import React, { Reducer, useReducer } from "react";
 import { Spinner } from "./spinner";
 import { formattedDate, parseDate } from "../../lib/date-parser";
-import { OptionalLocalDate } from "../../types";
+import { LocalDate, OptionalLocalDate } from "../../types";
 import { Input } from "../ng-ui/input";
+import { Button } from "../ng-ui/button";
+import dayjs from "dayjs";
 
 interface ComponentState {
   upstreamValue: OptionalLocalDate;
@@ -107,6 +109,10 @@ export const RelativeDateInput: React.FC<
     },
     [dispatch]
   );
+  const tomorrow = React.useCallback(() => {
+    const value = dayjs().add(1, "day").startOf("day") as LocalDate;
+    dispatch({ type: "processingComplete", value });
+  }, [dispatch]);
   const onBlur = React.useCallback(() => {
     if (mode === "dirty") {
       dispatch({ type: "blur" });
@@ -129,7 +135,7 @@ export const RelativeDateInput: React.FC<
   }, [dispatch, state.mode, state.internalPendingValue]); // onChangeComplete in this array would have unintended consequences for poorly behaved upstreams
   return (
     <div className="relative">
-      <span className="box flex-1">
+      <span className="box flex-1 flex items-center space-x-1">
         <Input
           value={state.currentValue}
           onChange={onChange}
@@ -137,6 +143,7 @@ export const RelativeDateInput: React.FC<
           onBlur={onBlur}
           {...rest}
         />
+        <Button onClick={tomorrow}>Tomorrow</Button>
       </span>
       {mode === "pending" ? (
         <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">

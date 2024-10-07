@@ -1,14 +1,14 @@
 import { Dayjs } from "dayjs";
 import { Task } from "../../lib/models/task";
-import { TaskId, UUID } from "../../types";
+import { TaskId } from "../../types";
 import { TaskShow } from "./show";
 
 interface Props {
   task: Task;
-  reparent: (taskId: UUID, newParentId: UUID) => void;
-  reorder: (taskId: UUID, afterId: UUID) => void;
-  onChange: (taskId: UUID, values: Partial<Task>) => void;
-  addChild: (parentId: UUID) => void;
+  reparent: (taskId: TaskId, newParentId: TaskId) => void;
+  reorder: (taskId: TaskId, afterId: TaskId) => void;
+  onChange: (taskId: TaskId, values: Partial<Task>) => void;
+  addChild: (parentId: TaskId) => void;
   hideBefore: Dayjs;
   selectTask: (taskId: TaskId) => void;
 }
@@ -32,7 +32,6 @@ export const TaskList: React.FC<Props> = (props) => {
         reorder={reorder}
         indentLevel={0}
         onChange={onChange}
-        tags={task.allTags}
         addChild={addChild}
         hideBefore={hideBefore}
       />

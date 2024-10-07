@@ -7,11 +7,7 @@ export const Stage: React.FC<ChildrenProps> = ({ children }) => {
 };
 
 export const StageHeader: React.FC<ChildrenProps> = ({ children }) => {
-  return (
-    <div className="bg-white border-b border-gray-300 flex-0 p-1 lg:px-4 lg:py-2">
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 };
 
 export const StageContent: React.FC<ChildrenProps> = ({ children }) => {

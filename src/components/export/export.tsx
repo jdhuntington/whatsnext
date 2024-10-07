@@ -1,5 +1,5 @@
 import { TaskSet } from "../../types";
-import { Button } from "../ui/button";
+import { Button } from "../ng-ui/button";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { AutomergeUrl } from "@automerge/automerge-repo";
 

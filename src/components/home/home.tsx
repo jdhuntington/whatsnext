@@ -1,23 +1,23 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { Tag, TaskId, TaskSet, UUID } from "./../../types";
-import { useCallback, useEffect, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
-import { Task } from "./../../lib/models/task";
-import { Button } from "./../../components/ui/button";
+import dayjs from "dayjs";
+import { useCallback, useMemo } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { TaskList } from "./../../components/task/list";
+import { selectionSlice } from "../../features/selection";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { ClearCompleted } from "../clear/clear";
+import { SelectedTasks } from "../selected-tasks/selected-tasks";
 import {
   Stage,
   StageContent,
   StageHeader,
 } from "./../../components/shell/stage";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import { ClearCompleted } from "../clear/clear";
-import dayjs from "dayjs";
-import { selectionSlice } from "../../features/selection";
-import { SelectedTasks } from "../selected-tasks/selected-tasks";
+import { TaskList } from "./../../components/task/list";
+import { Button } from "./../../components/ui/button";
+import { Task } from "./../../lib/models/task";
+import { Tag, TaskId, TaskSet } from "./../../types";
 
 export const Home: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -56,7 +56,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     addTask(task);
   }, [addTask]);
   const addChild = useCallback(
-    (parentId: UUID) => {
+    (parentId: TaskId) => {
       const task = new Task();
       task.name = `${faker.hacker.adjective()}`;
       task.parentId = parentId;
@@ -66,7 +66,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
   );
 
   const reparent = useCallback(
-    (sourceId: UUID, newParent: UUID) => {
+    (sourceId: TaskId, newParent: TaskId) => {
       changeDoc((d) => {
         d.tasks[sourceId].parentId = newParent;
       });
@@ -74,7 +74,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     [changeDoc]
   );
   const reorder = useCallback(
-    (sourceId: UUID, afterId: UUID) => {
+    (sourceId: TaskId, afterId: TaskId) => {
       changeDoc((d) => {
         const targetTask = d.tasks[sourceId];
         const newOrderValue = d.tasks[afterId].order + 1;
@@ -95,7 +95,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
   );
 
   const onChange = useCallback(
-    (taskId: UUID, values: Partial<Task>) => {
+    (taskId: TaskId, values: Partial<Task>) => {
       changeDoc((d) => {
         const task = Task.deserializeTasks(d.tasks, taskId);
         Object.keys(values).forEach((key) => {

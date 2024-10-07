@@ -16,13 +16,12 @@ interface Props {
   task: Task;
   dragHandle: ConnectDragSource;
   onChange: (taskId: TaskId, values: Partial<Task>) => void;
-  tags: Tag[];
   addChild: (parentId: TaskId) => void;
   selectTask: (taskId: TaskId) => void;
 }
 
 export const RenderIndividualTask: React.FC<Props> = (props) => {
-  const { task, dragHandle, onChange, tags, selectTask } = props;
+  const { task, dragHandle, onChange, selectTask } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
@@ -211,7 +210,6 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                 <div>
                   <Tags
                     selectedTags={task.tags}
-                    allTags={tags}
                     onAddTag={handleAddTag}
                     onRemoveTag={handleRemoveTag}
                   />

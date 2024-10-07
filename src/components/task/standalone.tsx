@@ -1,5 +1,5 @@
 import { Task } from "../../lib/models/task";
-import { OptionalLocalDate, Tag, UUID } from "../../types";
+import { OptionalLocalDate, Tag, TaskId } from "../../types";
 import { useCallback, useState } from "react";
 import { Tags } from "../tags/tags";
 import { TaskFullPath } from "./task-full-path";
@@ -11,13 +11,12 @@ import { Link } from "react-router-dom";
 
 interface Props {
   task: Task;
-  onChange: (taskId: UUID, values: Partial<Task>) => void;
-  tags: Tag[];
+  onChange: (taskId: TaskId, values: Partial<Task>) => void;
   fullPath?: boolean;
 }
 
 export const StandaloneTask: React.FC<Props> = (props) => {
-  const { task, onChange, tags, fullPath } = props;
+  const { task, onChange, fullPath } = props;
   const [isEditing, setIsEditing] = useState(false);
   const enableEdit = useCallback(() => setIsEditing(true), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
@@ -125,7 +124,6 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                 <div>
                   <Tags
                     selectedTags={task.tags}
-                    allTags={tags}
                     onAddTag={handleAddTag}
                     onRemoveTag={handleRemoveTag}
                   />

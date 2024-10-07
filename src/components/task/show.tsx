@@ -1,6 +1,6 @@
 import { useDrag } from "react-dnd";
 import { Task, universalRootTaskId } from "../../lib/models/task";
-import { DraggableItemTypes, Tag, TaskId } from "../../types";
+import { DraggableItemTypes, TaskId } from "../../types";
 import { RenderIndividualTask } from "./individual";
 import { useCallback, useState } from "react";
 import { Dayjs } from "dayjs";
@@ -13,7 +13,6 @@ interface Props {
   reparent: (taskId: TaskId, newParentId: TaskId) => void;
   reorder: (taskId: TaskId, afterId: TaskId) => void;
   onChange: (taskId: TaskId, values: Partial<Task>) => void;
-  tags: Tag[];
   addChild: (parentId: TaskId) => void;
   hideBefore: Dayjs;
   selectTask: (taskId: TaskId) => void;
@@ -28,7 +27,6 @@ export const TaskShow: React.FC<Props> = (props) => {
     indentLevel,
     onChange,
     reorder,
-    tags,
     addChild,
   } = props;
   const [isExpanded, setIsExpanded] = useState(task.id === universalRootTaskId);
@@ -79,7 +77,6 @@ export const TaskShow: React.FC<Props> = (props) => {
               dragHandle={refDrag}
               task={task}
               indentLevel={indentLevel}
-              tags={tags}
               addChild={addChildCallback}
             />
           </div>
@@ -95,7 +92,6 @@ export const TaskShow: React.FC<Props> = (props) => {
                   reparent={reparent}
                   reorder={reorder}
                   indentLevel={indentLevel + 1}
-                  tags={tags}
                   addChild={addChild}
                   hideBefore={hideBefore}
                 />

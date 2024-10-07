@@ -123,7 +123,6 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
         </label>
         <Tags
           selectedTags={task.tags as Tag[]}
-          allTags={Array.from(allTags)}
           onAddTag={handleAddTag}
           onRemoveTag={handleRemoveTag}
         />

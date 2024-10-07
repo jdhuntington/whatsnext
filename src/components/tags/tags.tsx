@@ -1,20 +1,17 @@
 import { useCallback, useMemo, useState } from "react";
-import { genId, Tag } from "../../types";
+import { genId, Tag, TaskSet } from "../../types";
 import { Input } from "../ng-ui/input";
+import { useAppSelector } from "../../hooks";
+import { useDocument } from "@automerge/automerge-repo-react-hooks";
+import { Code } from "../ng-ui/text";
 
 interface Props {
-  allTags: Tag[];
   selectedTags: Tag[];
   onAddTag: (tag: Tag) => void;
   onRemoveTag: (tag: Tag) => void;
 }
 
-export const Tags = ({
-  allTags,
-  selectedTags,
-  onAddTag,
-  onRemoveTag,
-}: Props) => {
+export const Tags = ({ selectedTags, onAddTag, onRemoveTag }: Props) => {
   const myListId = useMemo(() => genId(), []);
   const [inputValue, setInputValue] = useState("");
   const addTagCallback = useCallback(() => {
@@ -32,6 +29,7 @@ export const Tags = ({
     },
     [addTagCallback]
   );
+  const allTags = useAllTags();
   return (
     <div>
       <div className="flex flex-wrap gap-1">
@@ -58,7 +56,25 @@ export const Tags = ({
             selectedTags.includes(tag) ? null : <option key={tag} value={tag} />
           )}
         </datalist>
+        <Code>{JSON.stringify(allTags, null, 2)}</Code>
       </div>
     </div>
   );
+};
+
+const useAllTags = () => {
+  const docUrl = useAppSelector((s) => s.configuration.documentId);
+  const [doc] = useDocument<TaskSet>(docUrl!); // the `!` isn't actually correct, but it works through testing when docUrl is null
+  return useMemo(() => {
+    if (!doc) {
+      return [];
+    }
+    const allTags = new Set<Tag>();
+    Object.values(doc.tasks).forEach((task) => {
+      task.tags.forEach((tag) => allTags.add(tag as Tag));
+    });
+    return Array.from(allTags).sort((a, b) =>
+      a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase())
+    );
+  }, [doc]);
 };
