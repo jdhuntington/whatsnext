@@ -8,6 +8,8 @@ import { Input } from "../ng-ui/input";
 import { RelativeDateInput } from "../ui/relative-date-input";
 import { now } from "../../lib/date-parser";
 import { Link } from "react-router-dom";
+import { Text } from "../ng-ui/text";
+import { Badge } from "../ng-ui/badge";
 
 interface Props {
   task: Task;
@@ -66,7 +68,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
   return (
     <>
       <div
-        className={`border-2 border-white hover:border-dotted hover:border-emerald-800 bg-white rounded`}
+        className={`border-2 border-transparent hover:border-dotted hover:border-emerald-800 dark:hover:border-emerald-200 rounded`}
       >
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">
@@ -87,20 +89,17 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                   />
                 ) : null}
               </div>
-              <h1
+              <Text
                 onDoubleClick={enableEdit}
-                className={`text-md ${task.isComplete ? "line-through text-gray-600" : "text-gray-800"}`}
+                className={`text-md ${task.isComplete ? "line-through" : ""}`}
               >
                 {fullPath ? <TaskFullPath task={task} /> : task.name}
-              </h1>
+              </Text>
               <h2 className="flex items-center space-x-1">
                 {task.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-sm bg-gray-200 rounded-full py-1 px-2"
-                  >
+                  <Badge key={tag} color="indigo">
                     {tag}
-                  </span>
+                  </Badge>
                 ))}
               </h2>
               <div className="text-xs">

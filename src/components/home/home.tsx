@@ -15,9 +15,9 @@ import {
   StageHeader,
 } from "./../../components/shell/stage";
 import { TaskList } from "./../../components/task/list";
-import { Button } from "./../../components/ui/button";
 import { Task } from "./../../lib/models/task";
 import { Tag, TaskId, TaskSet } from "./../../types";
+import { Button } from "../ng-ui/button";
 
 export const Home: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -124,9 +124,7 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     <Stage>
       <StageHeader>
         <div className="flex space-x-4 items-center">
-          <Button primary onClick={addNewTask}>
-            Add Task
-          </Button>
+          <Button onClick={addNewTask}>Add Task</Button>
           <ClearCompleted />
         </div>
       </StageHeader>

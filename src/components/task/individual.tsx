@@ -11,6 +11,7 @@ import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ng-ui/input";
 import { TaskModeIndicator } from "./indicators";
 import { Text } from "../ng-ui/text";
+import { Badge } from "../ng-ui/badge";
 
 interface Props {
   indentLevel: number;
@@ -169,13 +170,13 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                   {task.name}
                 </Text>
               </div>
-              <h2 className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1">
                 {task.tags.map((tag) => (
-                  <span key={tag} className="text-sm rounded-full py-1 px-2">
+                  <Badge color="sky" key={tag}>
                     {tag}
-                  </span>
+                  </Badge>
                 ))}
-              </h2>
+              </div>
             </div>
 
             {isEditing ? (

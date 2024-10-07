@@ -8,6 +8,8 @@ import { Input } from "../ng-ui/input";
 import { Section } from "../shell/section";
 import { Checkbox } from "../ui/checkbox";
 import { Tags } from "../tags/tags";
+import { Subheading } from "../ng-ui/heading";
+import { Field, Label } from "../ng-ui/fieldset";
 
 export const SelectedTasks: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -22,7 +24,7 @@ const SelectedTasksInner: React.FC = () => {
 
   return (
     <div className="space-y-2 lg:space-y-2">
-      <h1>Tasks</h1>
+      <Subheading>Tasks</Subheading>
 
       <ul className="space-y-1">
         {selectionState.selectedTaskIds.map((taskId) => (
@@ -107,13 +109,13 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
   return (
     <Section>
       <form className="space-y-3">
-        <label className="space-y-1">
-          <div className="text-sm">Description</div>
+        <Field>
+          <Label>Description</Label>
           <Input
             value={task.name}
             onChange={(e) => onChange(props.taskId, { name: e.target.value })}
           />
-        </label>
+        </Field>
         <label className="flex space-x-2 items-center hover:bg-gray-50 p-1 -m-1">
           <Checkbox
             checked={task.mode === "parallel"}

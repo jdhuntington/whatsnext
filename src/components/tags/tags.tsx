@@ -4,6 +4,7 @@ import { Input } from "../ng-ui/input";
 import { useAppSelector } from "../../hooks";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { Code } from "../ng-ui/text";
+import { Badge } from "../ng-ui/badge";
 
 interface Props {
   selectedTags: Tag[];
@@ -34,13 +35,10 @@ export const Tags = ({ selectedTags, onAddTag, onRemoveTag }: Props) => {
     <div>
       <div className="flex flex-wrap gap-1">
         {selectedTags.map((tag) => (
-          <div
-            key={tag}
-            className={`px-4 py-1 text-sm rounded-full bg-emerald-500 text-white flex items-center space-x-2`}
-          >
+          <Badge key={tag} color="emerald">
             <div>{tag}</div>
             <button onClick={() => onRemoveTag(tag)}>x</button>
-          </div>
+          </Badge>
         ))}
       </div>
       <div>

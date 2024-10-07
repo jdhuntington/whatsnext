@@ -1,17 +1,21 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
-import { Task } from "../../lib/models/task";
-import { OptionalLocalDate, Tag, TaskSet, UUID } from "../../types";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { useCallback, useMemo, useState } from "react";
-import { StandaloneTask } from "../task/standalone";
-import { useAppSelector } from "../../hooks";
 import dayjs from "dayjs";
-import { Stage, StageContent, StageHeader } from "../shell/stage";
-import { ClearCompleted } from "../clear/clear";
-import { Section } from "../shell/section";
-import { Button } from "../ui/button";
+import { useCallback, useMemo, useState } from "react";
+import { useAppSelector } from "../../hooks";
 import { now } from "../../lib/date-parser";
-import { Checkbox } from "../ui/checkbox";
+import { Task } from "../../lib/models/task";
+import { OptionalLocalDate, Tag, TaskId, TaskSet } from "../../types";
+import { ClearCompleted } from "../clear/clear";
+import { CheckboxField } from "../ng-ui/checkbox";
+import { Label } from "../ng-ui/fieldset";
+import { Heading } from "../ng-ui/heading";
+import { PageHeader } from "../shell/page-header";
+import { Section } from "../shell/section";
+import { Stage, StageContent } from "../shell/stage";
+import { StandaloneTask } from "../task/standalone";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ng-ui/checkbox";
 
 export const NextActions: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -29,7 +33,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
   const rootTask = useMemo(() => Task.deserializeTasks(doc?.tasks), [doc]);
   const onChange = useCallback(
-    (taskId: UUID, values: Partial<Task>) => {
+    (taskId: TaskId, values: Partial<Task>) => {
       changeDoc((d) => {
         const task = Task.deserializeTasks(d.tasks, taskId);
         Object.keys(values).forEach((key) => {
@@ -43,14 +47,14 @@ const NextActionsInner: React.FC<Props> = (props) => {
         });
       });
     },
-    [changeDoc],
+    [changeDoc]
   );
   const cutoffTimeIsoDate = useAppSelector(
-    (s) => s.nextActions.completedItemsCutoffTime,
+    (s) => s.nextActions.completedItemsCutoffTime
   );
   const cutoffTime = useMemo(
     () => dayjs(cutoffTimeIsoDate),
-    [cutoffTimeIsoDate],
+    [cutoffTimeIsoDate]
   );
 
   const tags = useMemo(
@@ -58,18 +62,17 @@ const NextActionsInner: React.FC<Props> = (props) => {
       rootTask.allTags
         .slice()
         .sort((a, b) =>
-          a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase()),
+          a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase())
         ),
-    [rootTask.allTags],
+    [rootTask.allTags]
   );
   const [visibleTags, setVisibleTags] = useState<Tag[]>(tags);
   const [showUntagged, setShowUntagged] = useState(true);
   const [availableBefore, setAvailableBefore] =
     useState<OptionalLocalDate>(null);
   const toggleAvailableBefore = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) =>
-      setAvailableBefore(e.target.checked ? now() : null),
-    [],
+    (val: boolean) => setAvailableBefore(val ? now() : null),
+    []
   );
   const tasks = rootTask
     .availableActionsSince(cutoffTime)
@@ -77,84 +80,80 @@ const NextActionsInner: React.FC<Props> = (props) => {
       (t) =>
         ((showUntagged && t.tags.length === 0) ||
           t.tags.some((tag) => visibleTags.includes(tag))) &&
-        (availableBefore === null || t.isAvailableBefore(availableBefore)),
+        (availableBefore === null || t.isAvailableBefore(availableBefore))
     );
   return (
-    <Stage>
-      <StageHeader>
-        <ClearCompleted />
-      </StageHeader>
-      <StageContent>
-        <div className="space-y-1 lg:space-y-0 lg:grid lg:grid-cols-4 lg:gap-2">
-          <div>
-            <Section>
-              <h2 className="text-lg font-semibold">Tags</h2>
-              <ul className="grid grid-cols-3 gap-3">
-                <li>
-                  <Button primary onClick={() => setVisibleTags(tags)}>
-                    All
-                  </Button>
-                </li>
-                <li>
-                  <Button primary onClick={() => setVisibleTags([])}>
-                    None
-                  </Button>
-                </li>
-                <li>
+    <>
+      <PageHeader>
+        <Heading>What's Next?</Heading>
+        <div className="flex items-center gap-2 lg:gap-4">
+          <CheckboxField>
+            <Checkbox
+              checked={!!availableBefore}
+              onChange={toggleAvailableBefore}
+            />
+            <Label>Hide deferred tasks</Label>
+          </CheckboxField>
+          <ClearCompleted />
+        </div>
+      </PageHeader>
+      <div>
+        <div>
+          <Section>
+            <h2 className="text-lg font-semibold">Tags</h2>
+            <ul className="grid grid-cols-3 gap-3">
+              <li>
+                <Button primary onClick={() => setVisibleTags(tags)}>
+                  All
+                </Button>
+              </li>
+              <li>
+                <Button primary onClick={() => setVisibleTags([])}>
+                  None
+                </Button>
+              </li>
+              <li>
+                <Button
+                  primary
+                  onClick={() => setShowUntagged((prev) => !prev)}
+                >
+                  {showUntagged ? "Hide" : "Show"} untagged
+                </Button>
+              </li>
+              {tags.map((tag) => (
+                <li key={tag}>
                   <Button
-                    primary
-                    onClick={() => setShowUntagged((prev) => !prev)}
+                    className="text-sm"
+                    onClick={() =>
+                      setVisibleTags((prev) => {
+                        if (prev.includes(tag)) {
+                          return prev.filter((t) => t !== tag);
+                        }
+                        return [...prev, tag];
+                      })
+                    }
                   >
-                    {showUntagged ? "Hide" : "Show"} untagged
+                    {visibleTags.includes(tag) ? (
+                      <span>{tag}</span>
+                    ) : (
+                      <span className={`line-through`}>{tag}</span>
+                    )}
                   </Button>
-                </li>
-                {tags.map((tag) => (
-                  <li key={tag}>
-                    <Button
-                      className="text-sm"
-                      onClick={() =>
-                        setVisibleTags((prev) => {
-                          if (prev.includes(tag)) {
-                            return prev.filter((t) => t !== tag);
-                          }
-                          return [...prev, tag];
-                        })
-                      }
-                    >
-                      {visibleTags.includes(tag) ? (
-                        <span>{tag}</span>
-                      ) : (
-                        <span className={`line-through`}>{tag}</span>
-                      )}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-              <h2 className="text-lg font-semibold mt-2 mt-4">Other</h2>
-              <Checkbox
-                onChange={toggleAvailableBefore}
-                checked={!!availableBefore}
-              >
-                Hide deferred tasks
-              </Checkbox>
-            </Section>
-          </div>
-          <Section className="col-span-3">
-            <ul>
-              {tasks.map((task) => (
-                <li key={task.id}>
-                  <StandaloneTask
-                    fullPath
-                    task={task}
-                    onChange={onChange}
-                    tags={tags}
-                  />
                 </li>
               ))}
             </ul>
           </Section>
         </div>
-      </StageContent>
-    </Stage>
+        <Section className="col-span-3">
+          <ul>
+            {tasks.map((task) => (
+              <li key={task.id}>
+                <StandaloneTask fullPath task={task} onChange={onChange} />
+              </li>
+            ))}
+          </ul>
+        </Section>
+      </div>
+    </>
   );
 };

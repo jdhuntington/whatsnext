@@ -3,7 +3,7 @@ interface ChildrenProps {
 }
 
 export const Stage: React.FC<ChildrenProps> = ({ children }) => {
-  return <div className="flex-grow flex flex-col">{children}</div>;
+  return <div>{children}</div>;
 };
 
 export const StageHeader: React.FC<ChildrenProps> = ({ children }) => {
@@ -11,5 +11,5 @@ export const StageHeader: React.FC<ChildrenProps> = ({ children }) => {
 };
 
 export const StageContent: React.FC<ChildrenProps> = ({ children }) => {
-  return <div className="flex-grow">{children}</div>;
+  return <div>{children}</div>;
 };

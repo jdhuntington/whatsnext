@@ -12,6 +12,7 @@ import { now, toIsoDate } from "../../lib/date-parser";
 import { EditableInput } from "./edit-name";
 import { Tags } from "../tags/tags";
 import { Code } from "../ng-ui/text";
+import { PageHeader } from "../shell/page-header";
 
 export const Detail: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -118,7 +119,7 @@ const DetailInner: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className="flex items-end justify-between gap-4">
+      <PageHeader>
         {isEditingHeader ? (
           <EditableInput
             initialValue={task.name}
@@ -141,7 +142,7 @@ const DetailInner: React.FC<Props> = (props) => {
             <Button onClick={markComplete}>Mark complete</Button>
           )}
         </div>
-      </div>
+      </PageHeader>
       <div className="mt-4">
         <Tags
           selectedTags={task.tags as Tag[]}
