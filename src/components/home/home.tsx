@@ -27,10 +27,16 @@ export const Home: React.FC = () => {
   return <HomeInner docUrl={docUrl} />;
 };
 
-const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
+export const HomeInner: React.FC<{
+  docUrl: AutomergeUrl;
+  desiredTaskId?: TaskId;
+}> = (props) => {
   const { docUrl } = props;
   const [doc, changeDoc] = useDocument<TaskSet>(docUrl);
-  const rootTask = useMemo(() => Task.deserializeTasks(doc?.tasks), [doc]);
+  const rootTask = useMemo(
+    () => Task.deserializeTasks(doc?.tasks, props.desiredTaskId),
+    [doc, props.desiredTaskId]
+  );
 
   const appDispatch = useAppDispatch();
 
@@ -53,8 +59,11 @@ const HomeInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     const task = new Task();
     task.name = `${faker.hacker.adjective()} ${faker.hacker.noun()} ${faker.hacker.verb()} ${faker.hacker.ingverb()} ${faker.hacker.adjective()} ${faker.hacker.noun()} ${faker.hacker.verb()} ${faker.hacker.ingverb()}`;
     task.tags = [faker.hacker.verb() as Tag, faker.hacker.ingverb() as Tag];
+    if (props.desiredTaskId) {
+      task.parentId = props.desiredTaskId;
+    }
     addTask(task);
-  }, [addTask]);
+  }, [addTask, props.desiredTaskId]);
   const addChild = useCallback(
     (parentId: TaskId) => {
       const task = new Task();

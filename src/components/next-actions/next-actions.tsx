@@ -101,7 +101,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
         <div>
           <Section>
             <h2 className="text-lg font-semibold">Tags</h2>
-            <ul className="grid grid-cols-3 gap-3">
+            <ul className="flex flex-wrap items-center gap-2">
               <li>
                 <Button primary onClick={() => setVisibleTags(tags)}>
                   All
@@ -144,7 +144,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
             </ul>
           </Section>
         </div>
-        <Section className="col-span-3">
+        <div>
           <ul>
             {tasks.map((task) => (
               <li key={task.id}>
@@ -152,7 +152,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
               </li>
             ))}
           </ul>
-        </Section>
+        </div>
       </div>
     </>
   );

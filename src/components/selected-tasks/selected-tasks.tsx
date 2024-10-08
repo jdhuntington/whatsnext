@@ -6,10 +6,11 @@ import { Button } from "./../../components/ui/button";
 import { SerializedTask, Tag, TaskId, TaskMode, TaskSet } from "./../../types";
 import { Input } from "../ng-ui/input";
 import { Section } from "../shell/section";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../ng-ui/checkbox";
 import { Tags } from "../tags/tags";
 import { Subheading } from "../ng-ui/heading";
 import { Field, Label } from "../ng-ui/fieldset";
+import { CheckboxField } from "../ng-ui/checkbox";
 
 export const SelectedTasks: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -66,8 +67,8 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
   ) as (taskId: TaskId, values: Partial<SerializedTask>) => void;
 
   const handleModeChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const mode: TaskMode = e.target.checked ? "parallel" : "serial";
+    (value: boolean) => {
+      const mode: TaskMode = value ? "parallel" : "serial";
       onChange(props.taskId, { mode });
     },
     [props.taskId, onChange]
@@ -116,13 +117,13 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
             onChange={(e) => onChange(props.taskId, { name: e.target.value })}
           />
         </Field>
-        <label className="flex space-x-2 items-center hover:bg-gray-50 p-1 -m-1">
+        <CheckboxField>
           <Checkbox
             checked={task.mode === "parallel"}
             onChange={handleModeChange}
           />
-          <div className="text-sm">Parallel</div>
-        </label>
+          <Label>Parallel</Label>
+        </CheckboxField>
         <Tags
           selectedTags={task.tags as Tag[]}
           onAddTag={handleAddTag}

@@ -10,8 +10,10 @@ import { Tags } from "../tags/tags";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ng-ui/input";
 import { TaskModeIndicator } from "./indicators";
-import { Text } from "../ng-ui/text";
+import { Text, TextLink } from "../ng-ui/text";
 import { Badge } from "../ng-ui/badge";
+import { Link } from "../ng-ui/link";
+import { Button } from "../ng-ui/button";
 
 interface Props {
   indentLevel: number;
@@ -164,9 +166,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                 {task.hasChildren ? (
                   <TaskModeIndicator mode={task.mode} />
                 ) : null}
-                <Text
-                  className={`text-md  ${task.isComplete ? "line-through" : ""}`}
-                >
+                <Text className={`${task.isComplete ? "line-through" : ""}`}>
                   {task.name}
                 </Text>
               </div>
@@ -176,6 +176,9 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                     {tag}
                   </Badge>
                 ))}
+              </div>
+              <div>
+                <Button to={`/tasks/${task.id}`}>Go</Button>
               </div>
             </div>
 
