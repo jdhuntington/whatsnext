@@ -3,7 +3,7 @@ import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { TaskSet } from "./../../types";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Task } from "./../../lib/models/task";
-import { Button } from "./../../components/ui/button";
+import { Button } from "../ng-ui/button";
 import { useAppSelector } from "../../hooks";
 import { off, on } from "../../lib/events";
 import { Input } from "../ng-ui/input";
@@ -35,18 +35,18 @@ const CaptureInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     },
     [addTask]
   );
+
   const [shouldShowCapture, setShowCapture] = useState(false);
   const [captureText, setCaptureText] = useState("");
-  const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      addNewTask(captureText);
-      setCaptureText("");
-      setShowCapture(false);
-      document.body.focus();
-    },
-    [addNewTask, captureText]
-  );
+  const hide = useCallback(() => {
+    setCaptureText("");
+    setShowCapture(false);
+    document.body.focus();
+  }, [setCaptureText, setShowCapture]);
+  const handleSubmit = useCallback(() => {
+    addNewTask(captureText);
+    hide();
+  }, [addNewTask, captureText, hide]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -65,18 +65,34 @@ const CaptureInner: React.FC<{ docUrl: AutomergeUrl }> = (props) => {
     return () => off("insertAbove", showCapture);
   }, [showCapture]);
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === "Enter") {
+        handleSubmit();
+      }
+      if (event.key === "Escape") {
+        hide();
+      }
+    },
+    [handleSubmit, hide]
+  );
+
+  if (!shouldShowCapture) {
+    return null;
+  }
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={`${shouldShowCapture ? "block" : "hidden"}`}
-    >
+    <div className="flex items-center gap-1 lg:gap-2">
       <Input
+        onKeyDown={handleKeyDown}
         ref={inputRef}
         type="text"
         value={captureText}
         onChange={(e) => setCaptureText(e.target.value)}
       />
-      <Button>Add</Button>
-    </form>
+      <Button onClick={handleSubmit}>Add</Button>
+      <Button outline onClick={hide}>
+        Cancel
+      </Button>
+    </div>
   );
 };

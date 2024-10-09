@@ -2,7 +2,7 @@ import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import { useCallback } from "react";
 import { selectionSlice } from "../../features/selection";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { Button } from "./../../components/ui/button";
+import { Button } from "../ng-ui/button";
 import { SerializedTask, Tag, TaskId, TaskMode, TaskSet } from "./../../types";
 import { Input } from "../ng-ui/input";
 import { Section } from "../shell/section";
@@ -11,6 +11,8 @@ import { Tags } from "../tags/tags";
 import { Subheading } from "../ng-ui/heading";
 import { Field, Label } from "../ng-ui/fieldset";
 import { CheckboxField } from "../ng-ui/checkbox";
+import { Select } from "../ng-ui/select";
+import { universalRootTaskId } from "../../lib/models/task";
 
 export const SelectedTasks: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -129,10 +131,45 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
           onAddTag={handleAddTag}
           onRemoveTag={handleRemoveTag}
         />
-        <Button primary onClick={() => selectTask(props.taskId)}>
-          Done
-        </Button>
+        <Field>
+          <Label>Parent</Label>
+          <Select
+            onChange={(e) =>
+              onChange(props.taskId, { parentId: e.target.value })
+            }
+            value={task.parentId}
+          >
+            {optionsForParent(doc, task.parentId as TaskId)}
+          </Select>
+        </Field>
+        <Button onClick={() => selectTask(props.taskId)}>Done</Button>
       </form>
     </Section>
   );
+};
+const optionsForParent = (doc: TaskSet, currentParentId?: TaskId) => {
+  const pairs = Object.keys(doc!.tasks)
+    .filter(
+      (taskId) =>
+        taskId !== universalRootTaskId &&
+        (!doc!.tasks[taskId].completedAt || currentParentId === taskId)
+    )
+    .map((taskId) => [taskId, doc!.tasks[taskId].name]);
+  const result = pairs
+    .sort((a, b) =>
+      (a[1] ?? "")
+        .toLocaleLowerCase()
+        .localeCompare((b[1] ?? "").toLocaleLowerCase())
+    )
+    .map(([taskId, name]) => (
+      <option key={taskId} value={taskId}>
+        {name}
+      </option>
+    ));
+  result.unshift(
+    <option key={universalRootTaskId} value={universalRootTaskId}>
+      None
+    </option>
+  );
+  return result;
 };
