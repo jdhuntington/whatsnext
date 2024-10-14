@@ -1,5 +1,5 @@
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { selectionSlice } from "../../features/selection";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { Button } from "../ng-ui/button";
@@ -98,6 +98,8 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
     [props.taskId, task, onChange]
   );
 
+  const [taskName, setTaskName] = useState(task?.name);
+
   interface Partial<SerializedTask> {
     [key: string]: SerializedTask[keyof SerializedTask];
   }
@@ -115,8 +117,9 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
         <Field>
           <Label>Description</Label>
           <Input
-            value={task.name}
-            onChange={(e) => onChange(props.taskId, { name: e.target.value })}
+            value={taskName}
+            onChange={(e) => setTaskName(e.target.value)}
+            onBlur={(e) => onChange(props.taskId, { name: e.target.value })}
           />
         </Field>
         <CheckboxField>
