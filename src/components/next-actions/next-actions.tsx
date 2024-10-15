@@ -69,7 +69,7 @@ const NextActionsInner: React.FC<Props> = (props) => {
   const [visibleTags, setVisibleTags] = useState<Tag[]>(tags);
   const [showUntagged, setShowUntagged] = useState(true);
   const [availableBefore, setAvailableBefore] =
-    useState<OptionalLocalDate>(null);
+    useState<OptionalLocalDate>(now());
   const toggleAvailableBefore = useCallback(
     (val: boolean) => setAvailableBefore(val ? now() : null),
     []
