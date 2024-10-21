@@ -16,6 +16,8 @@ export interface SerializedTask {
   completedAt: OptionalIsoDate;
   deferUntil: OptionalIsoDate;
   mode: TaskMode;
+  link: OptionalLink;
+  estimatedDuration: OptionalMinutes;
 }
 
 export interface TaskSet {
@@ -34,3 +36,7 @@ export type UtcDate = Dayjs & { __typename: "UtcDate" };
 export type LocalDate = Dayjs & { __typename: "LocalDate" };
 export type OptionalUtcDate = UtcDate | null;
 export type OptionalLocalDate = LocalDate | null;
+export type Link = string & { __typename: "Link" };
+export type OptionalLink = Link | null;
+export type Minutes = number & { __typename: "Minutes" };
+export type OptionalMinutes = Minutes | null;

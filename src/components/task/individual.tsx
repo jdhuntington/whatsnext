@@ -10,9 +10,8 @@ import { Tags } from "../tags/tags";
 import { Checkbox } from "../ui/checkbox";
 import { Input } from "../ng-ui/input";
 import { TaskModeIndicator } from "./indicators";
-import { Text, TextLink } from "../ng-ui/text";
+import { Text } from "../ng-ui/text";
 import { Badge } from "../ng-ui/badge";
-import { Link } from "../ng-ui/link";
 import { Button } from "../ng-ui/button";
 
 interface Props {
@@ -27,7 +26,7 @@ interface Props {
 export const RenderIndividualTask: React.FC<Props> = (props) => {
   const { task, dragHandle, onChange, selectTask } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const enableEdit = useCallback(() => setIsEditing(true), []);
+  const toggleEdit = useCallback(() => setIsEditing((v) => !v), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     setIsEditing(false);
@@ -160,7 +159,7 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                 ) : null}
               </div>
               <div
-                onDoubleClick={enableEdit}
+                onDoubleClick={toggleEdit}
                 className="flex space-x-1 items-center"
               >
                 {task.hasChildren ? (
@@ -177,8 +176,15 @@ export const RenderIndividualTask: React.FC<Props> = (props) => {
                   </Badge>
                 ))}
               </div>
+              {task.estimatedDuration ? (
+                <div>
+                  <Text>{task.estimatedDuration}m</Text>
+                </div>
+              ) : null}
               <div>
-                <Button to={`/tasks/${task.id}`}>Go</Button>
+                <Button outline to={`/tasks/${task.id}`}>
+                  Go
+                </Button>
               </div>
             </div>
 

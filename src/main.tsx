@@ -21,6 +21,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { EventMediator } from "./components/event-mediator/event-mediator.tsx";
 import { NeedsAttention } from "./components/needs-attention/needs-attention.tsx";
 import { Detail } from "./components/task/detail.tsx";
+import { CommandMenu } from "./components/command-panel/command-panel.tsx";
 
 const repo = new Repo({
   network: [
@@ -71,6 +72,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistedStore}>
         <RepoContext.Provider value={repo}>
+          {/* <CommandMenu /> */}
           <RouterProvider router={router} />
         </RepoContext.Provider>
       </PersistGate>

@@ -1,7 +1,9 @@
 import dayjs, { Dayjs } from "dayjs";
 import {
   LocalDate,
+  OptionalLink,
   OptionalLocalDate,
+  OptionalMinutes,
   SerializedTask,
   Tag,
   TaskId,
@@ -30,6 +32,8 @@ export class Task {
   public children: Task[] = [];
   public order: number = 0;
   public mode: TaskMode = "serial";
+  public estimatedDuration: OptionalMinutes = null;
+  public link: OptionalLink = null;
   parent?: Task;
 
   public serialize(): SerializedTask {
@@ -43,6 +47,8 @@ export class Task {
       completedAt: toOptionalIsoDate(this.completedAt),
       deferUntil: toOptionalIsoDate(this.deferUntil),
       mode: this.mode,
+      estimatedDuration: this.estimatedDuration,
+      link: this.link,
     };
   }
 
@@ -81,6 +87,8 @@ export class Task {
     task.completedAt = this.completedAt;
     task.deferUntil = this.deferUntil;
     task.mode = this.mode;
+    task.estimatedDuration = this.estimatedDuration;
+    task.link = this.link;
     return task;
   }
 
@@ -215,6 +223,8 @@ export class Task {
       task.completedAt = parseOptionalIsoDate(serialized.completedAt);
       task.deferUntil = parseOptionalIsoDate(serialized.deferUntil);
       task.mode = serialized.mode as TaskMode;
+      task.estimatedDuration = serialized.estimatedDuration;
+      task.link = serialized.link;
       taskMap.set(task.id, task);
     }
     for (const task of taskMap.values()) {

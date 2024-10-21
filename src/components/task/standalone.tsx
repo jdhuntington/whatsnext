@@ -10,6 +10,7 @@ import { now } from "../../lib/date-parser";
 import { Link } from "react-router-dom";
 import { Text } from "../ng-ui/text";
 import { Badge } from "../ng-ui/badge";
+import { Field, Label } from "../ng-ui/fieldset";
 
 interface Props {
   task: Task;
@@ -20,7 +21,7 @@ interface Props {
 export const StandaloneTask: React.FC<Props> = (props) => {
   const { task, onChange, fullPath } = props;
   const [isEditing, setIsEditing] = useState(false);
-  const enableEdit = useCallback(() => setIsEditing(true), []);
+  const toggleEdit = useCallback(() => setIsEditing((v) => !v), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     setIsEditing(false);
@@ -69,6 +70,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
     <>
       <div
         className={`border-2 border-transparent hover:border-dotted hover:border-emerald-800 dark:hover:border-emerald-200 rounded`}
+        onDoubleClick={toggleEdit}
       >
         <div className="p-1 flex justify-between items-center">
           <div className="flex-1">
@@ -90,7 +92,6 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                 ) : null}
               </div>
               <Text
-                onDoubleClick={enableEdit}
                 className={`text-md ${task.isComplete ? "line-through" : ""}`}
               >
                 {fullPath ? <TaskFullPath task={task} /> : task.name}
@@ -111,15 +112,12 @@ export const StandaloneTask: React.FC<Props> = (props) => {
 
             {isEditing ? (
               <div className="p-1 lg:p-2 space-y-1 lg:space-y-2">
-                <div>
+                <Field>
                   <form onSubmit={disableEdit}>
-                    <label>
-                      Description
-                      <br />
-                      <Input value={task.name} onChange={handleNameChange} />
-                    </label>
+                    <Label>Description</Label>
+                    <Input value={task.name} onChange={handleNameChange} />
                   </form>
-                </div>
+                </Field>
                 <div>
                   <Tags
                     selectedTags={task.tags}
@@ -127,16 +125,13 @@ export const StandaloneTask: React.FC<Props> = (props) => {
                     onRemoveTag={handleRemoveTag}
                   />
                 </div>
-                <div>
-                  <label>
-                    Defer until
-                    <br />
-                    <RelativeDateInput
-                      initial={task.deferUntil}
-                      onChangeComplete={handleDeferChange}
-                    />
-                  </label>
-                </div>
+                <Field>
+                  <Label>Defer until</Label>
+                  <RelativeDateInput
+                    initial={task.deferUntil}
+                    onChangeComplete={handleDeferChange}
+                  />
+                </Field>
               </div>
             ) : null}
           </div>

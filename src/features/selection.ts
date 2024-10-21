@@ -29,9 +29,9 @@ export const selectionSlice = createSlice({
     toggleSelection: (state, action: PayloadAction<TaskId>) => {
       const index = state.selectedTaskIds.indexOf(action.payload);
       if (index === -1) {
-        state.selectedTaskIds.push(action.payload);
+        state.selectedTaskIds = [action.payload];
       } else {
-        state.selectedTaskIds.splice(index, 1);
+        state.selectedTaskIds = [];
       }
     },
   },

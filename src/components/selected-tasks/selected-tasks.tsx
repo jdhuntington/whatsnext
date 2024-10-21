@@ -99,6 +99,9 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
   );
 
   const [taskName, setTaskName] = useState(task?.name);
+  const [durationInMinutes, setDurationInMinutes] = useState(
+    task?.estimatedDuration ? task.estimatedDuration.toString() : ""
+  );
 
   interface Partial<SerializedTask> {
     [key: string]: SerializedTask[keyof SerializedTask];
@@ -120,6 +123,18 @@ const SelectedTask: React.FC<{ taskId: TaskId }> = (props) => {
             value={taskName}
             onChange={(e) => setTaskName(e.target.value)}
             onBlur={(e) => onChange(props.taskId, { name: e.target.value })}
+          />
+        </Field>
+        <Field>
+          <Label>Duration (minutes)</Label>
+          <Input
+            value={durationInMinutes}
+            onChange={(e) => setDurationInMinutes(e.target.value)}
+            onBlur={(e) =>
+              onChange(props.taskId, {
+                estimatedDuration: parseInt(e.target.value, 10),
+              })
+            }
           />
         </Field>
         <CheckboxField>
@@ -155,7 +170,10 @@ const optionsForParent = (doc: TaskSet, currentParentId?: TaskId) => {
     .filter(
       (taskId) =>
         taskId !== universalRootTaskId &&
-        (!doc!.tasks[taskId].completedAt || currentParentId === taskId)
+        (!doc!.tasks[taskId].completedAt || currentParentId === taskId) &&
+        Object.keys(doc!.tasks).some(
+          (childId) => doc!.tasks[childId].parentId === taskId
+        )
     )
     .map((taskId) => [taskId, doc!.tasks[taskId].name]);
   const result = pairs
