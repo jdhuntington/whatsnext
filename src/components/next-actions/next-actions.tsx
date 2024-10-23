@@ -1,21 +1,22 @@
 import { AutomergeUrl } from "@automerge/automerge-repo";
 import { useDocument } from "@automerge/automerge-repo-react-hooks";
 import dayjs from "dayjs";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { now } from "../../lib/date-parser";
 import { Task } from "../../lib/models/task";
 import { OptionalLocalDate, Tag, TaskId, TaskSet } from "../../types";
 import { ClearCompleted } from "../clear/clear";
-import { CheckboxField } from "../ng-ui/checkbox";
+import { Checkbox, CheckboxField } from "../ng-ui/checkbox";
 import { Label } from "../ng-ui/fieldset";
 import { Heading } from "../ng-ui/heading";
 import { PageHeader } from "../shell/page-header";
 import { Section } from "../shell/section";
-import { Stage, StageContent } from "../shell/stage";
 import { StandaloneTask } from "../task/standalone";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ng-ui/checkbox";
+import { useSelection } from "../../lib/selection-manager";
+import { off, on } from "../../lib/events";
+import { ChevronRightIcon } from "@heroicons/react/16/solid";
 
 export const NextActions: React.FC = () => {
   const docUrl = useAppSelector((s) => s.configuration.documentId);
@@ -74,14 +75,33 @@ const NextActionsInner: React.FC<Props> = (props) => {
     (val: boolean) => setAvailableBefore(val ? now() : null),
     []
   );
-  const tasks = rootTask
-    .availableActionsSince(cutoffTime)
-    .filter(
-      (t) =>
-        ((showUntagged && t.tags.length === 0) ||
-          t.tags.some((tag) => visibleTags.includes(tag))) &&
-        (availableBefore === null || t.isAvailableBefore(availableBefore))
-    );
+  const tasks = useMemo(
+    () =>
+      rootTask
+        .availableActionsSince(cutoffTime)
+        .filter(
+          (t) =>
+            ((showUntagged && t.tags.length === 0) ||
+              t.tags.some((tag) => visibleTags.includes(tag))) &&
+            (availableBefore === null || t.isAvailableBefore(availableBefore))
+        ),
+    [rootTask, cutoffTime, showUntagged, visibleTags, availableBefore]
+  );
+  const { state, moveCursorDown, moveCursorUp, toggleSelection, setItems } =
+    useSelection<Task>(tasks);
+
+  useEffect(() => {
+    on("moveCursorDown", moveCursorDown);
+    return () => off("moveCursorDown", moveCursorDown);
+  }, [moveCursorDown]);
+
+  useEffect(() => {
+    on("moveCursorUp", moveCursorUp);
+    return () => off("moveCursorUp", moveCursorUp);
+  }, [moveCursorUp]);
+
+  useEffect(() => setItems(tasks), [setItems, tasks]);
+
   return (
     <>
       <PageHeader>
@@ -97,6 +117,9 @@ const NextActionsInner: React.FC<Props> = (props) => {
           <ClearCompleted />
         </div>
       </PageHeader>
+      <div>
+        <pre>{JSON.stringify(state, null, 2)}</pre>
+      </div>
       <div>
         <div>
           <Section>
@@ -146,8 +169,15 @@ const NextActionsInner: React.FC<Props> = (props) => {
         </div>
         <div>
           <ul>
-            {tasks.map((task) => (
-              <li key={task.id}>
+            {tasks.map((task, idx) => (
+              <li key={task.id} className="flex items-center space-x-1">
+                <div className="w-4">
+                  {idx === state.cursorPosition ? (
+                    <div className="dark:text-white dark:data-[slot=icon]:*:fill-zinc-400 data-[slot=icon]:*:fill-zinc-500">
+                      <ChevronRightIcon data-slot="icon" className="w-4" />
+                    </div>
+                  ) : null}
+                </div>
                 <StandaloneTask fullPath task={task} onChange={onChange} />
               </li>
             ))}
