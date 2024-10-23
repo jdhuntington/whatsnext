@@ -100,6 +100,11 @@ const NextActionsInner: React.FC<Props> = (props) => {
     return () => off("moveCursorUp", moveCursorUp);
   }, [moveCursorUp]);
 
+  useEffect(() => {
+    on("toggleSelection", toggleSelection);
+    return () => off("toggleSelection", toggleSelection);
+  }, [toggleSelection]);
+
   useEffect(() => setItems(tasks), [setItems, tasks]);
 
   return (
@@ -178,7 +183,12 @@ const NextActionsInner: React.FC<Props> = (props) => {
                     </div>
                   ) : null}
                 </div>
-                <StandaloneTask fullPath task={task} onChange={onChange} />
+                <StandaloneTask
+                  fullPath
+                  task={task}
+                  onChange={onChange}
+                  isSelected={state.selectedItemIds.includes(task.id)}
+                />
               </li>
             ))}
           </ul>

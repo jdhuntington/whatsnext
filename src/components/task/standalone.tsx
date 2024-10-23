@@ -16,10 +16,11 @@ interface Props {
   task: Task;
   onChange: (taskId: TaskId, values: Partial<Task>) => void;
   fullPath?: boolean;
+  isSelected?: boolean;
 }
 
 export const StandaloneTask: React.FC<Props> = (props) => {
-  const { task, onChange, fullPath } = props;
+  const { task, onChange, fullPath, isSelected } = props;
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = useCallback(() => setIsEditing((v) => !v), []);
   const disableEdit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
@@ -69,7 +70,7 @@ export const StandaloneTask: React.FC<Props> = (props) => {
   return (
     <>
       <div
-        className={`border-2 border-transparent hover:border-dotted hover:border-emerald-800 dark:hover:border-emerald-200 rounded`}
+        className={`border-2 border-transparent hover:border-dotted hover:border-emerald-800 dark:hover:border-emerald-200 rounded ${isSelected ? "bg-red-500" : ""}`}
         onDoubleClick={toggleEdit}
       >
         <div className="p-1 flex justify-between items-center">

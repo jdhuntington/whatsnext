@@ -16,7 +16,7 @@ type SelectionAction<T extends Item> =
   | { type: "SET_ITEMS"; payload: T[] }
   | { type: "MOVE_CURSOR_UP" }
   | { type: "MOVE_CURSOR_DOWN" }
-  | { type: "TOGGLE_SELECTION"; payload: T };
+  | { type: "TOGGLE_SELECTION" };
 
 function selectionReducer<T extends Item>(
   state: SelectionState,
@@ -31,8 +31,8 @@ function selectionReducer<T extends Item>(
           state.cursorPosition,
           action.payload.length - 1
         ),
-        selectedItemIds: state.selectedItemIds.filter((item) =>
-          action.payload.some((newItem) => newItem.id === item.id)
+        selectedItemIds: state.selectedItemIds.filter((itemId) =>
+          action.payload.some((newItem) => newItem.id === itemId)
         ),
       };
     case "MOVE_CURSOR_UP":
@@ -49,16 +49,15 @@ function selectionReducer<T extends Item>(
         ),
       };
     case "TOGGLE_SELECTION": {
+      const idAtCursor = state.itemIds[state.cursorPosition];
       const isSelected = state.selectedItemIds.some(
-        (itemId) => itemId === action.payload.id
+        (itemId) => itemId === idAtCursor
       );
       return {
         ...state,
         selectedItemIds: isSelected
-          ? state.selectedItemIds.filter(
-              (itemId) => itemId !== action.payload.id
-            )
-          : [...state.selectedItemIds, action.payload.id],
+          ? state.selectedItemIds.filter((itemId) => itemId !== idAtCursor)
+          : [...state.selectedItemIds, idAtCursor],
       };
     }
     default:
@@ -86,8 +85,8 @@ export function useSelection<T extends Item>(initialItems: T[] = []) {
     dispatch({ type: "MOVE_CURSOR_DOWN" });
   }, []);
 
-  const toggleSelection = useCallback((item: T) => {
-    dispatch({ type: "TOGGLE_SELECTION", payload: item });
+  const toggleSelection = useCallback(() => {
+    dispatch({ type: "TOGGLE_SELECTION" });
   }, []);
 
   return {
